@@ -1721,7 +1721,10 @@
 .route__match .mono {
   font-size: 0.65rem;
   color: color-mix(in srgb, var(--chalk) 55%, transparent);
-  max-width: 12ch;
+  max-width: none;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: 0.06em;
 }
 
 @keyframes route-pass-pulse {
