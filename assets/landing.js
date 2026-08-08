@@ -198,6 +198,40 @@ function initHero() {
   if (ghost) loop.to(ghost, { opacity: 0.3, duration: 0.4 }, "dissolve+=0.15");
 
   loop.to({}, { duration: 0.5 }); // brief raw pause
+
+  initHeroSystemMorph(hero);
+}
+
+/* Hero freezes, washes into bath — system pin opens with the one “job title” line */
+function initHeroSystemMorph(hero) {
+  if (!hero || reduce) return;
+  const fadeEls = [
+    ...hero.querySelectorAll(".hero__rail, .hero__stage, .hero__foot, .hero__scroll"),
+  ];
+  if (!fadeEls.length) return;
+
+  gsap.set(fadeEls, { opacity: 1, y: 0 });
+  hero.style.setProperty("--hero-morph", 0);
+
+  ScrollTrigger.create({
+    trigger: hero,
+    start: "top top",
+    end: "+=95%",
+    pin: true,
+    scrub: 0.7,
+    anticipatePin: 1,
+    onUpdate(self) {
+      const p = self.progress;
+      // Hold, then wash dark and clear hero UI into the system section
+      const wash = gsap.utils.clamp(0, 1, (p - 0.18) / 0.55);
+      const fade = gsap.utils.clamp(0, 1, (p - 0.22) / 0.5);
+      hero.style.setProperty("--hero-morph", String(wash));
+      gsap.set(fadeEls, {
+        opacity: 1 - fade,
+        y: -32 * fade,
+      });
+    },
+  });
 }
 
 /* ── SYSTEM: pinned generalist → depth ─────────────────────── */
@@ -209,8 +243,12 @@ function initSystem() {
   const phase = pin.querySelector("[data-system-phase]");
   const title = pin.querySelector("[data-system-title]");
   const body = pin.querySelector("[data-system-body]");
+  const copyEl = pin.querySelector(".system__copy");
+  const viz = pin.querySelector(".system__viz");
   const job = pin.querySelector("[data-job-card]");
+  const shards = job ? [...job.querySelectorAll(".job-card__shards li")] : [];
   const layers = [...pin.querySelectorAll("[data-depth='layer']")];
+  const depthSvg = pin.querySelector("[data-system-svg]");
 
   const copy = [
     {
@@ -237,52 +275,151 @@ function initSystem() {
     if (body) body.textContent = c.body;
   }
 
+  function vizOffsetFromCenter() {
+    if (!viz) return { x: 0, y: 0 };
+    const pinRect = pin.getBoundingClientRect();
+    const vizRect = viz.getBoundingClientRect();
+    return {
+      x: vizRect.left + vizRect.width / 2 - (pinRect.left + pinRect.width / 2),
+      y: vizRect.top + vizRect.height / 2 - (pinRect.top + pinRect.height / 2),
+    };
+  }
+
+  setCopy(0);
+
   if (reduce) {
-    layers.forEach((l) => (l.style.opacity = "1"));
+    layers.forEach((l) => {
+      l.style.opacity = "1";
+      l.style.transform = "none";
+    });
     setCopy(2);
-    if (job) job.style.opacity = "0";
+    if (job) job.style.display = "none";
     return;
   }
 
-  gsap.set(layers, { opacity: 0, y: 24 });
+  if (job) {
+    gsap.set(job, {
+      left: "50%",
+      top: "46%",
+      xPercent: -50,
+      yPercent: -50,
+      x: 0,
+      y: 0,
+      scale: 1,
+      opacity: 1,
+    });
+  }
+  gsap.set(layers, { opacity: 0, y: 28, scale: 0.94 });
+  gsap.set(shards, { opacity: 0, y: 8 });
 
   ScrollTrigger.create({
     trigger: section,
     start: "top top",
-    end: "+=220%",
+    end: "+=240%",
     pin: pin,
-    scrub: 0.6,
+    scrub: 0.65,
     anticipatePin: 1,
     onUpdate(self) {
       const p = self.progress;
-      // 0–0.2: job card dominant
-      // 0.2–0.75: layers reveal
-      // 0.75–1: final copy
-      if (p < 0.22) setCopy(0);
-      else if (p < 0.72) setCopy(1);
+
+      // 0–0.24 surface read (card centered on full pin)
+      // 0.20–0.55 deconstruct → cross-section
+      // 0.55–0.78 layers hold
+      // 0.78–1 specialist close
+      if (p < 0.24) setCopy(0);
+      else if (p < 0.78) setCopy(1);
       else setCopy(2);
 
-      if (job) {
-        gsap.set(job, {
-          opacity: Math.max(0, 1 - p * 2.2),
-          scale: 1 - p * 0.15,
-          y: -p * 40,
+      const split = gsap.utils.clamp(0, 1, (p - 0.2) / 0.34);
+      const target = vizOffsetFromCenter();
+
+      if (copyEl) {
+        gsap.set(copyEl, {
+          opacity: p < 0.2 ? 0.7 : 1,
         });
       }
 
+      if (job) {
+        const fading = gsap.utils.clamp(0, 1, (split - 0.5) / 0.5);
+        job.classList.toggle("is-splitting", split > 0.1 && fading < 0.95);
+        gsap.set(job, {
+          x: target.x * split,
+          y: target.y * split,
+          scale: 1 - split * 0.42,
+          opacity: 1 - fading,
+        });
+
+        shards.forEach((shard, i) => {
+          const local = gsap.utils.clamp(0, 1, (split - 0.06 - i * 0.055) / 0.16);
+          gsap.set(shard, {
+            opacity: local * (1 - fading),
+            y: (1 - local) * 12,
+          });
+        });
+      }
+
+      // Once the stack has bloomed, zoom in and pull the bands apart (exploded view)
+      const zoom = gsap.utils.clamp(0, 1, (p - 0.52) / 0.34);
+      if (depthSvg) {
+        gsap.set(depthSvg, {
+          scale: 1 + zoom * 0.22,
+          transformOrigin: "50% 42%",
+        });
+      }
+
+      // Layers bloom from the morphing card into the right-side stack
+      const mid = (layers.length - 1) / 2;
       layers.forEach((layer, i) => {
-        const start = 0.18 + i * 0.08;
-        const local = gsap.utils.clamp(0, 1, (p - start) / 0.12);
-        gsap.set(layer, { opacity: local, y: (1 - local) * 24 });
+        const start = 0.26 + i * 0.05;
+        const local = gsap.utils.clamp(0, 1, (p - start) / 0.13);
+        const fromCard = 1 - split;
+        gsap.set(layer, {
+          opacity: local,
+          x: fromCard * (target.x * -0.12),
+          y: (1 - local) * (16 + i * 3) - fromCard * 8 + (i - mid) * zoom * 9,
+          scale: 0.96 + local * 0.04,
+          transformOrigin: "50% 50%",
+        });
       });
     },
   });
 }
 
-/* ── STACK: scale previous cards as next pins ──────────────── */
+/* ── STACK: measure intro + scale previous cards as next pins ─ */
+function measureStackChrome() {
+  const section = document.querySelector(".stack-section");
+  const intro = document.querySelector(".stack-section__intro");
+  const nav = document.querySelector(".nav");
+  if (!section) return { navH: 52, introH: 0 };
+
+  const navH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 52;
+  const introH = intro ? Math.ceil(intro.getBoundingClientRect().height) : 0;
+  section.style.setProperty("--stack-nav-h", `${navH}px`);
+  section.style.setProperty("--stack-intro-h", `${introH}px`);
+  return { navH, introH };
+}
+
+function getStackStickyTopPx(index) {
+  const { navH, introH } = measureStackChrome();
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  return navH + introH + index * 0.55 * rem;
+}
+
 function initStack() {
+  const section = document.querySelector(".stack-section");
   const cards = [...document.querySelectorAll("[data-stack-card]")];
-  if (!cards.length || reduce) return;
+  if (!section || !cards.length) return;
+
+  measureStackChrome();
+
+  const mobile = window.matchMedia("(max-width: 700px)");
+  if (reduce || mobile.matches) {
+    initStackIllos();
+    return;
+  }
+
+  // Measure chrome so sticky tops match CSS; intro uses CSS sticky
+  measureStackChrome();
 
   cards.forEach((card, i) => {
     const next = cards[i + 1];
@@ -292,17 +429,44 @@ function initStack() {
       card,
       { scale: 1, filter: "brightness(1)" },
       {
-        scale: 0.97 - i * 0.01,
+        scale: 0.975 - i * 0.008,
         filter: "brightness(0.94)",
         ease: "none",
         scrollTrigger: {
           trigger: next,
-          start: "top 62%",
-          end: () => `top ${72 + i * 12}px`,
+          start: () => `top ${getStackStickyTopPx(i + 1) + 24}px`,
+          end: () => `top ${getStackStickyTopPx(i)}px`,
           scrub: 0.45,
+          invalidateOnRefresh: true,
         },
       }
     );
+  });
+
+  const onResize = () => {
+    measureStackChrome();
+    ScrollTrigger.refresh();
+  };
+  window.addEventListener("resize", onResize, { passive: true });
+
+  if (typeof ResizeObserver !== "undefined") {
+    const intro = document.querySelector(".stack-section__intro");
+    const ro = new ResizeObserver(() => onResize());
+    if (intro) ro.observe(intro);
+    const nav = document.querySelector(".nav");
+    if (nav) ro.observe(nav);
+  }
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => {
+      measureStackChrome();
+      ScrollTrigger.refresh();
+    });
+  }
+
+  requestAnimationFrame(() => {
+    measureStackChrome();
+    ScrollTrigger.refresh();
   });
 
   initStackIllos();
@@ -330,49 +494,145 @@ function initStackIllos() {
     tl.to(bars, { scaleY: 0, duration: 0.35, stagger: 0.06, ease: "power2.in" });
   }
 
-  // 02 Network — pulse core + nodes
+  // 02 Network — ST hub; talent/plant nodes jitter inside the ring; spokes stay attached
   const network = document.querySelector('[data-illo="network"]');
   if (network) {
+    const hub = network.querySelector(".illo-hub");
     const core = network.querySelector(".illo-core");
     const ring = network.querySelector(".illo-ring");
-    const nodes = [...network.querySelectorAll(".illo-node")];
-    const links = network.querySelector(".illo-links");
-    gsap.to(core, {
-      scale: 1.18,
-      transformOrigin: "210px 175px",
-      duration: 1.1,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
+    const nodeGroups = [...network.querySelectorAll(".illo-node")];
+    const links = [...network.querySelectorAll(".illo-link")];
+    const hubHome = { x: 210, y: 168 };
+    const ringR = Number(ring?.getAttribute("r") || 102);
+
+    const nodeHomes = nodeGroups.map((g) => {
+      const c = g.querySelector("circle");
+      return {
+        el: g,
+        x: Number(c.getAttribute("cx")),
+        y: Number(c.getAttribute("cy")),
+        r: Number(c.getAttribute("r")) || 17,
+        xOff: 0,
+        yOff: 0,
+        sway: 0,
+      };
     });
-    gsap.to(ring, {
-      scale: 1.08,
-      opacity: 0.45,
-      transformOrigin: "210px 175px",
-      duration: 1.4,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
-    nodes.forEach((node, i) => {
-      gsap.to(node, {
-        y: i % 2 === 0 ? -8 : 8,
-        duration: 1.6 + i * 0.15,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-        delay: i * 0.12,
-      });
-    });
-    if (links) {
-      gsap.to(links, {
-        opacity: 0.25,
-        duration: 1.2,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
+    const hubState = { x: 0, y: 0 };
+
+    function clampInRing(nx, ny, nodeR) {
+      const dx = nx - hubHome.x;
+      const dy = ny - hubHome.y;
+      const max = ringR - nodeR - 6;
+      const d = Math.hypot(dx, dy) || 1;
+      if (d <= max) return { x: nx, y: ny };
+      const s = max / d;
+      return { x: hubHome.x + dx * s, y: hubHome.y + dy * s };
+    }
+
+    function updateLinks() {
+      const hx = hubHome.x + hubState.x;
+      const hy = hubHome.y + hubState.y;
+      const coreR = Number(core?.getAttribute("r")) || 24;
+      links.forEach((wire, i) => {
+        const home = nodeHomes[i];
+        if (!home) return;
+        const pos = clampInRing(home.x + home.xOff, home.y + home.yOff, home.r);
+        const dx = pos.x - hx;
+        const dy = pos.y - hy;
+        const dist = Math.hypot(dx, dy) || 1;
+        const ux = dx / dist;
+        const uy = dy / dist;
+        // wire is pinned to the outside edge of the ST core and the node edge
+        const sx = hx + ux * (coreR + 1);
+        const sy = hy + uy * (coreR + 1);
+        const ex = pos.x - ux * (home.r + 1);
+        const ey = pos.y - uy * (home.r + 1);
+        // flexible wire: bow the midpoint perpendicular to the run
+        const mx = (sx + ex) / 2 - uy * home.sway;
+        const my = (sy + ey) / 2 + ux * home.sway;
+        wire.setAttribute("d", `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`);
       });
     }
+
+    function applyNodePose(home) {
+      const pos = clampInRing(home.x + home.xOff, home.y + home.yOff, home.r);
+      gsap.set(home.el, { x: pos.x - home.x, y: pos.y - home.y });
+    }
+
+    gsap.set([hub, ...nodeGroups], { x: 0, y: 0 });
+    updateLinks();
+
+    gsap.to(core, {
+      attr: { r: 27 },
+      duration: 0.7,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+      onUpdate: updateLinks,
+    });
+    gsap.to(ring, {
+      attr: { r: 106 },
+      opacity: 0.65,
+      duration: 0.85,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+
+    // ST hub drifts gently but always stays inside the outer ring
+    const hubRoam = () => {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 6 + Math.random() * 16; // max 22 « ring 102 − core 27
+      gsap.to(hubState, {
+        x: Math.cos(ang) * dist,
+        y: Math.sin(ang) * dist,
+        duration: 1.5 + Math.random() * 1.3,
+        ease: "sine.inOut",
+        onUpdate() {
+          gsap.set(hub, { x: hubState.x, y: hubState.y });
+          updateLinks();
+        },
+        onComplete: hubRoam,
+      });
+    };
+    hubRoam();
+
+    nodeHomes.forEach((home, i) => {
+      const state = { xOff: 0, yOff: 0 };
+      // each node gets its own heading so they never move as a group
+      const baseAng = (i / nodeHomes.length) * Math.PI * 2;
+      const roam = () => {
+        const amp = 10 + (i * 5) % 14;
+        const ang = baseAng + (Math.random() - 0.5) * 1.2;
+        const dist = amp * (0.35 + Math.random() * 0.65);
+        gsap.to(state, {
+          xOff: Math.cos(ang) * dist,
+          yOff: Math.sin(ang) * dist,
+          duration: 0.45 + Math.random() * 0.55,
+          ease: "sine.inOut",
+          onUpdate() {
+            home.xOff = state.xOff;
+            home.yOff = state.yOff;
+            applyNodePose(home);
+            updateLinks();
+          },
+          onComplete: roam,
+        });
+      };
+      gsap.delayedCall(i * 0.07, roam);
+
+      // wire flex — slow bow that reverses direction each cycle
+      const swayLoop = () => {
+        gsap.to(home, {
+          sway: (Math.random() * 2 - 1) * 9,
+          duration: 0.9 + Math.random() * 0.9,
+          ease: "sine.inOut",
+          onUpdate: updateLinks,
+          onComplete: swayLoop,
+        });
+      };
+      gsap.delayedCall(i * 0.11, swayLoop);
+    });
   }
 
   // 03 Context — SPEC → FIT → GO rise loop (highlighted bars)
@@ -402,29 +662,35 @@ function initStackIllos() {
     });
   }
 
-  // 04 Match — path draw + placed pulse
+  // 04 Match — brief → shortlist → placed (calm, readable)
   const match = document.querySelector('[data-illo="match"]');
   if (match) {
     const path = match.querySelector(".illo-path");
+    const start = match.querySelector(".illo-start");
+    const mid = match.querySelector(".illo-mid");
+    const end = match.querySelector(".illo-end");
     const placed = match.querySelector(".illo-placed");
-    const label = match.querySelector(".illo-label");
     if (path) {
       const len = path.getTotalLength?.() || 600;
       gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
-      gsap.set([placed, label], { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" });
-      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
-      tl.to(path, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" });
-      tl.to([placed, label], { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, "-=0.2");
+      gsap.set(start, { opacity: 1 });
+      gsap.set([mid, end], { opacity: 0 });
+      gsap.set(placed, { scale: 1, transformOrigin: "50% 50%" });
+
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
+      tl.to(path, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" });
+      tl.to(mid, { opacity: 1, duration: 0.25 }, "-=0.85");
+      tl.to(end, { opacity: 1, duration: 0.35 }, "-=0.15");
       tl.to(placed, {
-        scale: 1.25,
-        duration: 0.55,
+        scale: 1.08,
+        duration: 0.7,
         yoyo: true,
         repeat: 1,
         ease: "sine.inOut",
       });
-      tl.to({}, { duration: 0.7 });
-      tl.to([placed, label], { opacity: 0, scale: 0.6, duration: 0.3 });
-      tl.to(path, { strokeDashoffset: len, duration: 0.5, ease: "power2.in" });
+      tl.to({}, { duration: 1.1 });
+      tl.to([mid, end], { opacity: 0, duration: 0.35 });
+      tl.to(path, { strokeDashoffset: len, duration: 0.55, ease: "power2.in" });
     }
   }
 }
@@ -448,9 +714,28 @@ function initDefects() {
   });
 }
 
-/* ── Proof (static rail — no pin) ──────────────────────────── */
+/* ── Proof — full-bleed rail; cards enter one by one ───────── */
 function initProof() {
-  /* Proof is a compact horizontal rail; no scroll pin. */
+  if (reduce) return;
+  const cards = [...document.querySelectorAll(".proof-card")];
+  if (!cards.length) return;
+
+  gsap.set(cards, { opacity: 0, y: 34 });
+  ScrollTrigger.create({
+    trigger: ".proof__rail",
+    start: "top 80%",
+    once: true,
+    onEnter() {
+      gsap.to(cards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.65,
+        stagger: 0.22,
+        ease: "power3.out",
+        clearProps: "transform",
+      });
+    },
+  });
 }
 
 /* ── Pipeline — left copy / right meaningful diagrams ──────── */
@@ -674,6 +959,7 @@ function initCountUp() {
 }
 
 /* ── Boot ──────────────────────────────────────────────────── */
+document.documentElement.classList.add("js-ready");
 initLenis();
 initNav();
 initCursor();
