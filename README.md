@@ -27,6 +27,8 @@ Website/
 
 Double-click `index.html` to open in your browser. Everything works except the live jobs list (which needs Airtable configured). Click through every page to check it looks right on your screen.
 
+**If you're testing CSS/JS changes in Chrome and edits don't seem to take effect:** Chrome will keep serving a stale cached copy of `assets/*.css`/`assets/*.js` across repeat loads of a plain static server, even after a hard reload — this cost real debugging time during a full-site QA pass (2026-08-09). Run `python3 .devserver.py` instead of `python3 -m http.server` for local testing; it sends `Cache-Control: no-store` and `Clear-Site-Data` on every response so edits always show up on the next reload.
+
 ### Step 2. Buy the domain
 
 Check availability of `surfacetalent.co.uk` at a UK registrar. Recommended options:
