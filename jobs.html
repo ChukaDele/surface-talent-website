@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Live roles — Surface Talent</title>
 <meta name="description" content="Live UK surface engineering and metal finishing vacancies. Permanent, contract and interim across process, quality, commercial and director-level roles.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -32,7 +34,7 @@
       <a href="jobs.html" class="active">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -41,6 +43,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <section class="page-intro">
   <div class="container">

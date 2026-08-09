@@ -50,7 +50,11 @@ function initNav() {
     });
   });
 
-  menu?.addEventListener("click", () => links?.classList.toggle("open"));
+  menu?.setAttribute("aria-expanded", "false");
+  menu?.addEventListener("click", () => {
+    const open = links?.classList.toggle("open");
+    menu.setAttribute("aria-expanded", String(!!open));
+  });
 }
 
 /* ── Cursor + magnetic ─────────────────────────────────────── */
@@ -410,66 +414,72 @@ function initStack() {
   const cards = [...document.querySelectorAll("[data-stack-card]")];
   if (!section || !cards.length) return;
 
-  measureStackChrome();
-
-  const mobile = window.matchMedia("(max-width: 700px)");
-  if (reduce || mobile.matches) {
-    initStackIllos();
-    return;
-  }
-
-  // Measure chrome so sticky tops match CSS; intro uses CSS sticky
-  measureStackChrome();
-
-  cards.forEach((card, i) => {
-    const next = cards[i + 1];
-    if (!next) return;
-
-    gsap.fromTo(
-      card,
-      { scale: 1, filter: "brightness(1)" },
-      {
-        scale: 0.975 - i * 0.008,
-        filter: "brightness(0.94)",
-        ease: "none",
-        scrollTrigger: {
-          trigger: next,
-          start: () => `top ${getStackStickyTopPx(i + 1) + 24}px`,
-          end: () => `top ${getStackStickyTopPx(i)}px`,
-          scrub: 0.45,
-          invalidateOnRefresh: true,
-        },
-      }
-    );
-  });
-
-  const onResize = () => {
-    measureStackChrome();
-    ScrollTrigger.refresh();
-  };
-  window.addEventListener("resize", onResize, { passive: true });
-
-  if (typeof ResizeObserver !== "undefined") {
-    const intro = document.querySelector(".stack-section__intro");
-    const ro = new ResizeObserver(() => onResize());
-    if (intro) ro.observe(intro);
-    const nav = document.querySelector(".nav");
-    if (nav) ro.observe(nav);
-  }
-
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(() => {
-      measureStackChrome();
-      ScrollTrigger.refresh();
-    });
-  }
-
-  requestAnimationFrame(() => {
-    measureStackChrome();
-    ScrollTrigger.refresh();
-  });
-
+  // Illustrations run at every width; only the sticky-stack scrub is desktop-only.
   initStackIllos();
+  if (reduce) return;
+
+  // ScrollTrigger.matchMedia re-runs this setup (and auto-reverts its tweens/
+  // triggers) whenever the viewport crosses 700px, so a resize/rotate after
+  // load can't leave the scrub stuck in whichever mode the page booted into.
+  ScrollTrigger.matchMedia({
+    "(min-width: 701px)": function () {
+      measureStackChrome();
+
+      cards.forEach((card, i) => {
+        const next = cards[i + 1];
+        if (!next) return;
+
+        gsap.fromTo(
+          card,
+          { scale: 1, filter: "brightness(1)" },
+          {
+            scale: 0.975 - i * 0.008,
+            filter: "brightness(0.94)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: next,
+              start: () => `top ${getStackStickyTopPx(i + 1) + Math.max(24, window.innerHeight * 0.35)}px`,
+              end: () => `top ${getStackStickyTopPx(i)}px`,
+              scrub: 0.45,
+              invalidateOnRefresh: true,
+            },
+          }
+        );
+      });
+
+      const onResize = () => {
+        measureStackChrome();
+        ScrollTrigger.refresh();
+      };
+      window.addEventListener("resize", onResize, { passive: true });
+
+      let ro;
+      if (typeof ResizeObserver !== "undefined") {
+        const intro = document.querySelector(".stack-section__intro");
+        ro = new ResizeObserver(() => onResize());
+        if (intro) ro.observe(intro);
+        const nav = document.querySelector(".nav");
+        if (nav) ro.observe(nav);
+      }
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+          measureStackChrome();
+          ScrollTrigger.refresh();
+        });
+      }
+
+      requestAnimationFrame(() => {
+        measureStackChrome();
+        ScrollTrigger.refresh();
+      });
+
+      return () => {
+        window.removeEventListener("resize", onResize);
+        ro?.disconnect();
+      };
+    },
+  });
 }
 
 /* ── STACK illustrations: GIF-like loops ───────────────────── */
@@ -806,20 +816,23 @@ function initPipeline() {
     return;
   }
 
-  const mobile = window.matchMedia("(max-width: 860px)");
-  if (mobile.matches) return;
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: "top top",
-    end: "bottom bottom",
-    scrub: 0.45,
-    onUpdate(self) {
-      const i = Math.min(
-        stages.length - 1,
-        Math.floor(self.progress * stages.length)
-      );
-      setStage(i);
+  // matchMedia re-creates (and auto-reverts) this trigger on breakpoint
+  // crossing, so a resize/rotate after load can't leave the scrub dead.
+  ScrollTrigger.matchMedia({
+    "(min-width: 861px)": function () {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.45,
+        onUpdate(self) {
+          const i = Math.min(
+            stages.length - 1,
+            Math.floor(self.progress * stages.length)
+          );
+          setStage(i);
+        },
+      });
     },
   });
 }
@@ -940,20 +953,34 @@ function initCountUp() {
     }
 
     const state = { n: 0 };
-    ScrollTrigger.create({
+    const runCount = () => {
+      gsap.to(state, {
+        n: target,
+        duration: 1.6,
+        ease: "power2.out",
+        onUpdate() {
+          valueEl.textContent = String(Math.round(state.n));
+        },
+      });
+    };
+
+    // This stat sits above the fold, so "top 90%" is already behind the
+    // viewport on load — onEnter needs an entering transition to fire, and
+    // one never happens if the trigger is active from the very first paint.
+    let fired = false;
+    const fireOnce = () => {
+      if (fired) return;
+      fired = true;
+      runCount();
+    };
+    const trigger = ScrollTrigger.create({
       trigger: el,
       start: "top 90%",
-      once: true,
-      onEnter() {
-        gsap.to(state, {
-          n: target,
-          duration: 1.6,
-          ease: "power2.out",
-          onUpdate() {
-            valueEl.textContent = String(Math.round(state.n));
-          },
-        });
-      },
+      onEnter: fireOnce,
+      onEnterBack: fireOnce,
+    });
+    requestAnimationFrame(() => {
+      if (trigger.isActive) fireOnce();
     });
   });
 }

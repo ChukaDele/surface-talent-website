@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>For candidates — Surface Talent</title>
 <meta name="description" content="Your next role in UK surface engineering. Confidential conversations with recruiters who know the sector.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -41,6 +42,7 @@
     font-size:.88rem;
     padding:.5rem 0;
     height:auto;
+    width:100%;box-sizing:border-box;
   }
   #candidate-form input[type="file"]::file-selector-button{
     background:rgba(255,255,255,.08);
@@ -73,6 +75,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -94,7 +97,7 @@
       <a href="jobs.html">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -103,6 +106,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <!-- ── HERO + FORM (above the fold) ──────────────────────────────────────── -->
 <section class="candidate-hero" id="register">
@@ -127,7 +131,7 @@
       <div data-fs-error
         style="display:none;color:#eb5757;font-size:.95rem;margin-bottom:1rem">
         Something went wrong. Email us at
-        <a href="/cdn-cgi/l/email-protection#3e565b5252517e4d4b4c585f5d5b4a5f525b504a105d51104b55" style="color:#eb5757;text-decoration:underline"><span class="__cf_email__" data-cfemail="b3dbd6dfdfdcf3c0c6c1d5d2d0d6c7d2dfd6ddc79dd0dc9dc6d8">[email&#160;protected]</span></a>
+        <a href="mailto:hello@surfacetalent.co.uk" style="color:#eb5757;text-decoration:underline">hello@surfacetalent.co.uk</a>
       </div>
 
       <form class="std" id="candidate-form">
@@ -311,7 +315,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function(){
   var form = document.getElementById('candidate-form');
   var btn  = form.querySelector('[data-fs-submit-btn]');

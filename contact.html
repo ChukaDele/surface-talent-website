@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact — Surface Talent</title>
 <meta name="description" content="Contact Surface Talent. Book a 20-minute call, send a brief, or get in touch directly.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -20,6 +21,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -41,7 +43,7 @@
       <a href="jobs.html">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -50,6 +52,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <section class="page-intro">
   <div class="container">
@@ -77,7 +80,7 @@
       <div class="func" style="padding:2rem">
         <span class="eyebrow">03 · Direct</span>
         <h3 style="font-size:1.15rem">Email or phone</h3>
-        <p class="mono" style="font-size:.95rem;margin-top:1rem"><a href="/cdn-cgi/l/email-protection#ea828f868685aa999f988c8b898f9e8b868f849ec48985c49f81" style="color:inherit"><span class="__cf_email__" data-cfemail="345c5158585b7447414652555751405558515a401a575b1a415f">[email&#160;protected]</span></a><br><a href="tel:+447798673654" style="color:inherit">+44 7798 673 654</a></p>
+        <p class="mono" style="font-size:.95rem;margin-top:1rem"><a href="mailto:hello@surfacetalent.co.uk" style="color:inherit">hello@surfacetalent.co.uk</a><br><a href="tel:+447798673654" style="color:inherit">+44 7798 673 654</a></p>
       </div>
     </div>
   </div>
@@ -100,7 +103,7 @@
       <div data-fs-error
         style="display:none;color:#eb5757;font-size:.95rem;margin-bottom:1rem">
         Something went wrong. Email us at
-        <a href="/cdn-cgi/l/email-protection#b7dfd2dbdbd8f7c4c2c5d1d6d4d2c3d6dbd2d9c399d4d899c2dc" style="color:#eb5757;text-decoration:underline"><span class="__cf_email__" data-cfemail="d3bbb6bfbfbc93a0a6a1b5b2b0b6a7b2bfb6bda7fdb0bcfda6b8">[email&#160;protected]</span></a>
+        <a href="mailto:hello@surfacetalent.co.uk" style="color:#eb5757;text-decoration:underline">hello@surfacetalent.co.uk</a>
       </div>
 
       <form class="std" id="contact-form">
@@ -214,7 +217,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function(){
   var form = document.getElementById('contact-form');
   var btn  = form.querySelector('[data-fs-submit-btn]');

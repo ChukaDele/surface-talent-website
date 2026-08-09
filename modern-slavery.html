@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Modern slavery statement — Surface Talent</title>
 <meta name="description" content="Modern slavery and human trafficking statement for Surface Talent Ltd.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .legal-body{max-width:720px;padding:3rem 0 5rem}
+  .legal-body{max-width:720px;padding-top:3rem;padding-bottom:5rem}
   .legal-body h2{font-size:1.25rem;margin-top:2.5rem;margin-bottom:.6rem}
   .legal-body h3{font-size:1.05rem;margin-top:1.8rem;margin-bottom:.4rem}
   .legal-body p,.legal-body li{font-size:.95rem;color:#333;line-height:1.7}
@@ -21,6 +22,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -42,7 +44,7 @@
       <a href="jobs.html">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -51,6 +53,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <section class="page-intro">
   <div class="container">
@@ -78,7 +81,7 @@
     <ul>
       <li><strong>Recruitment practices:</strong> we verify the identity and right to work of all candidates before placing them. We confirm that candidates are entering employment freely and are not subject to coercion or exploitation</li>
       <li><strong>Candidate welfare:</strong> we maintain direct contact with placed candidates during and after the onboarding period. If a candidate raised concerns about working conditions, exploitation or coercion, we would act immediately</li>
-      <li><strong>Whistleblowing:</strong> any employee, candidate or third party can raise concerns about suspected modern slavery or exploitation by contacting us at <a href="/cdn-cgi/l/email-protection#6f1f1d06190e0c162f1c1a1d090e0c0a1b0e030a011b410c00411a04"><span class="__cf_email__" data-cfemail="b7c7c5dec1d6d4cef7c4c2c5d1d6d4d2c3d6dbd2d9c399d4d899c2dc">[email&#160;protected]</span></a>. All reports are treated confidentially and investigated promptly</li>
+      <li><strong>Whistleblowing:</strong> any employee, candidate or third party can raise concerns about suspected modern slavery or exploitation by contacting us at <a href="mailto:privacy@surfacetalent.co.uk">privacy@surfacetalent.co.uk</a>. All reports are treated confidentially and investigated promptly</li>
     </ul>
 
     <h2>5. Due diligence</h2>
@@ -152,5 +155,5 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>

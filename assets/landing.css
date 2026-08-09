@@ -75,15 +75,18 @@
 
 .nav__menu {
   display: none;
-  width: 28px;
-  height: 18px;
+  min-width: 44px;
+  min-height: 44px;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 0;
 }
 
 .nav__menu span {
   display: block;
+  width: 28px;
   height: 1.5px;
   background: var(--ink);
 }
@@ -413,6 +416,7 @@
   .hero__stat,
   .hero__ctas {
     grid-column: 1;
+    grid-row: auto;
     justify-self: start;
   }
   .hero__stat { flex-wrap: wrap; }
@@ -1893,7 +1897,7 @@
 }
 
 @media (max-width: 640px) {
-  .route__body {
+  .consequence .route__body {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
   }
@@ -1908,7 +1912,7 @@
     max-width: none;
     min-height: 12rem;
   }
-  .route__body > .route__list {
+  .consequence .route__body > .route__list {
     grid-column: 1;
     grid-row: 3;
   }

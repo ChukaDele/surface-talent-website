@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cookie policy — Surface Talent</title>
 <meta name="description" content="Cookie policy for surfacetalent.co.uk. What cookies we use, why, and how to manage them.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .legal-body{max-width:720px;padding:3rem 0 5rem}
+  .legal-body{max-width:720px;padding-top:3rem;padding-bottom:5rem}
   .legal-body h2{font-size:1.25rem;margin-top:2.5rem;margin-bottom:.6rem}
   .legal-body h3{font-size:1.05rem;margin-top:1.8rem;margin-bottom:.4rem}
   .legal-body p,.legal-body li{font-size:.95rem;color:#333;line-height:1.7}
@@ -18,13 +19,15 @@
   .legal-body li{margin-bottom:.3rem}
   .legal-body a{color:var(--copper);text-decoration:underline}
   .legal-body .updated{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--steel);letter-spacing:.06em;margin-top:.5rem}
-  .cookie-table{width:100%;border-collapse:collapse;margin:1.2rem 0 1.5rem;font-size:.88rem}
+  .cookie-table{width:100%;border-collapse:collapse;margin:1.2rem 0 1.5rem;font-size:.88rem;display:block;overflow-x:auto;white-space:nowrap}
+  .cookie-table thead,.cookie-table tbody{display:table;width:100%}
   .cookie-table th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--steel);padding:.6rem .8rem;border-bottom:2px solid var(--line);background:var(--chalk)}
   .cookie-table td{padding:.6rem .8rem;border-bottom:1px solid var(--line);color:#333;vertical-align:top;line-height:1.5}
   .cookie-table tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -46,7 +49,7 @@
       <a href="jobs.html">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -55,6 +58,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <section class="page-intro">
   <div class="container">
@@ -132,7 +136,7 @@
     <p>We may update this cookie policy from time to time. The "last updated" date at the top of this page will change accordingly.</p>
 
     <h2>6. Contact</h2>
-    <p>If you have questions about our use of cookies, email <a href="/cdn-cgi/l/email-protection#4e3e3c27382f2d370e3d3b3c282f2d2b3a2f222b203a602d21603b25"><span class="__cf_email__" data-cfemail="6111130817000218211214130700020415000d040f154f020e4f140a">[email&#160;protected]</span></a>.</p>
+    <p>If you have questions about our use of cookies, email <a href="mailto:privacy@surfacetalent.co.uk">privacy@surfacetalent.co.uk</a>.</p>
   </div>
 </section>
 
@@ -183,5 +187,5 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>

@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy policy — Surface Talent</title>
 <meta name="description" content="Privacy policy for Surface Talent Ltd. How we collect, use and protect your personal data.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .legal-body{max-width:720px;padding:3rem 0 5rem}
+  .legal-body{max-width:720px;padding-top:3rem;padding-bottom:5rem}
   .legal-body h2{font-size:1.25rem;margin-top:2.5rem;margin-bottom:.6rem}
   .legal-body h3{font-size:1.05rem;margin-top:1.8rem;margin-bottom:.4rem}
   .legal-body p,.legal-body li{font-size:.95rem;color:#333;line-height:1.7}
@@ -21,6 +22,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <header class="site">
   <div class="container nav">
@@ -42,7 +44,7 @@
       <a href="jobs.html">Jobs</a>
       <a href="about.html">About</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="const o=document.querySelector('.navlinks').classList.toggle('open');this.setAttribute('aria-expanded',o)">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><line x1="1" y1="1" x2="21" y2="1" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="8" x2="21" y2="8" stroke="#1C1F22" stroke-width="2"/><line x1="1" y1="15" x2="21" y2="15" stroke="#1C1F22" stroke-width="2"/></svg>
     </button>
     <div class="btns">
@@ -51,6 +53,7 @@
     </div>
   </div>
 </header>
+<span id="main" tabindex="-1"></span>
 
 <section class="page-intro">
   <div class="container">
@@ -65,7 +68,7 @@
 
     <h2>1. Who we are</h2>
     <p>Surface Talent Ltd (company number [COMPANY NUMBER]) is the data controller for personal data collected through this website and our recruitment services. Our registered office is 67C King Street, Knutsford, Cheshire, WA16 6DX.</p>
-    <p>For data protection queries, contact us at <a href="/cdn-cgi/l/email-protection#daaaa8b3acbbb9a39aa9afa8bcbbb9bfaebbb6bfb4aef4b9b5f4afb1"><span class="__cf_email__" data-cfemail="19696b706f787a60596a6c6b7f787a7c6d78757c776d377a76376c72">[email&#160;protected]</span></a>.</p>
+    <p>For data protection queries, contact us at <a href="mailto:privacy@surfacetalent.co.uk">privacy@surfacetalent.co.uk</a>.</p>
 
     <h2>2. What data we collect</h2>
     <p>We collect and process the following categories of personal data:</p>
@@ -143,7 +146,7 @@
       <li>Data portability (receiving your data in a structured, machine-readable format)</li>
       <li>Withdraw consent at any time, where consent is the legal basis</li>
     </ul>
-    <p>To exercise any of these rights, email <a href="/cdn-cgi/l/email-protection#3e4e4c57485f5d477e4d4b4c585f5d5b4a5f525b504a105d51104b55"><span class="__cf_email__" data-cfemail="fa8a88938c9b9983ba898f889c9b999f8e9b969f948ed49995d48f91">[email&#160;protected]</span></a>. We will respond within one calendar month.</p>
+    <p>To exercise any of these rights, email <a href="mailto:privacy@surfacetalent.co.uk">privacy@surfacetalent.co.uk</a>. We will respond within one calendar month.</p>
 
     <h2>9. Cookies</h2>
     <p>Our website uses cookies to function and to help us understand how visitors use the site. Full details are in our <a href="cookies.html">cookie policy</a>.</p>
@@ -152,7 +155,7 @@
     <p>We take appropriate technical and organisational measures to protect personal data against unauthorised access, loss, destruction or damage. Access to personal data is restricted to those who need it to deliver our services.</p>
 
     <h2>11. Complaints</h2>
-    <p>If you are unhappy with how we handle your data, please contact us first at <a href="/cdn-cgi/l/email-protection#7f0f0d16091e1c063f0c0a0d191e1c1a0b1e131a110b511c10510a14"><span class="__cf_email__" data-cfemail="f585879c8394968cb586808793949690819499909b81db969adb809e">[email&#160;protected]</span></a>. You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at <a href="https://ico.org.uk">ico.org.uk</a>.</p>
+    <p>If you are unhappy with how we handle your data, please contact us first at <a href="mailto:privacy@surfacetalent.co.uk">privacy@surfacetalent.co.uk</a>. You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at <a href="https://ico.org.uk">ico.org.uk</a>.</p>
 
     <h2>12. Changes to this policy</h2>
     <p>We may update this policy from time to time. The "last updated" date at the top of this page will change accordingly. Material changes will be communicated where appropriate.</p>
@@ -206,5 +209,5 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>

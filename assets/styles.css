@@ -1,16 +1,25 @@
 /* Surface Talent — shared stylesheet */
 :root{
-  --anthracite:#1C1F22;
-  --nickel:#C0C5C9;
+  /* Matched to assets/tokens.css's Pass-2 palette so inner pages read as
+     the same brand as the homepage, not a cooler, older system. */
+  --anthracite:#14171c;
+  --nickel:#a8adb3;
   --copper:#B87333;
-  --steel:#3A4A5C;
-  --chalk:#F5F5F2;
-  --signal:#C0392B;
-  --line:#E4E2DC;
-  --card-dark:#252830;
+  --steel:#6b727a;
+  --chalk:#f2efe8;
+  --signal:#b33a2b;
+  --line:#e0dccf;
+  --card-dark:#2a3038;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+.skip-link{
+  position:absolute;left:-999px;top:0;z-index:1000;
+  padding:.75rem 1.25rem;
+  background:var(--anthracite);color:var(--chalk);
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;
+}
+.skip-link:focus{left:.75rem;top:.75rem}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   background:var(--chalk);
@@ -52,6 +61,7 @@ a{color:var(--anthracite);text-decoration:none;transition:color .15s ease}
 }
 .logo-word span:first-child{color:var(--anthracite)}
 .logo-word span:last-child{color:var(--copper);font-size:.8em;letter-spacing:.18em}
+footer.site .logo-word span:first-child{color:var(--chalk)}
 
 /* ── Header / nav ────────────────────────────────────────────────────────── */
 header.site{
@@ -83,6 +93,8 @@ header.site{
 .menu-toggle{
   display:none;background:none;border:1px solid var(--line);
   padding:.5rem .65rem;cursor:pointer;line-height:1;
+  min-width:44px;min-height:44px;
+  align-items:center;justify-content:center;
 }
 .menu-toggle svg{display:block}
 @media (max-width:860px){
@@ -99,7 +111,7 @@ header.site{
   .navlinks a{padding:.6rem 0;border-bottom:1px solid var(--line)}
   .navlinks a:last-child{border-bottom:none}
   .btns{display:none}
-  .menu-toggle{display:block}
+  .menu-toggle{display:flex}
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────────── */
@@ -370,7 +382,10 @@ section.dark .step p{color:var(--nickel)}
 .job-body h2{margin-top:2rem;font-size:1.3rem}
 .job-body ul{margin:0 0 1rem 1.2rem}
 .job-body li{margin-bottom:.3rem}
+.job-layout{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+@media(max-width:860px){.job-layout{grid-template-columns:1fr}}
 .job-sidebar{position:sticky;top:100px;padding:1.5rem;background:#fff;border:1px solid var(--line)}
+@media(max-width:860px){.job-sidebar{position:static}}
 .job-sidebar dt{font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--steel);margin-top:1rem}
 .job-sidebar dt:first-child{margin-top:0}
 .job-sidebar dd{font-size:.95rem;margin-bottom:.3rem;font-weight:500}
@@ -382,6 +397,7 @@ section.dark .step p{color:var(--nickel)}
 /* ── Forms ───────────────────────────────────────────────────────────────── */
 form.std{display:grid;gap:.8rem}
 form.std input,form.std textarea,form.std select{
+  width:100%;box-sizing:border-box;
   padding:.9rem 1rem;background:transparent;border:1px solid #444;
   color:inherit;font-family:inherit;font-size:1rem;
   border-radius:0;-webkit-appearance:none;appearance:none;

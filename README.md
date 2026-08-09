@@ -129,7 +129,7 @@ The seven launch roles are listed in `airtable-schema.md` so you can copy-paste 
 
 ## Security notes
 
-A token was previously hardcoded in this site's source (`assets/jobs.js` and `index.html`). It has been removed from the files, but **you should revoke that token in Airtable now** (airtable.com/create/tokens → delete it), because anyone who viewed the deployed site's source may have copied it.
+A token was hardcoded in this site's source (`assets/jobs.js`) and shipped in the browser bundle of the live public site. It has been removed from the file (2026-08-09) — `assets/jobs.js` now calls `/api/jobs` instead of Airtable directly, matching Step 4 below. **You should still revoke that token in Airtable now** (airtable.com/create/tokens → delete it), because anyone who viewed the deployed site's source or the public git history may have copied it. Until a proxy exists at `/api/jobs`, the jobs pages show the "get in touch for the current list" fallback described below — this is expected, not a bug.
 
 Never ship any API token in browser-delivered files. Keep tokens in environment variables and call Airtable from a Cloudflare Pages Function (see Step 4 above).
 
