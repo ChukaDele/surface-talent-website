@@ -1379,7 +1379,6 @@
 }
 
 .pipeline__steps li span {
-  opacity: 0.65;
   min-width: 1.5rem;
 }
 
