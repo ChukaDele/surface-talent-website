@@ -11,7 +11,8 @@
   --nickel: #a8adb3;
   --line: rgba(20, 23, 28, 0.12);
   --line-strong: rgba(20, 23, 28, 0.22);
-  --copper: #b87333;
+  /* Meets AA for small text on the light surfaces used by utility labels. */
+  --copper: #8f5a28;
   --copper-bright: #d4924a;
   /* Small-text copper on chalk — darker for eyebrow AA */
   --copper-ink: #7a4a1f;
