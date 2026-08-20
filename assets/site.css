@@ -367,6 +367,18 @@ body.site-page {
   appearance: none;
 }
 
+/* The visually-hidden utility must keep its 1px box inside a form.
+   `.form input` (0,1,1) outranks `.visually-hidden` (0,1,0) and loads later,
+   so the spam honeypot was being stretched to width:100% while absolutely
+   positioned — pushing /apply and /contact ~645px wider than the viewport and
+   giving both pages a real horizontal scrollbar. */
+.form .visually-hidden {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+}
+
+
 .form textarea { min-height: 6rem; resize: vertical; }
 
 .form input:focus,
@@ -551,6 +563,9 @@ body.site-page {
   align-items: center;
   min-height: 44px;
   padding: 0.35rem 0.25rem;
+  /* Legal pages also load styles.css, whose `a { color: var(--anthracite) }`
+     would otherwise paint these dark links on the dark footer. */
+  color: inherit;
 }
 
 .site-foot__nav a:hover { color: var(--copper); }
