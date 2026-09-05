@@ -146,9 +146,10 @@
     .st-ddetail__herocopy .st-h1 { font-size: 30px; line-height: 37px; }
 
     /* footer: single column with comfortable spacing */
-    .st-footer__inner { padding: 32px 20px 28px; gap: 32px; }
+    .st-footer { --footer-inline-pad: clamp(20px, 5vw, 24px); --footer-inner-gap: clamp(24px, 8vw, 32px); --footer-column-gap: clamp(20px, 8vw, 32px); }
+    .st-footer__inner { padding: 32px var(--footer-inline-pad) 28px; gap: var(--footer-inner-gap); }
     .st-footer__cta .st-h1, .st-footer__title { font-size: 32px; line-height: 39px; }
-    .st-footer__cols { gap: 32px; }
+    .st-footer__cols { gap: var(--footer-column-gap); }
     .st-footer__clients { height: 56px; }
 
     /* ---------- compositions authored at desktop size ---------- */
@@ -233,10 +234,10 @@
 
     /* ---------- footer: shorter on a phone ---------- */
     .st-footer { min-height: 0; }
-    .st-footer__inner { padding: 28px 20px 20px; gap: 24px; }
+    .st-footer__inner { padding: 28px var(--footer-inline-pad) 20px; gap: var(--footer-inner-gap); }
     .st-footer__cta { gap: 12px; }
     .st-footer__cta .st-h1, .st-footer__title { font-size: 28px; line-height: 34px; }
-    .st-footer__cols { gap: 20px; }
+    .st-footer__cols { gap: var(--footer-column-gap); }
     .st-footer__brand, .st-footer__explore, .st-footer__ctas { width: 100%; }
     .st-footer__brand p { font-size: 14px; line-height: 22px; }
     /* the contact details are the most useful thing in a phone footer: full size, and marked as
