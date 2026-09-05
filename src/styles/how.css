@@ -1,0 +1,32 @@
+@layer st-base {
+  .st-how { background: var(--deep-bg); color: #fff; overflow: hidden; }
+  .st-how__pin { position: relative; }
+  .st-how__inner { display: flex; flex-direction: column; gap: 60px; }
+  @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .st-how__pin { min-height: 100svh; display: flex; align-items: center; }
+    .st-how__inner { padding-top: 0; padding-bottom: 0; width: 100%; gap: 48px; }
+  }
+  .st-how__head { width: 868px; max-width: 100%; }
+  .st-how__viewport { width: 100%; overflow: hidden; }
+  .st-how__track { width: 2260px; display: flex; flex-direction: column; gap: 20px; }
+  .st-how__cards { display: flex; gap: 40px; }
+  .st-how__card { position: relative; width: 420px; height: 320px; flex: none; background: var(--deep-card); overflow: hidden; will-change: filter, opacity; }
+  .st-how__glitter { position: absolute; inset: 0; pointer-events: none; opacity: 0; box-shadow: inset 0 0 0 1px rgba(217,124,37,0.55), 0 0 40px rgba(217,124,37,0.18); }
+  .st-how__glitter::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 40%, rgba(255,214,150,0.16) 50%, transparent 60%); transform: translateX(-60%); }
+  .st-how__line { position: relative; height: 14px; width: 1328px; }
+  .st-how__rail { position: absolute; left: 0; right: 0; top: 6.5px; height: 1px; background: rgba(255,255,255,0.2); }
+  .st-how__diamond { position: absolute; top: 0; width: 14px; height: 14px; background: #d9d9d9; transform: rotate(45deg) scale(0.72); transform-origin: 50% 50%; box-shadow: 0 0 0 1px rgba(255,255,255,0.35); }
+  .st-how__diamond[data-active="true"] { background: var(--glitter); box-shadow: 0 0 0 1px rgba(255,255,255,0.35), 0 0 18px rgba(217,124,37,0.7); }
+  .st-how__titles { list-style: none; margin: 20px 0 0; padding: 0; display: flex; gap: 40px; }
+  .st-how__step { width: 420px; flex: none; display: flex; flex-direction: column; gap: 10px; will-change: filter, opacity; }
+  .st-how__step .st-h3 { color: #fff; }
+  .st-how__step .st-body { color: var(--text-inverse); opacity: 0.8; max-width: 360px; }
+  @media (max-width: 1023px) {
+    .st-how__inner { padding: 56px 24px; gap: 40px; }
+    .st-how__viewport { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+    .st-how__track { width: max-content; }
+    .st-how__card { scroll-snap-align: start; width: min(420px, 86vw); }
+    .st-how__step { width: min(420px, 86vw); }
+    .st-how__line { width: 2260px; }
+  }
+}

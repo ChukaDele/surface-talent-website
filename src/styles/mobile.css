@@ -1,0 +1,337 @@
+@layer st-responsive {
+  /* shared by the hero logo strip and the clients gallery; defined here because mobile.css is the
+     one stylesheet every route loads */
+  @keyframes st-hero-marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+
+  /* ============================================================================
+     Mobile and tablet pass. Loaded last so it wins on specificity ties.
+     Three jobs: touch ergonomics (44px targets, 16px form text so iOS never zooms),
+     type and spacing recalculated for narrow columns, and motion simplified.
+     ========================================================================= */
+
+  /* ---------- forced desktop line breaks collapse below the desktop layout ---------- */
+  @media (max-width: 1023px) { br.st-br-lg { display: none; } }
+
+
+  /* ---------- touch floor: any coarse pointer, whatever the width (tablets in landscape included) ---------- */
+  @media (pointer: coarse) {
+    .st-input, .st-input--select, .st-input--area { font-size: 16px; }
+    .st-btn, .st-header__menu, .st-header__brand, .st-modal__close, .st-chip, .st-form__more { min-height: 44px; }
+    .st-select__item { min-height: 46px; }
+    .st-check { min-height: 44px; align-items: center; }
+    .st-toc__link, .st-footer__explore a, .st-footer__legal a, .st-contact-link, .st-dcard__more { min-height: 44px; display: inline-flex; align-items: center; }
+  }
+
+  /* ---------- touch ergonomics: every width where the nav collapses (phones and tablets) ---------- */
+  @media (max-width: 1023px) {
+    .st-btn { min-height: 44px; padding: 12px 16px; }
+    .st-btn--block { height: auto; min-height: 48px; }
+    .st-header__menu, .st-header__brand { min-height: 44px; }
+    .st-header__nav a { min-height: 44px; }
+    .st-footer__explore a, .st-footer__legal a, .st-contact-link, .st-dcard__more, .st-ddetail__related a,
+    .st-crumbs a, .st-toc__link, .st-legal__body a, .st-link {
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
+    /* links inside running text keep their line box — a 44px inline link would break the paragraph */
+    .st-legal__body p a, .st-legal__body li a, .st-check__label a, p .st-link { min-height: 0; display: inline; }
+    .st-modal__close { width: 44px; height: 44px; }
+    .st-form__more { min-height: 44px; display: inline-flex; align-items: center; }
+    .st-chip { min-height: 44px; padding: 0 14px; }
+    .st-chip input { font-size: 16px; }
+    .st-select__item { min-height: 46px; font-size: 16px; }
+    /* the consent row is a 44px hit area; the box keeps its designed 26px */
+    .st-check { min-height: 44px; grid-template-columns: 26px 1fr; align-items: center; }
+    .st-check__box { width: 26px; height: 26px; }
+    /* 16px form text so iOS never zooms the viewport on focus */
+    .st-input { font-size: 16px; }
+    .st-input, .st-input--select { height: 48px; }
+    .st-input--area { height: 120px; min-height: 120px; }
+    /* The static production artwork remains a full-bleed layer at tablet widths. The
+       generic specimen width in the tablet block below belongs to illustration variants. */
+    .st-hero--static-preview .st-hero__specimen--h-static {
+      position: absolute;
+      inset: -88px -24px -40px;
+      width: auto;
+      max-width: none;
+      height: auto;
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    /* ---------- forms: single column on phones ---------- */
+    .st-btn { font-size: 13px; }
+    .st-footer__legal { gap: 0 20px; }
+    .st-form__row { grid-template-columns: 1fr; gap: 14px; }
+    .st-form { gap: 14px; }
+    .st-input { padding: 12px 14px; }
+    .st-input--area { padding: 14px; }
+    .st-chip { font-size: 14px; }
+    .st-field__hint, .st-field__error { font-size: 13px; line-height: 19px; }
+    .st-file__tile { width: 100%; min-height: 64px; }
+    .st-file__text { font-size: 13px; max-width: none; }
+    .st-form__more { min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; }
+    /* keep the field being edited clear of the virtual keyboard */
+    .st-form :is(input, select, textarea, [role="combobox"]) { scroll-margin-top: calc(var(--nav-h, 55px) + 16px); scroll-margin-bottom: 96px; }
+
+    /* ---------- typography and spacing recalculated for a narrow column ---------- */
+    .st-h1 { font-size: 34px; line-height: 41px; }
+    .st-h2 { font-size: 27px; line-height: 33px; }
+    .st-h3 { font-size: 22px; line-height: 28px; }
+    .st-h4 { font-size: 19px; line-height: 25px; }
+    .st-body-lg { font-size: 16px; line-height: 26px; }
+    .st-body { font-size: 15px; line-height: 25px; }
+    /* Balance headings and avoid orphans in body copy. Applied below the desktop layout only:
+       the desktop line breaks are authored in the design and must not be re-flowed. */
+    .st-h1, .st-h2, .st-h3, .st-h4, .st-hero__title, .st-footer__title { text-wrap: balance; }
+    p, li, blockquote, .st-body, .st-body-lg, .st-body-sm { text-wrap: pretty; }
+
+    /* 11px uppercase mono is at the edge of comfortable on a phone; 12px with slightly tighter
+       tracking keeps the label voice without shrinking the words */
+    .st-eyebrow { font-size: 12px; letter-spacing: 1.5px; }
+    .st-hero__logo span, .st-footer__logo span, .st-footer__trusted { font-size: 12px; letter-spacing: 0.8px; }
+    .st-inner { padding: 48px 20px; }
+    .st-heading .st-h2, .st-heading--wide .st-h2, .st-heading--520 .st-h2, .st-heading--800 .st-h2 { max-width: none; }
+    .st-btn-row { flex-wrap: wrap; gap: 10px; }
+
+    /* hero: copy first, artwork sized to the column, CTAs full width */
+    .st-hero__inner { padding: 88px 20px 36px; gap: 28px; }
+    .st-hero__title { font-size: 34px; line-height: 41px; }
+    .st-hero__specimen { display: none; }
+    .st-hero__specimen--h, .st-hero__specimen--h-static { display: flex; }
+    /* The static production artwork remains a full-bleed layer at tablet widths. The
+       generic specimen width below belongs to the illustration variants only. */
+    .st-hero--static-preview .st-hero__specimen--h-static {
+      position: absolute;
+      inset: -88px -24px -40px;
+      width: auto;
+      max-width: none;
+      height: auto;
+      margin: 0;
+    }
+    .st-hero__ctas .st-btn { flex: 1 1 auto; justify-content: center; }
+    /* one label line, then the logos scrolling under it, instead of a 2x2 block of tiles */
+    .st-hero__logos { display: block; height: auto; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); }
+    .st-hero__logo--label { display: block; padding: 0 0 10px; text-align: center; background: none; box-shadow: none; }
+    .st-hero__logos-track { display: flex; width: max-content; animation: st-hero-marquee 22s linear infinite; }
+    .st-hero__logos-dup { display: flex; }
+    .st-hero__logo { padding: 12px 18px; min-height: 56px; flex: none; }
+    .st-hero__logo span { font-size: 12px; letter-spacing: 0.8px; white-space: nowrap; }
+    @media (prefers-reduced-motion: reduce) { .st-hero__logos-track { animation: none; } }
+
+    /* The phone Hero H is an intentional image-free central lockup. Tablet widths retain the
+       full-bleed portrait treatment above, while this narrower mode returns the copy to flow. */
+    .st-hero--static-preview .st-hero__inner { min-height: 0; padding: 88px 20px 52px; gap: 0; }
+    .st-hero--static-preview .st-hero__row { display: block; min-height: 0; }
+    .st-hero--static-preview .st-hero__copy { position: relative; width: 100%; max-width: 360px; margin: 0 auto; padding-top: clamp(72px, 18vw, 112px); text-align: center; align-items: center; }
+    .st-hero--static-preview .st-hero__title { max-width: 360px; margin-inline: auto; }
+    .st-hero--static-preview .st-hero__ctas { width: 100%; align-self: center; justify-content: center; }
+    .st-hero--static-preview .st-hero__specimen--h-static { display: none; }
+    .st-hero--static-preview .st-hero__logos { display: none; }
+    .st-hero--static-preview .st-static-portrait { display: none; }
+
+    /* cards and grids */
+    .st-grid3__card, .st-card { padding: 24px 20px; }
+    .st-cards3 .st-card, .st-cohero__cards .st-card { min-height: 0; }
+    .st-split__panel { padding: 40px 20px; gap: 16px; }
+    .st-page-hero { padding: 88px 20px 40px; }
+    .st-page-hero__copy .st-h1 { font-size: 34px; line-height: 41px; }
+    .st-cahero__inner { padding: 88px 20px 40px; }
+    .st-cahero__card { padding: 16px; }
+    .st-clients__card { padding: 24px 20px; }
+    .st-dcard { padding: 24px 20px; }
+    .st-dcard__art { height: 104px; margin-bottom: 20px; }
+    .st-ddetail__herocopy .st-h1 { font-size: 30px; line-height: 37px; }
+
+    /* footer: single column with comfortable spacing */
+    .st-footer__inner { padding: 32px 20px 28px; gap: 32px; }
+    .st-footer__cta .st-h1, .st-footer__title { font-size: 32px; line-height: 39px; }
+    .st-footer__cols { gap: 32px; }
+    .st-footer__clients { height: 56px; }
+
+    /* ---------- compositions authored at desktop size ---------- */
+    /* These illustrations are pixel-exact Figma stages. FixedStage scales the whole composition to
+       the column, so on a 390px phone a 960px stage renders at ~0.36x and its 16px labels land at
+       6px. Text that small is not readable, so the phone drops the decoration and keeps the words.
+       The compositions that stay (the plant-floor diagrams, the defect cards) are authored small
+       enough to survive the scale. */
+    [data-scene="why"] .st-mock,
+    [data-scene="how"] .st-mock,
+    .st-cstep__art .st-mock { display: none; }
+
+    /* the Why cards carry real copy, so they leave the scaled stage entirely and lay out as
+       ordinary blocks with the phone type scale */
+    .st-why__card.st-stage { aspect-ratio: auto !important; height: auto !important; }
+    .st-why__card .st-stage__inner { position: static !important; width: 100% !important; height: auto !important; transform: none !important; }
+    .st-why__card [data-why-card] { position: static !important; }
+    .st-why__cardhead { position: static; left: auto; top: auto; width: auto; padding: 24px 20px; }
+    .st-why__cardhead .st-h3 { font-size: 22px; line-height: 28px; }
+    .st-why__cardhead .st-body { max-width: none; }
+    /* How it works: the four illustration cards are decoration that does not survive the scale, and
+       a horizontal carousel hides three steps out of four behind a swipe. On a phone the steps
+       stack, so all four are visible in one read. */
+    .st-cstep__art { display: none; }
+    .st-how__viewport { overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
+    .st-how__track { width: 100%; display: flex; flex-direction: column; }
+    .st-how__cards, .st-how__line { display: none; }
+    .st-how__titles { flex-direction: column; gap: 0; margin: 0; }
+    .st-how__step { width: 100%; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.14); }
+    .st-how__step:first-child { border-top: 0; padding-top: 0; }
+    .st-how__step .st-body { max-width: none; }
+
+    /* the defect cards get the same treatment: their composition overlaps and clips at this width,
+       and the card copy is the part that carries the point */
+    .st-problem__card.st-stage { aspect-ratio: auto !important; height: auto !important; position: relative !important; }
+    .st-problem__card .st-stage__inner { position: static !important; width: 100% !important; height: auto !important; transform: none !important; }
+    .st-problem__card .st-mock { display: none; }
+    .st-problem__cardbody { position: static !important; }
+    .st-problem__cardhead { position: static !important; left: auto !important; top: auto !important; width: auto !important; padding: 24px 20px; text-align: center; }
+    .st-problem__cardhead .st-eyebrow { justify-content: center; }
+    .st-problem__cardhead .st-body { max-width: none; }
+    .st-problem__stack { display: flex; flex-direction: column; gap: 16px; }
+
+    /* ---------- alignment: one rule for the whole phone layout ---------- */
+    /* Everything centres. Mixing a centred eyebrow over a left-aligned heading, which is what the
+       desktop grid produced once it collapsed to one column, is what made the page feel unsettled.
+       The two exceptions are the legal documents and the forms: centred legal prose is genuinely
+       harder to read, and form fields and their labels must share a left edge. */
+    main, .st-section, .st-block, .st-band, .st-inner { text-align: center; }
+    .st-eyebrow, .st-heading, .st-btn-row, .st-hero__ctas, .st-page-hero__ctas,
+    .st-card__icon, .st-caproc__n, .st-cstep__n, .st-ctier__label { justify-content: center; }
+    .st-heading, .st-hero__copy, .st-page-hero__copy, .st-cahero__copy, .st-chero__copy,
+    .st-split__copy, .st-cstep, .st-caproc__item, .st-card, .st-dcard, .st-grid3__card,
+    .st-clients__card, .st-why__cardhead, .st-problem__cardhead, .st-system__state,
+    .st-footer__ctablock, .st-stake__card { align-items: center; }
+    .st-btn-row, .st-hero__ctas, .st-page-hero__ctas { align-self: center; }
+    ul, ol { list-style-position: inside; }
+    .st-stake__list li, .st-fn__list li { justify-content: center; }
+
+    /* the exceptions */
+    .st-legal__body, .st-legal__body *, .st-form, .st-form *, .st-toc, .st-toc * { text-align: left; }
+    .st-form :is(label, .st-field), .st-legal__body :is(ul, ol) { align-items: flex-start; }
+    .st-form .st-btn-row, .st-form .st-check { justify-content: flex-start; }
+
+    /* tiles sized to their own content instead of the tallest sibling */
+    .st-cwhat__grid, .st-grid3, .st-cards3 { grid-auto-rows: auto; }
+    .st-grid3__card, .st-cards3 .st-card { min-height: 0; height: auto; }
+    /* the isometric drawings beside each process step read as isolated objects at this width */
+    .st-caproc__art { display: none; }
+
+    /* ---------- testimonials: one block per card ---------- */
+    /* The statistic, the quote and the attribution belong together, so they share a centre line and
+       the rule closes the card underneath the author rather than splitting it in half. */
+    .st-clients__row { gap: 16px; }
+    .st-clients__card { text-align: center; row-gap: 12px; box-shadow: inset 0 0 0 1px rgba(20,23,28,0.08); }
+    .st-clients__quote { text-align: left; }
+    .st-clients__metric { grid-row: 1; align-self: center; }
+    .st-clients__label { grid-row: 2; align-self: center; justify-content: center; }
+    .st-clients__quote { grid-row: 3; align-self: start; width: 100%; }
+    .st-clients__author { grid-row: 4; flex-direction: column; gap: 6px; }
+    .st-clients__rule { grid-row: 5; align-self: start; }
+
+    /* ---------- footer: shorter on a phone ---------- */
+    .st-footer { min-height: 0; }
+    .st-footer__inner { padding: 28px 20px 20px; gap: 24px; }
+    .st-footer__cta { gap: 12px; }
+    .st-footer__cta .st-h1, .st-footer__title { font-size: 28px; line-height: 34px; }
+    .st-footer__cols { gap: 20px; }
+    .st-footer__brand, .st-footer__explore, .st-footer__ctas { width: 100%; }
+    .st-footer__brand p { font-size: 14px; line-height: 22px; }
+    /* the contact details are the most useful thing in a phone footer: full size, and marked as
+       links so it is obvious they open the mail app and the dialler */
+    .st-footer__contact { font-size: 15px; line-height: 24px; gap: 0; margin-top: 12px; }
+    .st-footer__contact a { text-decoration: underline; text-decoration-color: var(--primary-500); text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
+    /* Explore repeats the Menu, so on a phone it collapses to one compact wrapped row instead of a
+       tall bordered list. The links stay for internal linking and for anyone who scrolls this far. */
+    /* Explore repeats the Menu, so the phone footer drops it while keeping the legal row. */
+    .st-footer__explore { display: none; }
+    /* the three CTA blocks repeat the header button and each page's own calls to action */
+    .st-footer__ctas { display: none; }
+    .st-footer__ctas { gap: 16px; }
+    /* one left edge for every block: the logo moves above the brand copy and the decorative left
+       rules come off, so nothing in the column starts at a different indent */
+    /* the mark sits on the "Surface Talent" line, not centred against the whole block */
+    .st-footer__brand { align-items: flex-start; gap: 10px; }
+    .st-footer__brand > div { flex: 1; }
+    .st-footer__ctablock { gap: 8px; padding: 0; border-left: 0; }
+    .st-footer__ctablock .st-body { font-size: 14px; line-height: 22px; }
+    .st-footer__label { margin-bottom: 2px; }
+    .st-footer__clients { height: 48px; }
+    .st-footer__trusted { font-size: 12px; letter-spacing: 0.8px; }
+
+    /* What's at stake overlays two rotated cards on desktop, so on a phone the generalist card is
+       hidden underneath. Both are real content, so they stack and the rotation comes off. */
+    .st-stake__stage { width: 100% !important; aspect-ratio: auto !important; height: auto !important; }
+    .st-stake__stage .st-stage__inner { position: static !important; width: 100% !important; height: auto !important; transform: none !important; display: flex; flex-direction: column; gap: 16px; }
+    .st-stake__card { position: static; width: 100%; height: auto; top: auto; left: auto; transform: none; }
+    /* the rejected/approved stamps are pinned to desktop coordinates and clip off the card */
+    .st-stake__stamp-rejected, .st-stake__stamp-approved { display: none; }
+
+    /* the plant-floor cards swipe sideways, but at 86vw the next card is only 15px wide, so nothing
+       tells you there are four. A narrower card leaves a clear slice of the next one showing. */
+    .st-floor__card { width: 78vw; }
+    .st-floor__row { gap: 12px; }
+
+    /* Keep the restored decorative mark hanging from the heading on narrow screens too. */
+    .st-dna__linkedin { position: absolute; left: auto; right: 0; top: 60px; transform: rotate(16.07deg); width: 56px; height: 55px; display: block; margin: 0; }
+    .st-dna__linkedin img { width: 70px; height: 69px; margin: -7px 0 0 -7px; }
+
+    /* the candidate gallery loops on its own instead of waiting to be swiped */
+    .st-chero__cards { overflow: hidden !important; scroll-snap-type: none !important; padding-bottom: 0;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+      width: max-content; animation: st-hero-marquee 46s linear infinite; }
+    .st-chero__dup { display: flex; gap: 16px; }
+    .st-chero__clip, .st-chero__stage { overflow: hidden; }
+    @media (prefers-reduced-motion: reduce) { .st-chero__cards { animation: none; overflow-x: auto !important; } }
+
+    /* the warm orb behind the candidates hero is desktop decoration; on a phone it tints the whole
+       screen and makes this page look unlike every other page hero */
+    .st-cahero__orb { display: none; }
+
+    /* the profile scrim is a fixed 157px band on desktop; on a phone the taller band keeps metadata
+       legible without softening the source image */
+    .st-profile__shade { height: 70%; backdrop-filter: none;
+      background: linear-gradient(180deg, rgba(20,23,28,0) 0%, rgba(20,23,28,0.55) 45%, rgba(20,23,28,0.9) 100%); }
+
+    /* ---------- motion simplified ---------- */
+    /* no pointer-driven effects on touch; the pinned narratives already fall back to natural flow */
+    .st-how__glitter, .st-footer__orbclip { display: none; }
+    .st-profile { transform: none !important; }
+  }
+
+  /* ---------- tablet (768–1023): two columns where three is too tight ---------- */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .st-inner { padding: 56px 32px; }
+    .st-grid3, .st-cards3 { grid-template-columns: 1fr 1fr; }
+    .st-h1 { font-size: 46px; line-height: 55px; }
+    .st-h2 { font-size: 36px; line-height: 44px; }
+    .st-form__row { grid-template-columns: 1fr 1fr; }
+    .st-hero__specimen { width: min(420px, 60vw); }
+    .st-cahero__inner { grid-template-columns: 1fr; }
+    .st-cahero__card { width: 100%; max-width: 560px; }
+    .st-dcard__art { height: 132px; }
+  }
+
+  /* landscape phones: the hero should not demand a full tall viewport */
+  @media (max-width: 1023px) and (max-height: 520px) and (orientation: landscape) {
+    .st-hero__inner { padding-top: 72px; }
+    .st-hero__specimen { width: min(240px, 34vw); }
+    .st-modal { height: 96dvh; max-height: 96dvh; }
+  }
+
+  /* ---------- fine pointers: every navigation target still clears the 24px WCAG 2.5.8 minimum.
+     Scoped to (pointer: fine) so it can never undercut the 44px touch rules above. ---------- */
+  @media (pointer: fine) {
+    .st-header__nav a, .st-header__brand,
+    .st-footer__explore a, .st-footer__legal a, .st-toc__link, .st-crumbs a, .st-ddetail__related a,
+    .st-contact-link, .st-dcard__more { min-height: 24px; }
+    /* `display` is set only where the base sheet leaves the link inline. This layer outranks
+       specificity, so a blanket display here would re-show anything the base deliberately hides
+       (the desktop-hidden Contact nav link). The header links already flex in the base sheet. */
+    .st-footer__explore a, .st-footer__legal a, .st-toc__link, .st-crumbs a, .st-ddetail__related a,
+    .st-contact-link, .st-dcard__more { display: inline-flex; align-items: center; }
+  }
+}

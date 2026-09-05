@@ -1,0 +1,35 @@
+@layer st-base {
+  /* ---------- About (Figma 2036:240) ---------- */
+  .st-abhero .st-page-hero__copy { width: 100%; max-width: 1040px; }
+  .st-abhero .st-page-hero__copy .st-body { max-width: 620px; }
+  /* EMC sequence: one pinned 100svh cream stage; three beats (logo → heading → paragraph) glide through the centre */
+  .st-emc { position: relative; background: var(--stack-light); color: var(--ink); }
+  .st-emc__pin { position: relative; min-height: 680px; display: flex; align-items: center; justify-content: center; overflow: clip; }
+  .st-emc__stage { position: relative; width: 100%; max-width: var(--page-max); padding: 80px var(--gutter); box-sizing: border-box; display: grid; place-items: center; }
+  .st-emc__beat { grid-area: 1 / 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 40px; width: 100%; will-change: transform, opacity; }
+  /* EMC lockup: the Figma export carried a white wordmark on white; the mark is kept as the brand asset
+     and the wordmark/divider are typeset in ink so the lockup is legible on the cream stage. */
+  .st-emc__lockup { display: inline-flex; align-items: center; gap: 22px; color: var(--ink); }
+  .st-emc__mark { display: block; width: 132px; height: 62px; object-fit: contain; }
+  .st-emc__divider { display: block; width: 1px; height: 56px; background: var(--ink); opacity: 0.55; }
+  .st-emc__wordmark { font-family: var(--font-body); font-weight: 500; font-size: 20px; line-height: 26px; letter-spacing: 0.22em; text-transform: uppercase; text-align: left; }
+  .st-emc__title { color: var(--ink); max-width: 900px; }
+  .st-emc__title--small { font-size: 24px; line-height: 29px; }
+  .st-emc__copy { display: flex; flex-direction: column; gap: 12px; max-width: 620px; }
+  .st-emc__copy .st-body-lg { color: var(--ink); font-weight: 500; }
+  /* leadership grid + approach */
+  .st-ablead { display: flex; flex-direction: column; align-items: center; gap: 60px; }
+  .st-ablead__approach { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 460px; text-align: center; }
+  .st-ablead__approach .st-body { color: var(--text-inverse); opacity: 0.8; }
+  @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .st-emc__pin { min-height: 100svh; }
+  }
+  @media (max-width: 1023px), (min-width: 1024px) and (max-height: 699px), (prefers-reduced-motion: reduce) {
+    /* natural flow: the three beats stack as readable content */
+    .st-emc__pin { min-height: 0; display: block; }
+    .st-emc__stage { display: flex; flex-direction: column; gap: 40px; padding: 56px 24px; }
+    .st-emc__beat { transform: none !important; opacity: 1 !important; visibility: visible !important; }
+    .st-emc__beat[data-emc-beat="1"] .st-emc__mark { width: 96px; height: 45px; }
+    .st-emc__beat[data-emc-beat="1"] .st-emc__wordmark { font-size: 15px; line-height: 20px; }
+  }
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "privacy",
+    "title": "Privacy policy",
+    "description": "Privacy policy for Surface Talent. What personal information we collect, why, our lawful bases, who we share it with, and how to exercise your rights.",
+    "eyebrow": "Legal",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "cookies",
+    "title": "Cookie policy",
+    "description": "What the Surface Talent website stores on your device, which third parties it contacts, and why it does not need a cookie banner.",
+    "eyebrow": "Legal",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "modern-slavery",
+    "title": "Modern slavery and ethical recruitment",
+    "description": "Surface Talent's policy on modern slavery, forced labour and ethical recruitment, including our commitment that candidates never pay a fee to find work.",
+    "eyebrow": "Policy",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "terms",
+    "title": "Terms of website use",
+    "description": "Terms governing use of the Surface Talent website, including acceptable use, intellectual property, job information and limitations.",
+    "eyebrow": "Legal",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "accessibility",
+    "title": "Accessibility statement",
+    "description": "How accessible the Surface Talent website is, what we have built in, the limitations we know about, and how to tell us about a problem.",
+    "eyebrow": "Accessibility",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "privacy-requests",
+    "title": "Privacy requests",
+    "description": "How to see, correct or delete the information Surface Talent holds about you, object to processing, ask for human review of an assessment, or make a privacy complaint.",
+    "eyebrow": "Legal",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "candidate-privacy",
+    "title": "Candidate privacy notice",
+    "description": "How Surface Talent collects, uses and protects candidate information, including how AI-assisted tools support recruiter assessment, and how to exercise your rights.",
+    "eyebrow": "Legal",
+    "updated": "Last updated: August 2026"
+  },
+  {
+    "slug": "responsible-ai",
+    "title": "Fair recruitment and responsible AI",
+    "description": "How Surface Talent uses AI-assisted tools to help recruiters assess job-relevant evidence consistently, what safeguards apply, and how candidates can question an assessment.",
+    "eyebrow": "Trust",
+    "updated": "Last updated: August 2026"
+  }
+]

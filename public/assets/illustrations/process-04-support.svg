@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="160" viewBox="0 0 300 160" role="img" aria-hidden="true">
+<g fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-width="1" stroke-linejoin="round" stroke-linecap="round">
+<path d="M211.5 137.1L66 53.1L66 48.1L211.5 132.1Z" fill="#1c2730"/>
+<path d="M234 124.1L211.5 137.1L211.5 132.1L234 119.1Z" fill="#1c2730"/>
+<path d="M88.5 35.1L234 119.1L211.5 132.1L66 48.1Z" fill="#1c2730"/>
+<path d="M100.6 42.1L78.1 55.1"/>
+<path d="M112.8 49.1L90.2 62.1"/>
+<path d="M124.9 56.1L102.4 69.1"/>
+<path d="M137 63.1L114.5 76.1"/>
+<path d="M149.1 70.1L126.6 83.1"/>
+<path d="M161.3 77.1L138.7 90.1"/>
+<path d="M173.4 84.1L150.9 97.1"/>
+<path d="M185.5 91.1L163 104.1"/>
+<path d="M197.6 98.1L175.1 111.1"/>
+<path d="M209.8 105.1L187.2 118.1"/>
+<path d="M221.9 112.1L199.4 125.1"/>
+<path d="M79.4 43.9L78.6 47.4L89.8 44.9"/>
+<path d="M91.5 50.9L90.7 54.4L101.9 51.9"/>
+<path d="M103.7 57.9L102.8 61.4L114.1 58.9"/>
+<path d="M115.8 64.9L114.9 68.4L126.2 65.9"/>
+<path d="M127.9 71.9L127.1 75.4L138.3 72.9"/>
+<path d="M140 78.9L139.2 82.4L150.4 79.9"/>
+<path d="M152.2 85.9L151.3 89.4L162.6 86.9"/>
+<path d="M98 45.6L91.1 41.6L91.1 23.6L98 27.6Z" fill="#1c2730"/>
+<path d="M99.3 44.9L98 45.6L98 27.6L99.3 26.9Z" fill="#1c2730"/>
+<path d="M92.4 22.9L99.3 26.9L98 27.6L91.1 23.6Z" fill="#1c2730"/>
+<circle cx="95.9" cy="28.9" r="1"/>
+<path d="M134.4 66.6L127.5 62.6L127.5 44.6L134.4 48.6Z" fill="#1c2730"/>
+<path d="M135.7 65.9L134.4 66.6L134.4 48.6L135.7 47.9Z" fill="#1c2730"/>
+<path d="M128.8 43.9L135.7 47.9L134.4 48.6L127.5 44.6Z" fill="#1c2730"/>
+<circle cx="132.2" cy="49.9" r="1"/>
+<path d="M231.4 122.6L224.5 118.6L224.5 100.6L231.4 104.6Z" fill="#1c2730"/>
+<path d="M232.7 121.9L231.4 122.6L231.4 104.6L232.7 103.9Z" fill="#1c2730"/>
+<path d="M225.8 99.9L232.7 103.9L231.4 104.6L224.5 100.6Z" fill="#1c2730"/>
+<circle cx="229.2" cy="105.9" r="1"/>
+</g>
+<g font-family="Geist Mono, ui-monospace, Menlo, monospace" font-size="8.5" letter-spacing="1.2" fill="#ffffff" fill-opacity="0.9">
+<text x="86" y="19" text-anchor="end">WEEK 1</text>
+<text x="240" y="148" text-anchor="start">WEEK 12</text>
+</g>
+</svg>

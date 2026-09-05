@@ -1,0 +1,61 @@
+{
+  "name": "surface-talent-website-v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:desktop": "playwright test --project=desktop-1440",
+    "test:e2e:only": "playwright test",
+    "qa:shots": "node scripts/qa-shots.mjs",
+    "qa:perf": "node scripts/qa-perf.mjs",
+    "qa:video": "node scripts/qa-video.mjs",
+    "build:staging": "SITE_ENV=staging opennextjs-cloudflare build",
+    "preview:staging": "SITE_ENV=staging opennextjs-cloudflare preview",
+    "deploy:staging": "SITE_ENV=staging opennextjs-cloudflare deploy",
+    "build:production": "SITE_ENV=production opennextjs-cloudflare build",
+    "deploy:production": "SITE_ENV=production opennextjs-cloudflare deploy --env production",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@radix-ui/react-dialog": "^1.1.23",
+    "@radix-ui/react-select": "^2.3.7",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "gsap": "^3.15.0",
+    "libphonenumber-js": "^1.13.12",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.6",
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.185.4",
+    "chrome-launcher": "^1.2.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "lighthouse": "^13.4.1",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "wrangler": "^4.128.0"
+  },
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 113",
+    "safari >= 16.4",
+    "not dead"
+  ]
+}

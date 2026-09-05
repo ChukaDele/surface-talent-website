@@ -1,0 +1,65 @@
+@layer st-base {
+  /* ---------- Clients hero: 1440 × 887 composition (Figma 2027:20831 → 2010:2) ---------- */
+  .st-chero { position: relative; background: #ffffff; color: var(--ink); min-height: 887px; overflow: clip; }
+  .st-chero__copy { position: relative; z-index: 3; width: 680px; max-width: calc(100% - 48px); margin: 0 auto; padding-top: 115px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+  .st-chero__copy .st-h1 { color: var(--ink); }
+  .st-chero__copy .st-body { color: var(--ink); max-width: 520px; }
+  .st-chero__copy .st-btn-row { margin-top: 8px; }
+  /* the 1440-wide stage is centred under the copy; cards use Figma frame coordinates (y from frame top) */
+  /* The cards keep Figma's 1440 coordinate space. That space lives inside a viewport-width clip layer,
+     so the stage never contributes page width at any viewport or during the pinned timeline. */
+  .st-chero__clip { position: absolute; left: 0; right: 0; top: 0; height: 887px; overflow: clip; z-index: 2; pointer-events: none; }
+  .st-chero__stage { position: absolute; left: 50%; top: 0; width: 1440px; height: 887px; margin-left: -720px; }
+  .st-chero__cards { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; }
+  .st-chero__dup { display: none; }
+  .st-chero__slot { position: absolute; left: 0; top: 0; }
+  .st-profile { position: absolute; left: 0; top: 0; transform: translate(var(--x), var(--y)); width: 240px; height: 300px; margin: 0; border-radius: 10px; overflow: hidden; background: #ffffff; color: #ffffff; pointer-events: auto; will-change: transform; }
+  .st-profile__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Keep the source pixels sharp. The metadata gets contrast from a local scrim rather than a
+     backdrop blur, which softened faces and plant detail during transforms. */
+  .st-profile__shade { position: absolute; left: 0; right: 0; bottom: 0; height: 157px; background: linear-gradient(180deg, rgba(20,23,28,0) 0%, rgba(20,23,28,0.82) 100%); }
+  .st-profile__meta { position: absolute; left: 16px; right: 16px; bottom: 20px; display: flex; flex-direction: column; gap: 4px; }
+  .st-profile__badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 12px; line-height: 18px; color: #3be415; margin-bottom: 4px; }
+  .st-profile__dot { width: 6px; height: 6px; border-radius: 50%; background: #3be415; }
+  .st-profile__name { font-family: var(--font-body); font-weight: 500; font-size: 18px; line-height: 30px; letter-spacing: -0.02em; }
+  .st-profile__role { font-family: var(--font-body); font-size: 12px; line-height: 18px; letter-spacing: -0.01em; opacity: 0.8; }
+  .st-chero__fade { position: absolute; top: 55px; bottom: 0; width: 140px; z-index: 4; pointer-events: none; }
+  .st-chero__fade--l { left: 0; background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0) 100%); }
+  .st-chero__fade--r { right: 0; background: linear-gradient(270deg, #ffffff 0%, rgba(255,255,255,0) 100%); }
+
+  /* ---------- Four steps (dark band, Figma Frame 148 + Frame 91) ---------- */
+  /* fluid columns: a fixed 4 × 320 grid was 1328px wide and overflowed the page below 1440 */
+  .st-csteps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; width: 100%; max-width: var(--content-max); }
+  .st-cstep { display: flex; flex-direction: column; gap: 0; }
+  .st-cstep__art { width: 100%; max-width: 320px; aspect-ratio: 320 / 300; background: var(--deep-card); overflow: hidden; border-radius: 0; }
+  .st-cstep__art .st-stage { width: 100%; }
+  .st-cstep__n { margin-top: 36px; color: #ffffff; opacity: 0.7; }
+  .st-cstep .st-h4 { color: #ffffff; margin-top: 10px; }
+  .st-cstep .st-body { color: var(--text-inverse); opacity: 0.8; margin-top: 10px; max-width: 100%; }
+
+  /* ---------- What we recruit heading with button ---------- */
+  .st-crecruit__head { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .st-crecruit__head .st-h2 { color: var(--ink-soft); max-width: 520px; }
+
+  /* ---------- Split CTA art (illustrations sit on the right of each panel) ---------- */
+  .st-split__art--clients { right: -40px; top: 120px; width: 340px; height: 320px; }
+  .st-split__art--clients img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  @media (max-width: 1023px) {
+    .st-chero { min-height: 0; padding-bottom: 32px; }
+    .st-chero__copy { padding-top: 96px; }
+    .st-chero__copy .st-h1 { font-size: 44px; line-height: 52px; }
+    /* natural flow: cards become a swipe row (Figma has no mobile state) */
+    .st-chero__clip { position: relative; height: auto; overflow: visible; }
+    .st-chero__stage { position: relative; left: 0; width: 100%; height: auto; margin: 32px 0 0; }
+    .st-chero__cards { position: relative; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 24px 8px; }
+    .st-chero__slot { position: relative; flex: none; scroll-snap-align: start; }
+    .st-profile { position: relative; transform: none; }
+    .st-chero__fade { display: none; }
+    .st-csteps { grid-template-columns: 1fr; }
+    .st-cstep__art { width: 100%; max-width: 320px; }
+  }
+  @media (min-width: 1024px) and (max-height: 699px), (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+    /* resolved composition, no pin */
+  }
+}
