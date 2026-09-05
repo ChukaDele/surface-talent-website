@@ -29,11 +29,15 @@
   .st-footer__ctas { width: 320px; display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 24px); }
   .st-footer__ctablock { padding: 0 21.6px; border-left: 2px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; opacity: 0.85; box-sizing: border-box; }
   .st-footer__base { height: 10px; background: var(--deep-bg-2); flex: none; }
+  /* Keep the approved footer composition's vertical rhythm after removing the decorative duplicate
+     wordmark. The spacer has no content or semantics; it only prevents the flex columns from moving. */
+  .st-footer__wordmark-spacer { width: min(1315.54px, calc(100% - 124px)); height: clamp(56px, 9vh, 160px); margin: 0 auto; flex: 0 0 auto; }
   @media (max-width: 1023px) {
     .st-footer { min-height: 0; }
     .st-footer__orb { left: 0; margin-left: 0; width: 100%; }
     .st-footer__trusted { padding-left: 24px; width: auto; }
     .st-footer__inner { padding: 24px 24px 40px; gap: 56px; }
+    .st-footer__wordmark-spacer { width: calc(100% - 48px); height: 64px; }
     .st-footer__title { font-size: 44px; line-height: 52px; }
     /* the 1054px desktop width has to go with the row, or the column keeps demanding it and the
        whole footer lays out wider than the phone */
@@ -53,6 +57,7 @@
   .st-footer__legal a { font-family: var(--font-body); font-size: 12px; line-height: 18px; letter-spacing: -0.01em; color: rgba(255,255,255,0.7); transition: color var(--dur-hover) var(--ease-out); }
   .st-footer__legal a:hover { color: #ffffff; }
   @media (max-width: 1023px) { .st-footer__legal { padding: 0 24px 16px; } }
+  @media (max-width: 767px) { .st-footer__wordmark-spacer { display: none; } }
   @media (prefers-reduced-motion: reduce) { .st-footer__explore a::after, .st-footer__legal a::after { transition: none; } }
 
   .st-footer__contact { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; font-family: var(--font-body); font-size: 12px; line-height: 18px; letter-spacing: -0.01em; color: rgba(255,255,255,0.85); }

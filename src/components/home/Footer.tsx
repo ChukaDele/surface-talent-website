@@ -85,6 +85,7 @@ export function Footer() {
       <nav className="st-footer__legal" aria-label="Legal">
         {LEGAL.map(([l, h]) => <Link key={h} href={h} prefetch={false}>{l}</Link>)}
       </nav>
+      <div className="st-footer__wordmark-spacer" aria-hidden="true" />
       <div className="st-footer__base" aria-hidden="true" />
     </footer>
   );
