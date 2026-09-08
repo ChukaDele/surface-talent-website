@@ -32,7 +32,7 @@ export default function HomePage() {
       <Header />
       <main id="main">
         {/* The approved h-static composition is the production homepage hero. */}
-        <Hero variant="h-static" />
+        <Hero />
         <SystemScene />
         <WhySpecialist />
         <InsiderDna />

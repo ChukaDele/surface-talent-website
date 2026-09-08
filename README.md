@@ -20,7 +20,6 @@ npm run build          # production build
 npm run test:e2e       # build + Playwright invariant tests (desktop, short-desktop, tablet, mobile, reduced-motion)
 npm run qa:shots       # section + scroll-progress screenshots at 1440 (scripts/qa-shots.mjs, --vw=390 for mobile)
 npm run qa:perf        # scroll frame-time probe
-npm run qa:video       # WebM motion evidence (add --reduced for the reduced-motion run)
 ```
 
 ## QA scripts
@@ -28,7 +27,6 @@ npm run qa:video       # WebM motion evidence (add --reduced for the reduced-mot
 All run against a production server (`npm run build && npx next start -p 3501`):
 
 - `node scripts/qa-shots.mjs http://localhost:3501 design-dump/after-1440 --full [--vw=1536 --vh=864] [--reduced]` — per-section and scroll-progress screenshots.
-- `node scripts/qa-video.mjs http://localhost:3501 design-dump/after-video` — slow top-to-bottom and reverse scroll recording.
 - `node scripts/qa-measure.mjs http://localhost:3501 1440 900` — pinned-element heights, runway per scene, footer bounds, Why stage fit, horizontal overflow.
 - `node scripts/qa-footer-measure.mjs`, `scripts/qa-hover.mjs`, `scripts/qa-console.mjs`, `scripts/qa-perf.mjs` — footer child heights, testimonial hover/focus colours, console + failed requests during a full scroll, frame timing.
 - `npx playwright test` — invariants in `e2e/homepage.spec.ts` and the regression guards in `e2e/regressions.spec.ts` (desktop-1440, short-desktop, tablet, mobile, reduced-motion).
@@ -38,16 +36,16 @@ All run against a production server (`npm run build && npx next start -p 3501`):
 - `src/app/page.tsx` composes the homepage from scene components in `src/components/home/`.
 - Each interaction-heavy scene owns its markup **and** a motion hook in `src/lib/motion/scenes/`
   (`useSystemSceneMotion`, `useWhySpecialistMotion`, `usePlantFloorMotion`, `useProblemMotion`,
-  `useHowItWorksMotion`, `useStakeMotion`, `useInsiderDnaMotion`, `useChemistryMotion`, `useFooterMotion`,
-  `useHeroMotion`). GSAP owns transient animation state; React owns nothing animation-related.
+  `useHowItWorksMotion`, `useStakeMotion`, `useInsiderDnaMotion`, `useChemistryMotion`, `useFooterMotion`).
+  GSAP owns transient animation state; React owns nothing animation-related.
 - `src/lib/motion/gsap.ts` registers plugins once; `geometryCoordinator.ts` is the single debounced
   refresh path (window/visualViewport resize, orientation, fonts); `pinRegistry.ts` asserts in dev
   that two pinned scenes never own the viewport at once; `motionModes.ts` holds the matchMedia
   conditions (desktop-enhanced needs ≥1024 wide, ≥700 tall and no reduced-motion preference).
 - `src/components/ui/FixedStage.tsx` renders a composition at its Figma pixel size and scales it
   to its container, so illustration geometry stays exact at every width.
-- Design reference data: `src/data/heroSpecimen.ts`, `src/data/systemDiagram.ts`,
-  `src/data/imageManifest.json`. Exact Figma exports live in `public/assets/`.
+- Design reference data: `src/data/systemDiagram.ts`, `src/data/imageManifest.json`. Exact Figma
+  exports live in `public/assets/`.
 
 ## Fonts
 
@@ -58,18 +56,20 @@ Figma's line breaks hold. Geist, Geist Mono, IBM Plex Mono and Gochi Hand load v
 
 ## Hero H
 
-The homepage hero uses the approved Hero H composition: one original editorial portrait fills the
-page-level field behind the navigation and copy, and the desktop/tablet field crossfades through the
-four approved portraits on a calm 4.5-second hold with a 720ms transition. The copy and CTAs stay
-fixed, and there are no teaser tiles or portrait videos. Reduced motion holds the opening portrait;
-phone-sized layouts use an intentional image-free navy lockup. The former shutter loop remains only at
-`/design-lab/hero/h` for internal comparison. Assets live in `public/assets/media/hero/portraits/`;
-`SOURCE.txt` records their provenance.
+The homepage hero uses the approved static portrait composition: one original editorial portrait fills
+the page-level field behind the navigation and copy, and the desktop/tablet field crossfades through
+the four approved portraits on a calm 4.5-second hold with a 720ms transition. The copy, CTAs and
+trusted-by row stay fixed. There are no teaser tiles, portrait videos, WebGL scenes or page-scroll
+hero choreography. Reduced motion holds the opening portrait; phone-sized layouts use an intentional
+image-free navy lockup. A non-indexed `/design-lab/hero/h-static` preview renders the same component
+for review. Assets live in `public/assets/media/hero/portraits/`; `SOURCE.txt` records provenance.
 
 ## Routes
 
 `/` (homepage, protected baseline), `/clients`, `/candidates`, `/contact`, `/about`, `/disciplines`,
-`/jobs`. Non-home routes share `src/app/(site)/layout.tsx` (light header + footer). Forms post to
+`/jobs`. The non-indexed `/design-lab/hero/h-static` route is a review-only copy of the production
+hero and is not included in the public sitemap. Non-home routes share `src/app/(site)/layout.tsx`
+(light header + footer). Forms post to
 `/api/submit` (see `integrations/google-apps-script/README.md` for the Google backend and secrets).
 Jobs read Airtable through `src/lib/jobs/source.ts` when `AIRTABLE_TOKEN`/`AIRTABLE_BASE_ID` exist,
 otherwise the approved empty state renders.
@@ -88,11 +88,21 @@ later task; this config never touches the live domain.
 
 ## Deploying
 
-Static-friendly Next.js app. Deployment target is not configured in this repo yet — the legacy
-site's Cloudflare Pages project is documented in the old repository; do not deploy over it
-without an explicit decision.
+The site deploys to Cloudflare Workers through OpenNext. `surface-talent-staging` is the noindex
+acceptance Worker and `surface-talent-website` serves the production custom domains. Keep the two
+lifecycles separate and set secrets with `wrangler secret put`; never place a secret in source.
 
-## Owner actions (staging acceptance)
+```bash
+npm run build:staging
+npm run deploy:staging
+npm run build:production
+npm run deploy:production
+```
+
+Production deployment requires the Surface Talent Cloudflare account and an explicit release brief.
+Run the validation commands above before publishing a production commit.
+
+## Owner actions
 
 1. **Forms backend** — deploy `integrations/google-apps-script/Code.gs` as a Web app (steps in that
    folder's README), then set the Worker secrets:

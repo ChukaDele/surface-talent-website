@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { HeroSpecimenDynamic } from "./hero/HeroSpecimenDynamic";
 import { HeroSpecimenStatic } from "./hero/HeroSpecimenStatic";
-import { DEFAULT_HERO_VARIANT, type HeroVariant } from "./hero/variants";
 
 const LOGOS = [
   { name: "Karas Plating", src: "/assets/img/footer-logo-karas.png", w: 88, h: 20.97 },
@@ -9,14 +7,11 @@ const LOGOS = [
   { name: "United Anodisers", src: "/assets/img/footer-logo-ua.png", w: 72.97, h: 26.38 },
 ];
 
-/** Figma "Hero" (35:228), bg #0d2233. The homepage defaults to the approved portrait loop;
- * the design lab can still select the legacy comparison scenes explicitly. */
-export function Hero({ variant }: { variant?: HeroVariant } = {}) {
-  const scene = variant ?? DEFAULT_HERO_VARIANT;
-  const staticPreview = scene === "h-static";
+/** Figma "Hero" (35:228), bg #0d2233. The approved static portrait composition is the only
+ * production hero. The non-indexed preview route renders this same component for review. */
+export function Hero() {
   return (
-    <section className={`st-section st-hero${staticPreview ? " st-hero--static-preview" : ""}`} data-scene="hero" data-hero-static={staticPreview ? "true" : undefined} aria-labelledby="hero-title">
-      <div className="st-hero__fade" aria-hidden="true" />
+    <section className="st-section st-hero st-hero--static-preview" data-scene="hero" data-hero-static="true" aria-labelledby="hero-title">
       <div className="st-inner st-hero__inner">
         <div className="st-hero__row">
           <div className="st-hero__copy">
@@ -26,12 +21,10 @@ export function Hero({ variant }: { variant?: HeroVariant } = {}) {
               <Button href="/candidates" tone="light" variant="secondary">Join our talent pool</Button>
             </div>
           </div>
-          {scene === "h-static" ? <HeroSpecimenStatic /> : <HeroSpecimenDynamic variant={scene} />}
+          <HeroSpecimenStatic />
         </div>
         <div className="st-hero__logos" data-hero-logos aria-label="Trusted by operators">
           <div className="st-hero__logo st-hero__logo--label"><span>Trusted by operators</span></div>
-          {/* The static production composition keeps this as one compact baseline. The legacy
-              loop variant still uses the same markup for its internal comparison route. */}
           <div className="st-hero__logos-track">
             {LOGOS.map((l, i) => (
               <div key={l.name} className={`st-hero__logo st-hero__logo--${i}`}>
@@ -39,16 +32,6 @@ export function Hero({ variant }: { variant?: HeroVariant } = {}) {
                 <span>{l.name}</span>
               </div>
             ))}
-            {!staticPreview && (
-              <div className="st-hero__logos-dup" aria-hidden="true">
-                {LOGOS.map((l, i) => (
-                  <div key={l.name} className={`st-hero__logo st-hero__logo--${i}`}>
-                    <img src={l.src} alt="" width={l.w} height={l.h} style={{ width: l.w, height: l.h }} />
-                    <span>{l.name}</span>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

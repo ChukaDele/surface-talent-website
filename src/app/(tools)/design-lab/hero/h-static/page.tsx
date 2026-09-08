@@ -18,7 +18,7 @@ export default function StaticHeroPreviewPage() {
     <>
       <Header />
       <main id="main">
-        <Hero variant="h-static" />
+        <Hero />
       </main>
     </>
   );

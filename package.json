@@ -13,7 +13,6 @@
     "test:e2e:only": "playwright test",
     "qa:shots": "node scripts/qa-shots.mjs",
     "qa:perf": "node scripts/qa-perf.mjs",
-    "qa:video": "node scripts/qa-video.mjs",
     "build:staging": "SITE_ENV=staging opennextjs-cloudflare build",
     "preview:staging": "SITE_ENV=staging opennextjs-cloudflare preview",
     "deploy:staging": "SITE_ENV=staging opennextjs-cloudflare deploy",
@@ -25,14 +24,11 @@
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-select": "^2.3.7",
-    "@react-three/drei": "^10.7.8",
-    "@react-three/fiber": "^9.7.0",
     "gsap": "^3.15.0",
     "libphonenumber-js": "^1.13.12",
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "three": "^0.185.1"
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.6",
@@ -41,7 +37,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/three": "^0.185.4",
     "chrome-launcher": "^1.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",

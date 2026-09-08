@@ -202,7 +202,7 @@ test.describe("corrections pass", () => {
     expect(await form.locator("select[name='enquiry_type']").inputValue()).toBe("career_move");
   });
 
-  test("homepage hero renders the approved portrait loop behind the copy", async ({ page }, testInfo) => {
+  test("homepage hero renders the approved static portrait crossfade behind the copy", async ({ page }, testInfo) => {
     test.skip(!["desktop-1440", "short-desktop"].includes(testInfo.project.name), "desktop slot geometry");
     await page.goto("/");
     const specimen = page.locator(".st-hero__specimen");

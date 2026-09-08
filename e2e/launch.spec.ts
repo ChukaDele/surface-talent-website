@@ -1,5 +1,4 @@
 import { expect, test, type Page } from "@playwright/test";
-import { HERO_VARIANTS } from "@/components/home/hero/variants";
 
 /** Launch pass: anchor targeting, sticky nav surface, booking dialog, contact actions, legal TOC, SEO baseline. */
 const BOOKING = "https://calendar.app.google/Wdm9xHVcBNwS2VuS7";
@@ -183,104 +182,23 @@ test.describe("SEO baseline", () => {
     expect(crumbs.some((c) => c["@type"] === "BreadcrumbList" && c.itemListElement.length === 3)).toBe(true);
   });
 
-  test("the hero design lab is reachable on staging and never indexed", async ({ page, request }) => {
-    expect(HERO_VARIANTS.map(({ id }) => id)).toEqual(["a2-svg", "a2-three", "h"]);
-    const res = await request.get("/design-lab/hero");
-    expect(res.status()).toBe(200);
-    // every registered variant, so retiring or adding one cannot leave a dead link in the lab
-    for (const v of HERO_VARIANTS) expect((await request.get(`/design-lab/hero/${v.id}`)).status(), v.id).toBe(200);
-    expect((await request.get("/design-lab/hero/h-static")).status()).toBe(200);
-    await page.goto("/design-lab/hero");
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  test("the retired hero exploration routes are removed", async ({ request }) => {
+    for (const path of ["/design-lab/hero", "/design-lab/hero/h", "/hero-loop"]) {
+      expect((await request.get(path)).status(), path).toBe(404);
+    }
   });
 
-  test("the Hero H preview uses the production portrait loop and clean hierarchy", async ({ page }) => {
+  test("the approved static hero remains available for review", async ({ page }, testInfo) => {
     await page.goto("/design-lab/hero/h-static");
     await expect(page.getByRole("heading", { name: "Recruitment built around Surface Engineering" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Brief us on a role" })).toBeVisible();
-    const preview = page.locator("[data-static-portrait-preview]");
-    await expect(preview).toHaveCount(1);
-    await expect(preview.locator("[data-static-main]")).toHaveCount(1);
-    await expect(preview.locator("[data-static-teaser]")).toHaveCount(0);
-    await expect(preview.locator("[data-static-layer]")).toHaveCount(2);
-    await expect(preview.locator("[data-static-layer][data-front]")).toHaveCount(1);
-    await expect(preview).toHaveAttribute("data-hero-portrait-hold-ms", "4500");
-    await expect(preview).toHaveAttribute("data-hero-portrait-transition-ms", "720");
-    await expect(preview.locator("video")).toHaveCount(0);
-    await expect(page.getByText("Engineering · Quality · Operations · Sales · Commercial · Leadership")).toHaveCount(0);
-    await expect(page.locator("[data-hero-section]")).toHaveCount(0);
-    await expect(page.locator("[data-static-main] source[type='image/avif']").first()).toHaveAttribute("srcset", /plant-leader\.avif$/);
-    await page.waitForTimeout(5400);
-    await expect(preview).toHaveAttribute("data-hero-portrait-index", "1");
+    await expect(page.locator('[data-hero-static="true"]')).toBeVisible();
+    await expect(page.locator("[data-static-portrait-preview] [data-static-layer]")).toHaveCount(
+      testInfo.project.name === "reduced-motion" ? 1 : 2,
+    );
+    await expect(page.locator("[data-static-portrait-preview] video")).toHaveCount(0);
   });
 
-  test("the A2 comparison is in real hero context and reduced motion resolves statically", async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    for (const variant of ["a2-svg", "a2-three"]) {
-      await page.goto(`/design-lab/hero/${variant}`);
-      await expect(page.getByRole("heading", { name: "Recruitment built around Surface Engineering" })).toBeVisible();
-      await expect(page.getByRole("link", { name: "Brief us on a role" })).toBeVisible();
-      await expect(page.getByText("Engineering · Quality · Operations · Sales · Commercial · Leadership")).toHaveCount(0);
-      await expect(page.locator("[data-a2-callout]")).toHaveCount(5);
-      await expect(page.locator("[data-a2-svg]")).toHaveAttribute("aria-hidden", "true");
-      await expect(page.getByText(/Generalists see the finish\. We recruit through the full role system\./)).toHaveClass(/sr-only/);
-      await expect(page.getByText(/Throughput: Operations; Substrate: Leadership/)).toHaveCount(1);
-      await expect(page.locator("[data-hero-canvas]")).toHaveCount(0);
-      await expect(page.getByRole("navigation", { name: "Hero comparison" }).locator("a, [aria-current='page']")).toHaveCount(4);
-    }
-  });
-
-  test("Hero H uses one dominant portrait and three queued shutters", async ({ page }) => {
-    await page.goto("/design-lab/hero/h");
-    const loop = page.locator("[data-portrait-media]");
-    await expect(loop).toHaveAttribute("data-cycle-ms", "16400");
-    await expect(loop.locator("[data-portrait-panel]")).toHaveCount(4);
-    await expect(loop.locator("[data-portrait-panel][data-active]")).toHaveCount(1);
-    await expect(loop.locator("[data-context='commercial'] img")).toHaveAttribute("src", /commercial-leader/);
-    await expect(loop.locator("[data-portrait-video]")).toHaveCount(4);
-    await expect(loop.locator("video source[type='video/webm']")).toHaveCount(4);
-    await expect(loop.locator("video source[type='video/mp4']")).toHaveCount(4);
-    const videoContracts = await loop.locator("[data-portrait-video]").evaluateAll((videos) => videos.map((node) => {
-      const video = node as HTMLVideoElement;
-      return {
-        autoplay: video.autoplay,
-        loop: video.loop,
-        muted: video.muted,
-        playsInline: video.playsInline,
-        preload: video.preload,
-        poster: video.poster,
-      };
-    }));
-    expect(videoContracts).toHaveLength(4);
-    for (const contract of videoContracts) {
-      expect(contract).toMatchObject({ autoplay: false, loop: true, muted: true, playsInline: true, preload: "none" });
-      expect(contract.poster).toMatch(/\.avif$/);
-    }
-    await expect(page.locator("[data-hero-section]")).toHaveCount(1);
-    await expect(page.locator(".st-hero__families")).toHaveCount(0);
-    await expect(page.locator("[data-a2-svg]")).toHaveCount(0);
-  });
-
-  test("Hero H reduced motion holds the strongest portrait", async ({ page }) => {
-    const videoRequests: string[] = [];
-    page.on("request", (request) => {
-      if (/\.(webm|mp4)(\?|$)/.test(request.url())) videoRequests.push(request.url());
-    });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/design-lab/hero/h");
-    await expect(page.locator("[data-portrait-media]")).toBeVisible();
-    await expect(page.locator("[data-active-portrait='0'] [data-portrait-panel][data-active]")).toHaveCount(1);
-    await page.waitForTimeout(4500);
-    await expect(page.locator("[data-active-portrait='0'] [data-portrait-panel][data-active]")).toHaveCount(1);
-    const videoStates = await page.locator("[data-portrait-video]").evaluateAll((videos) => videos.map((node) => {
-      const video = node as HTMLVideoElement;
-      return { currentTime: video.currentTime, paused: video.paused, readyState: video.readyState };
-    }));
-    expect(videoStates.every((video) => video.paused && video.currentTime === 0 && video.readyState === 0)).toBe(true);
-    expect(videoRequests).toHaveLength(0);
-  });
-
-  test("the production homepage keeps the Hero H free of video media requests", async ({ page }) => {
+  test("the production homepage keeps the static hero free of video media requests", async ({ page }) => {
     const videoRequests: string[] = [];
     page.on("request", (request) => {
       if (/\.(webm|mp4)(\?|$)/.test(request.url())) videoRequests.push(request.url());
@@ -289,23 +207,6 @@ test.describe("SEO baseline", () => {
     await expect(page.locator('[data-hero-static="true"]')).toBeVisible();
     await expect(page.locator('[data-hero-static="true"] video')).toHaveCount(0);
     expect(videoRequests).toHaveLength(0);
-  });
-
-  test("Hero H completes the full four-person shutter loop without a restart cut", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "desktop-1440");
-    test.slow();
-    await page.goto("/design-lab/hero/h");
-    for (const expected of ["1", "2", "3", "0"]) {
-      await page.waitForTimeout(4150);
-      const handoff = page.locator(".st-portrait-handoff");
-      await expect(handoff).toHaveAttribute("data-active-portrait", expected);
-      const frames = await handoff.locator("[data-portrait-panel]").evaluateAll((panels) => panels.map((panel) => {
-        const rect = panel.getBoundingClientRect();
-        return { active: panel.hasAttribute("data-active"), x: rect.x };
-      }));
-      const active = frames.find((frame) => frame.active);
-      expect(active?.x).toBe(Math.min(...frames.map((frame) => frame.x)));
-    }
   });
 });
 

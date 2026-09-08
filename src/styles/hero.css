@@ -1,141 +1,15 @@
 @layer st-base {
   .st-hero { background: var(--hero-bg); color: #fff; min-height: 100svh; overflow: hidden; }
-  .st-hero__fade { position: absolute; left: 0; right: 0; bottom: 0; height: 476px; background: linear-gradient(180deg, rgba(23,28,32,0) 0%, #171c20 100%); pointer-events: none; }
   .st-hero__inner { padding: 75px 56px 28px; min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; }
-  /* Two-column composition: the headline owns the left, the 3D system is centred in the right field.
-     The row grows to fill the hero so the artwork is never pushed against the top edge. */
   .st-hero__row { flex: 1 1 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(400px, 540px); align-items: center; gap: 48px; }
   .st-hero__copy { padding-top: 0; max-width: 760px; }
   .st-hero__title { max-width: 680px; color: var(--text-hero); }
   .st-hero__ctas { margin-top: 20px; }
-  /* the slot keeps the Figma proportion (401.14 × 541.86) and is centred in its column */
-  .st-hero__specimen { position: relative; width: 100%; max-width: 460px; aspect-ratio: 401.14 / 541.86; margin: 0 0 0 auto; will-change: transform, opacity; }
-  .st-hero__specimen-svg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 500ms ease; }
-  .st-hero__specimen-svg .st-specimen { transform: scale(calc(100 / 100)); }
-  /* the canvas is transparent and reaches a little past the slot, so separating layers are never
-     clipped and there is no second background behind the scene */
-  /* ---------- flat hero directions (d, e, f) ---------- */
-  /* No canvas and no aspect-ratio box: these size to their own content, so the hero column is
-     whatever the drawing or the plate needs rather than a fixed Figma slot. */
+  .st-hero__specimen { position: relative; width: 100%; max-width: 460px; aspect-ratio: 401.14 / 541.86; margin: 0 0 0 auto; }
   .st-hero__specimen--flat { aspect-ratio: auto; display: flex; align-items: stretch; justify-content: flex-end; max-width: 460px; }
 
-  .st-section-drawing { width: 100%; height: auto; overflow: visible; }
-  .st-section-drawing__title { font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; fill: var(--primary-500); }
-  .st-section-drawing__sub { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1.1px; fill: rgba(255,255,255,0.55); }
-  .st-section-drawing__label { font-family: var(--font-body); font-size: 14px; font-weight: 500; fill: #fff; }
-  .st-section-drawing__spec { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.8px; fill: rgba(255,255,255,0.55); }
-  .st-section-drawing__role { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.2px; fill: var(--primary-500); text-transform: uppercase; }
-  .st-section-drawing__foot { font-family: var(--font-body); font-size: 15px; font-weight: 500; fill: #fff; }
-  /* each layer arrives by settling onto the one below, not by fading in from nowhere */
-  .st-section-drawing__layer { opacity: 0; transform: translateY(-6px); transition: opacity 420ms var(--ease-out), transform 520ms var(--ease-out); }
-  .st-section-drawing__layer[data-on] { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .st-section-drawing__layer { opacity: 1; transform: none; transition: none; }
-  }
-
-  /* ---------- editorial footage area (hero options f and g) ---------- */
-  /* No frame at all: no border, no card, no radius, no shadow, no caption band. The footage is
-     part of the page rather than an object placed on it, so its left edge dissolves into the
-     background with a mask and it bleeds a little past the content grid on the right. What the
-     visitor sees is an image area, not a rectangle. */
-  .st-plate { margin: 0; width: 100%; }
-  /* The footage fills the height of the hero row rather than sitting in a fixed box, and every
-     edge that meets the page dissolves into it. A rectangle is still there underneath; nobody
-     perceives one. */
-  .st-plate__frame { position: relative; height: 100%; min-height: 460px; isolation: isolate;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%);
-    -webkit-mask-composite: source-in; mask-composite: intersect; }
-  /* Partial desaturation, not full: the grade unifies five different colour casts without burying
-     the work or the one face in it. */
-  .st-plate__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.58) contrast(1.05) brightness(1.04); }
-  /* two stacked layers, cross-faded, so the beats read as one continuous film */
-  .st-plate__video { opacity: 0; transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1); }
-  .st-plate__video[data-front] { opacity: 1; }
-  /* copper light over a navy floor; soft-light colours rather than darkens */
-  .st-plate__wash { position: absolute; inset: 0; background: linear-gradient(196deg, rgba(184,115,51,0.44) 0%, rgba(184,115,51,0.08) 44%, rgba(13,34,51,0.36) 100%); mix-blend-mode: soft-light; }
-  @media (prefers-reduced-motion: reduce) { .st-plate__video { transition: none; } }
-
-  /* the footage area is wider than the Figma specimen slot and runs to the edge of the viewport */
-  .st-hero__specimen--flat.st-hero__specimen--f,
-  .st-hero__specimen--flat.st-hero__specimen--g,
-  .st-hero__specimen--flat.st-hero__specimen--h { max-width: none; width: calc(100% + var(--gutter, 56px)); margin-right: calc(var(--gutter, 56px) * -1); align-self: stretch; }
-  .st-hero__specimen--flat.st-hero__specimen--h { width: 100%; margin-right: 0; }
-  .st-hero__specimen--flat.st-hero__specimen--f .st-plate,
-  .st-hero__specimen--flat.st-hero__specimen--g .st-plate { height: 100%; }
-
-  /* ---------- Hero H: editorial portrait shutters ---------- */
-  /* One person owns roughly 70% of the image field. The remaining portraits stay present as
-     narrow queued shutters. There is no card, shadow, frame or top/bottom feather. */
-  .st-portrait-handoff { position: relative; width: 100%; height: clamp(540px, 68svh, 680px); min-height: 540px; }
-  .st-portrait-loop, .st-portrait-handoff__section { position: absolute; inset: 0; }
-  .st-portrait-loop {
-    --portrait-gap: clamp(5px, 0.65vw, 10px);
-    display: grid;
-    grid-template-columns: minmax(0, 7.53fr) repeat(3, minmax(0, 1fr));
-    gap: var(--portrait-gap);
-    overflow: hidden;
-    isolation: isolate;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);
-  }
-  .st-portrait-loop__panel {
-    position: relative;
-    min-width: 0;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    background: #172631;
-    will-change: left, width;
-  }
-  .st-portrait-loop__visual {
-    position: absolute;
-    inset: 0;
-    transform: scale(1.085);
-    will-change: transform;
-  }
-  .st-portrait-loop__panel:first-child .st-portrait-loop__visual { transform: scale(1.015); }
-  .st-portrait-loop__panel picture { display: contents; }
-  .st-portrait-loop__image,
-  .st-portrait-loop__video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    filter: saturate(0.96) contrast(1.025) brightness(0.99);
-  }
-  .st-portrait-loop__video { opacity: 0; transition: opacity 240ms var(--ease-out); }
-  .st-portrait-loop__video[data-ready] { opacity: 1; }
-  .st-portrait-loop__panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(5,18,28,0.03) 45%, rgba(5,18,28,0.28) 100%);
-    transition: background-color 500ms var(--ease-out);
-  }
-  .st-portrait-loop__panel:not([data-active])::after { background-color: rgba(5,18,28,0.12); }
-  .st-portrait-handoff__section { display: flex; align-items: center; justify-content: center; padding: 0 8% 0 12%; opacity: 0; transform: translateY(24px); pointer-events: none; }
-  .st-portrait-handoff__section .st-section-drawing { max-height: 100%; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .st-portrait-loop { display: block; }
-    .st-portrait-loop__panel { position: absolute; top: 0; bottom: 0; left: 0; width: 7%; }
-    .st-portrait-loop__panel:first-child { width: 71.5%; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .st-portrait-loop__panel, .st-portrait-loop__visual { will-change: auto; }
-    .st-portrait-loop__video { display: none; }
-    .st-portrait-handoff__section { display: none; }
-  }
-
-  /* ---------- Hero H: picture-first production composition ---------- */
-  /* One original portrait at a time sits behind the copy and nav as a clean photographic field.
-     The two-layer crossfade is owned by HeroPortraitStatic; copy, CTAs and logos never move. */
-  .st-hero--static-preview .st-hero__fade { display: none; }
+  /* The approved production hero is one portrait-led field. The copy and trusted-by row stay in
+     normal flow while the image layer fills the hero behind them. */
   .st-hero--static-preview .st-hero__row { position: relative; display: flex; align-items: center; min-height: calc(100svh - 103px); }
   .st-hero--static-preview .st-hero__copy { position: relative; z-index: 3; width: min(680px, 58vw); max-width: 680px; align-items: flex-start; text-align: left; }
   .st-hero--static-preview .st-hero__ctas { align-self: flex-start; justify-content: flex-start; }
@@ -148,12 +22,33 @@
   .st-static-portrait__layer picture, .st-static-portrait__layer img { display: block; width: 100%; height: 100%; }
   .st-static-portrait__layer img { object-fit: cover; }
   .st-static-portrait__scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(13,34,51,0.96) 0%, rgba(13,34,51,0.86) 29%, rgba(13,34,51,0.52) 58%, rgba(13,34,51,0.22) 100%); }
-  .st-hero--static-preview .st-hero__logos { z-index: 3; }
+
+  /* Trusted-by is a compact baseline, not a card grid. */
+  .st-hero--static-preview .st-hero__logos { position: absolute; left: 56px; right: 56px; bottom: 28px; z-index: 3; width: auto; height: auto; display: flex; align-items: center; gap: clamp(18px, 3vw, 48px); padding-top: 0; }
+  .st-hero--static-preview .st-hero__logos-track { display: flex; align-items: center; flex-wrap: nowrap; gap: clamp(18px, 2.8vw, 42px); }
+  .st-hero--static-preview .st-hero__logo { display: flex; align-items: center; justify-content: flex-start; gap: 9px; height: 26px; min-height: 0; padding: 0; }
+  .st-hero--static-preview .st-hero__logo span { font-family: var(--font-mono-plex); font-size: 10px; line-height: 16px; letter-spacing: 0.9px; color: var(--text-hero); white-space: nowrap; }
+  .st-hero--static-preview .st-hero__logo img { display: block; width: auto !important; height: 22px !important; object-fit: contain; mix-blend-mode: screen; }
+  .st-hero--static-preview .st-hero__logo--label { flex: none; opacity: 0.72; }
+  .st-hero--static-preview .st-hero__logo--label span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.35px; color: var(--text-muted-mid); text-transform: uppercase; }
+
+  @media (min-width: 1024px) and (max-height: 849px) {
+    .st-hero--static-preview .st-hero__logos { bottom: 28px; }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1100px) {
+    .st-hero__copy { align-self: start; padding-top: 110px; }
+    .st-hero__title { font-size: 52px; line-height: 56px; }
+  }
 
   @media (max-width: 1023px) {
+    .st-hero { min-height: 0; }
+    .st-hero__inner { padding: 88px 24px 40px; min-height: 0; gap: 40px; }
+    .st-hero__row { grid-template-columns: 1fr; gap: 32px; }
+    .st-hero__copy { padding-top: 0; }
+    .st-hero__title { font-size: 44px; line-height: 52px; }
+    .st-hero__specimen { margin: 0 auto; width: min(360px, 84vw); max-width: none; }
     .st-hero--static-preview .st-hero__row { min-height: clamp(620px, calc(100svh - 128px), 760px); }
-    /* Keep the copy in the row's normal flow. The clamp follows the responsive spacing rhythm
-       and gives the fixed header plus the portrait context room before the headline starts. */
     .st-hero--static-preview .st-hero__copy { position: relative; align-self: flex-start; width: min(82%, 560px); max-width: none; padding-top: clamp(48px, 7vw, 72px); }
     .st-hero--static-preview .st-hero__ctas { position: relative; }
     .st-hero--static-preview .st-hero__specimen--h-static { inset: -88px -24px -40px; }
@@ -167,120 +62,11 @@
     .st-hero--static-preview .st-hero__copy { width: 84%; padding-top: clamp(48px, 10vw, 64px); }
     .st-hero--static-preview .st-hero__title { max-width: 330px; }
     .st-static-portrait__scrim { background: linear-gradient(90deg, rgba(13,34,51,0.97) 0%, rgba(13,34,51,0.84) 57%, rgba(13,34,51,0.4) 100%); }
+    .st-hero--static-preview .st-hero__logos { display: none; }
+    .st-hero--static-preview .st-hero__specimen--h-static { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .st-static-portrait__layer { transition: none; }
-  }
-
-  /* the film directions get the right 55% of the row rather than the Figma specimen slot */
-  .st-hero__row:has(.st-hero__specimen--g),
-  .st-hero__row:has(.st-hero__specimen--h) { grid-template-columns: minmax(0, 45fr) minmax(0, 55fr); }
-
-  .st-hero__canvas { position: absolute; inset: -14% -18%; pointer-events: none; }
-  .st-hero__canvas canvas { display: block; background: transparent !important; }
-  /* pre-rendered loop sits exactly on the SVG specimen box (same geometry, same background) */
-  .st-hero__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: var(--hero-bg); }
-  .st-hero__media { opacity: 0; animation: st-hero-media-in 400ms ease 200ms forwards; }
-  @keyframes st-hero-media-in { to { opacity: 1; } }
-
-  @media (prefers-reduced-motion: reduce) { .st-hero__media { display: none !important; } }
-  .st-hero__specimen .st-specimen { transform-origin: 50% 50%; }
-  .st-specimen__label { transform: rotate(-29.05deg); transform-origin: 0 0; }
-
-  /* ---------- Hero A2 comparison lab ---------- */
-  .st-hero__specimen--a2 { max-width: 500px; }
-  .st-a2 { position: relative; width: 100%; height: 100%; container-type: inline-size; }
-  .st-a2__stack { position: absolute; inset: 0; }
-  .st-a2__stack [data-a2-layer] { position: absolute; width: 58%; height: auto; will-change: transform; }
-  .st-a2__surface { position: absolute; top: 15%; left: 1%; margin: 0; font: 10px/1.4 var(--font-mono); letter-spacing: 1.8px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-  .st-a2__surface::after { content: ""; display: block; width: 54px; margin-top: 7px; border-top: 1px solid rgba(255,255,255,0.3); }
-  .st-a2__callouts { position: absolute; inset: 0; pointer-events: none; }
-  .st-a2__callouts p { --leader-scale: 0; position: absolute; top: calc(21% + var(--callout-row) * 7.7%); right: 0; width: 31%; margin: 0; font: 9px/1.35 var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.58); }
-  .st-a2__callouts p::before { content: ""; position: absolute; right: calc(100% + 8px); top: 7px; width: 34px; border-top: 1px solid rgba(255,255,255,0.34); transform: scaleX(var(--leader-scale)); transform-origin: right; }
-  .st-a2__callouts span { display: block; color: var(--primary-300); margin-bottom: 2px; }
-  .st-a2__caption { position: absolute; left: 2%; bottom: 1%; margin: 0; max-width: 42ch; font: 10px/1.5 var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.58); }
-  .st-a2__caption span { color: #fff; }
-  .st-a2-three__label { position: relative; display: block; min-width: 112px; padding-left: 24px; font: 9px/1.3 var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.6); white-space: nowrap; }
-  .st-a2-three__label::before { content: ""; position: absolute; left: -20px; top: 7px; width: 36px; border-top: 1px solid rgba(255,255,255,0.34); }
-  .st-a2-three__label b { display: block; font-weight: 400; color: var(--primary-300); }
-  .st-hero-lab-switcher { position: fixed; right: 16px; bottom: 16px; z-index: 60; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 12px; max-width: min(620px, calc(100vw - 32px)); background: rgba(6,18,27,0.92); padding: 10px 12px; border-radius: 8px; box-shadow: 0 0 0 1px rgba(255,255,255,0.12); font: 10px/1.4 var(--font-mono); letter-spacing: 1px; text-transform: uppercase; color: #fff; }
-  .st-hero-lab-switcher a { color: var(--primary-300); text-decoration: none; }
-  .st-hero-lab-switcher [aria-current="page"] { color: #fff; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .st-a2__stack [data-a2-layer] { will-change: auto; }
-  }
-
-  /* 2×2 logo grid — Figma Container 40:888 at (56, 557.4) 499 × 160 */
-  .st-hero__logos { position: absolute; left: 56px; bottom: 103px; width: 499px; height: 160px; display: grid; grid-template-columns: 249.5px 249.5px; grid-template-rows: 80px 80px; }
-  .st-hero__logo { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 0 21.6px; box-sizing: border-box; background: rgba(255,255,255,0.07); box-shadow: inset 0 0 0 0.75px #464d53; }
-  .st-hero__logo span { font-family: var(--font-mono-plex); font-size: 10.9px; line-height: 16.86px; letter-spacing: 0.44px; color: var(--text-hero); white-space: nowrap; }
-  .st-hero__logo img { display: block; mix-blend-mode: screen; }
-  /* the track is transparent to the desktop grid; the duplicate run only exists for the phone marquee */
-  .st-hero__logos-track { display: contents; }
-  .st-hero__logos-dup { display: none; }
-  .st-hero__logo--label { background: transparent; box-shadow: none; opacity: 0.85; text-align: center; }
-  .st-hero__logo--label span { color: var(--text-muted-mid); letter-spacing: 2px; font-family: var(--font-mono); font-size: 12px; line-height: 16px; text-transform: uppercase; }
-  .st-hero__logo--0 { border-radius: 8px 8px 0 0; }
-  .st-hero__logo--1 { border-radius: 8px 0 0 8px; }
-  .st-hero__logo--2 { border-radius: 0 0 8px 0; }
-
-  /* Static production trusted-by row: one baseline on desktop, with a controlled wrap below the
-     desktop width. There are no logo cards, borders or shadows in this treatment. */
-  .st-hero--static-preview .st-hero__logos { position: absolute; left: 56px; right: 56px; bottom: 28px; width: auto; height: auto; display: flex; align-items: center; gap: clamp(18px, 3vw, 48px); padding-top: 0; background: none; }
-  .st-hero--static-preview .st-hero__logos-track { display: flex; align-items: center; flex-wrap: nowrap; gap: clamp(18px, 2.8vw, 42px); }
-  .st-hero--static-preview .st-hero__logos-dup { display: none; }
-  .st-hero--static-preview .st-hero__logo { height: 26px; min-height: 0; padding: 0; border-radius: 0; background: none; box-shadow: none; gap: 9px; justify-content: flex-start; }
-  .st-hero--static-preview .st-hero__logo--label { flex: none; opacity: 0.72; }
-  .st-hero--static-preview .st-hero__logo--label span { font-size: 11px; letter-spacing: 1.35px; }
-  .st-hero--static-preview .st-hero__logo img { width: auto !important; height: 22px !important; object-fit: contain; mix-blend-mode: screen; }
-  .st-hero--static-preview .st-hero__logo span { font-size: 10px; letter-spacing: 0.9px; }
-
-  @media (min-width: 1024px) and (max-height: 849px) {
-    .st-hero__logos { bottom: 28px; width: min(499px, calc((100vw - 160px) * 0.45)); height: 140px; grid-template-columns: 1fr 1fr; grid-template-rows: 70px 70px; }
-    .st-hero__logo { padding-inline: 12px; }
-  }
-
-  @media (min-width: 1024px) and (max-width: 1100px) {
-    .st-hero__copy { align-self: start; padding-top: 110px; }
-    .st-hero__title { font-size: 52px; line-height: 56px; }
-  }
-
-  @media (max-width: 1023px) {
-    .st-hero { min-height: 0; }
-    .st-hero__inner { padding: 88px 24px 40px; min-height: 0; gap: 40px; }
-    .st-hero__row { grid-template-columns: 1fr; gap: 32px; }
-    .st-hero__row:has(.st-hero__specimen--h) { grid-template-columns: 1fr; }
-    .st-hero__copy { padding-top: 0; }
-    .st-hero__title { font-size: 44px; line-height: 52px; }
-    .st-hero__specimen { margin: 0 auto; width: min(360px, 84vw); max-width: none; }
-    .st-hero__logos { position: static; width: 100%; grid-template-columns: 1fr 1fr; }
-    .st-hero__specimen--a2 { width: min(500px, 92vw); }
-    .st-hero__specimen--flat.st-hero__specimen--h { width: min(760px, 100%); margin: 0 auto; align-self: auto; }
-    .st-hero__specimen--h .st-portrait-handoff { height: min(66svh, 620px); min-height: 500px; }
-    .st-hero--static-preview .st-hero__logos { padding-top: 14px; gap: 16px; flex-wrap: wrap; }
-    .st-hero--static-preview .st-hero__logos-track { gap: 14px 22px; }
-  }
-
-  @media (max-width: 767px) {
-    .st-hero__row:has(.st-hero__specimen--h) { gap: 24px; }
-    .st-hero__specimen--flat.st-hero__specimen--h { width: 100%; }
-    .st-hero__specimen--h .st-portrait-handoff { height: clamp(420px, 120vw, 520px); min-height: 0; }
-    .st-hero--static-preview .st-hero__logos { display: flex; align-items: flex-start; gap: 8px; padding-top: 12px; }
-    .st-hero--static-preview .st-hero__logo--label { width: 100%; height: auto; padding: 0 0 4px; justify-content: flex-start; text-align: left; }
-    .st-hero--static-preview .st-hero__logos-track { width: auto; gap: 10px 18px; }
-    .st-hero--static-preview .st-hero__logo { height: 24px; }
-    .st-hero--static-preview .st-hero__logo img { height: 19px !important; }
-    .st-hero--static-preview .st-hero__logo span { font-size: 9px; letter-spacing: 0.65px; }
-    .st-portrait-loop { --portrait-gap: 4px; grid-template-columns: minmax(0, 9fr) repeat(3, minmax(0, 1fr)); -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 100%); mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 100%); }
-    @media (prefers-reduced-motion: no-preference) { .st-portrait-loop__panel:first-child { width: 75%; } }
-    .st-hero__specimen--a2 { width: min(430px, 96vw); }
-    .st-a2__surface { left: 4%; }
-    .st-a2__stack [data-a2-layer] { width: 54%; }
-    .st-a2__callouts p { right: 0; width: 36%; font-size: 10px; line-height: 1.25; letter-spacing: 0.7px; }
-    .st-a2__callouts p::before { width: 16px; right: calc(100% + 5px); }
-    .st-a2__caption { left: 4%; bottom: 0; max-width: 36ch; font-size: 10px; line-height: 1.4; letter-spacing: 0.7px; }
-    .st-hero-lab-switcher { left: 12px; right: 12px; bottom: 12px; justify-content: center; }
   }
 }

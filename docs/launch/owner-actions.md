@@ -17,20 +17,19 @@ views source has full API access to that base with the token's permissions.
 This exposure exists today, independently of the relaunch. Rotating the token is worth doing
 immediately rather than waiting for the cutover.
 
-## 2. Production deployment target — blocks the cutover only
+## 2. Production deployment access
 
-The production site must go to the Surface Talent Cloudflare account. This checkout cannot reach it.
+The production Worker is already serving the Surface Talent site. Future releases must use the
+Surface Talent Cloudflare account and the production environment in `wrangler.jsonc`.
 
 - `surfacetalent.co.uk` is on Cloudflare nameservers `dora.ns.cloudflare.com` and
-  `jose.ns.cloudflare.com`, and currently serves the legacy static site.
+  `jose.ns.cloudflare.com`.
 - The zone lives in **Chris@emccapital.uk's Account**, id `7d906c42ff7b64c0435b6d4c449fe77a`,
   which the `tech@surfacetalent.co.uk` Cloudflare login can reach. That is the production target.
-- The Wrangler CLI in this checkout is authenticated against a different login,
-  `engineeringsapa1@gmail.com` (`884cc27299a9de91243e17e4919fa9bd`), whose `workers.dev` subdomain
-  is `thebredge`. That is a Bredge-owned target, which the brief forbids, and it does not hold the
-  zone. The CLI must be re-authenticated before any production deploy.
+- A Wrangler session authenticated to another Cloudflare account must be re-authenticated before a
+  production deploy. Confirm the account and route lookup before publishing.
 
-To complete the cutover, from a shell authenticated as `tech@surfacetalent.co.uk`:
+For a future production release, from a shell authenticated to the Surface Talent account:
 
 ```bash
 npx wrangler login && npx wrangler secret put APPS_SCRIPT_URL --env production && npx wrangler secret put SUBMISSION_SECRET --env production && npm run deploy:production
@@ -95,21 +94,18 @@ would put a false claim on the site.
 - **The hiring enquiry form requires a phone number.** A director sending a speculative brief may
   bounce off that. Consider making it optional.
 
-## 6. Still outstanding from earlier sessions
+## 7. Still outstanding from earlier sessions
 
 - Licensed Coolvetica webfont at `public/fonts/coolvetica-rg.woff2`, then set `--heading-tracking`
   to 0. A git-ignored Apple-bundled copy is used for local QA only.
 - The third accreditation mark re-exported from Figma; its image fill exported empty.
 - `APPS_SCRIPT_URL` and `SUBMISSION_SECRET` on staging, without which forms return 503.
 
-## 7. Assets still needed for the hero and the workbook
+## 8. Workbook setup
 
-- **Plant footage and photography.** Hero options F and G are built and working, but the only
-  imagery in the repository is stock portraits and the old isometric render. Both variants ship a
-  visible "placeholder" caption for exactly that reason. Licensed or commissioned clips of an
-  anodising, plating or coating line, shot portrait, three to eight seconds each, would let option G
-  go live as designed. Add them to `src/components/home/hero/VideoPlate.tsx` and the plate cycles
-  them automatically.
+- **Hero media.** The approved production hero uses the four licensed portrait stills in
+  `public/assets/media/hero/portraits/`. Retired video, Three.js and illustration experiments are
+  intentionally not shipped and should not be reintroduced without a new design brief.
 - **The website workbook.** A new spreadsheet has been created at
   https://docs.google.com/spreadsheets/d/1LHpc84lx5C3PyS3RpLQ63zsFE9FcUwfoIznLtJhuDQ8/edit
   with the Live Jobs board ready to use. Paste `integrations/google-apps-script/Code.gs` into
