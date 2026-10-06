@@ -1,8 +1,8 @@
 import { CONTACT_EMAIL, CONTACT_PHONE_E164, SITE_ORIGIN } from "./nav";
 
 /**
- * Truthful JSON-LD only. Surface Talent is a UK employment agency for surface engineering, a sister
- * company of the EMC Surface Technologies group. No review, rating or aggregate markup (none is
+ * Truthful JSON-LD only. Surface Talent Ltd (company no. 17497267) is a UK employment agency for surface
+ * engineering. No review, rating or aggregate markup (none is
  * verifiable), and JobPosting is emitted per real vacancy detail page, never on the listing.
  */
 export const organizationLd = {
@@ -18,7 +18,9 @@ export const organizationLd = {
   email: CONTACT_EMAIL,
   telephone: CONTACT_PHONE_E164,
   areaServed: { "@type": "Country", name: "United Kingdom" },
-  parentOrganization: { "@type": "Organization", name: "EMC Surface Technologies" },
+  legalName: "Surface Talent Ltd",
+  identifier: { "@type": "PropertyValue", propertyID: "Companies House", value: "17497267" },
+  address: { "@type": "PostalAddress", streetAddress: "67C King Street", addressLocality: "Knutsford", postalCode: "WA16 6DX", addressCountry: "GB" },
   knowsAbout: [
     "Electroplating", "Anodising", "Powder coating", "Heat treatment", "Thermal spray",
     "PVD and CVD coatings", "Electroless plating", "Galvanising", "Metal finishing", "Surface engineering recruitment",

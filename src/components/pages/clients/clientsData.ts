@@ -13,7 +13,7 @@ export const PROFILES: (Profile & { start: { x: number; y: number }; end: { x: n
 ];
 
 export const DIFFERENCE = [
-  { icon: "/assets/svg/clients-icon-operator.svg", iconW: 79, title: "Operator instinct", body: "A sister company of EMC Surface Technologies, a UK group that runs finishing plants. We recruit with an operator’s perspective." },
+  { icon: "/assets/svg/clients-icon-operator.svg", iconW: 79, title: "Operator instinct", body: "Founded by people who own and run UK finishing plants. We recruit with an operator’s perspective." },
   { icon: "/assets/svg/clients-icon-fluency.svg", iconW: 81, title: "Technical fluency", body: "We know the chemistry, the kit, the standards and the economics. Briefs are sharper. Screening is tighter. Shortlists are smaller and better." },
   { icon: "/assets/svg/clients-icon-scope.svg", iconW: 88, title: "Full scope", body: "Permanent, contract and interim. Process and plant roles through to director-level appointments. Retained where the role warrants it." },
 ];

@@ -58,7 +58,8 @@ export function Footer() {
             <img src="/assets/svg/footer-logo.svg" alt="" width={38.18} height={28} />
             <div>
               <div className="st-body" style={{ color: "#fff" }}>Surface Talent</div>
-              <p className="st-body-xs" style={{ color: "#fff", opacity: 0.7, marginTop: 4, maxWidth: 271.82, fontSize: 12, lineHeight: "18px", letterSpacing: "-0.01em" }}>Specialist recruitment for the UK surface engineering and metal finishing sector. A sister company of the EMC Surface Technologies group.</p>
+              <p className="st-body-xs" style={{ color: "#fff", opacity: 0.7, marginTop: 4, maxWidth: 271.82, fontSize: 12, lineHeight: "18px", letterSpacing: "-0.01em" }}>Specialist recruitment for the UK surface engineering and metal finishing sector. Founded by people who own and run UK finishing plants.</p>
+              <p className="st-body-xs" style={{ color: "#fff", opacity: 0.5, marginTop: 8, maxWidth: 271.82, fontSize: 11, lineHeight: "16px", letterSpacing: "-0.01em" }}>Surface Talent Ltd. Registered in England and Wales, no. 17497267. Registered office: 67C King Street, Knutsford WA16 6DX.</p>
               <div className="st-footer__contact">
                 <a className="st-contact-link" href={`mailto:${CONTACT_EMAIL}`}><span>{CONTACT_EMAIL}</span></a>
                 <a className="st-contact-link" href={`tel:${CONTACT_PHONE_E164}`}><span>{CONTACT_PHONE_DISPLAY}</span></a>

@@ -57,10 +57,6 @@ export function InsiderDna() {
             </div>
           ))}
         </div>
-        <div className="st-dna__partner">
-          <span className="st-dna__partner-label">Partner with</span>
-          <img src="/assets/img/partner-logo.png" alt="EMC Surface Technologies" width={144} height={48} />
-        </div>
       </div>
 
       <div ref={floor} className="st-floor" data-scene="floor" aria-labelledby="floor-title">

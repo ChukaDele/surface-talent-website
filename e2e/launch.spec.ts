@@ -71,10 +71,10 @@ test.describe("booking, email and phone", () => {
   test("email and phone are real actions with the canonical details", async ({ page }) => {
     await page.goto("/contact");
     await expect(page.getByRole("link", { name: /hello@surfacetalent\.co\.uk/ }).first()).toHaveAttribute("href", "mailto:hello@surfacetalent.co.uk");
-    await expect(page.getByRole("link", { name: /\+44 7798 673 654/ }).first()).toHaveAttribute("href", "tel:+447798673654");
+    await expect(page.getByRole("link", { name: /07401 233150/ }).first()).toHaveAttribute("href", "tel:+447401233150");
     const footer = page.getByRole("contentinfo");
     await expect(footer.getByRole("link", { name: /hello@surfacetalent\.co\.uk/ })).toHaveAttribute("href", "mailto:hello@surfacetalent.co.uk");
-    await expect(footer.getByRole("link", { name: /\+44 7798 673 654/ })).toHaveAttribute("href", "tel:+447798673654");
+    await expect(footer.getByRole("link", { name: /07401 233150/ })).toHaveAttribute("href", "tel:+447401233150");
   });
 });
 

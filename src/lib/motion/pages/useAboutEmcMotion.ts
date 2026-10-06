@@ -6,7 +6,7 @@ import { MOTION_QUERIES } from "@/lib/motion/motionModes";
 import { pinAcquired, pinReleased } from "@/lib/motion/pinRegistry";
 
 /**
- * About → "A sister company of the EMC Surface Technologies group." The five Figma Containers
+ * About → "Founded by people who own and run UK finishing plants." The five Figma Containers
  * (2048:1475/1483/1488/1493/1516) are keyframes of one scroll sequence: the logo alone → heading
  * arriving as the logo shrinks and fades → heading alone → paragraph arriving as the heading
  * recedes → paragraph alone. One pinned stage, one scrubbed timeline, each beat glides up ~120px

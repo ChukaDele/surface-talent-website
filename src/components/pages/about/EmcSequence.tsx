@@ -5,7 +5,7 @@ import { useAboutEmcMotion } from "@/lib/motion/pages/useAboutEmcMotion";
 import { BrLg } from "@/components/ui/BrLg";
 
 const PARAS = [
-  "We’re a sister company of the EMC Surface Technologies group, a UK operating group that owns and runs surface finishing plants across anodising, electroplating, hard chrome and related processes.",
+  "The people behind Surface Talent own and run UK surface finishing plants across anodising, electroplating, hard chrome and related processes.",
   "That gives us technical fluency, operator instinct and a network most recruiters don’t have access to.",
   "We recruit permanent, contract and interim placements across the UK. We’re not a volume agency and we don’t try to be.",
 ];
@@ -19,14 +19,14 @@ export function EmcSequence() {
       <div className="st-emc__pin">
         <div className="st-emc__stage">
           <div className="st-emc__beat" data-emc-beat="1">
-            <div className="st-emc__lockup" role="img" aria-label="EMC Surface Technologies">
-              <img className="st-emc__mark" src="/assets/img/emc-mark.png" alt="" width={132} height={62} />
+            <div className="st-emc__lockup">
+              <span className="st-emc__wordmark">Owner<BrLg />operators</span>
               <span className="st-emc__divider" aria-hidden="true" />
-              <span className="st-emc__wordmark" aria-hidden="true">Surface<BrLg />Technologies</span>
+              <span className="st-emc__wordmark">UK finishing<BrLg />plants</span>
             </div>
           </div>
           <div className="st-emc__beat" data-emc-beat="2">
-            <h2 id="emc-title" className="st-h2 st-emc__title">A sister company of the<BrLg />EMC Surface Technologies group.</h2>
+            <h2 id="emc-title" className="st-h2 st-emc__title">Founded by people who own<BrLg />and run UK finishing plants.</h2>
           </div>
           <div className="st-emc__beat" data-emc-beat="3">
             <div className="st-emc__copy">

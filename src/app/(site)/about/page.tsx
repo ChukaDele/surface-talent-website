@@ -9,9 +9,9 @@ import { BrLg } from "@/components/ui/BrLg";
 
 export const metadata: Metadata = {
   title: "Surface Engineering Executive Search — Surface Talent",
-  description: "Founded inside the sector, not adjacent to it. Sister company of EMC Surface Technologies, running retained director-level search across UK finishing.",
+  description: "Founded inside the sector, not adjacent to it, by people who own and run UK finishing plants. Director-level and technical search across UK finishing.",
   alternates: { canonical: `${SITE_ORIGIN}/about` },
-  openGraph: { title: "Surface Engineering Executive Search — Surface Talent", description: "Founded inside the sector, not adjacent to it. Sister company of EMC Surface Technologies, running retained director-level search across UK finishing.", url: `${SITE_ORIGIN}/about` },
+  openGraph: { title: "Surface Engineering Executive Search — Surface Talent", description: "Founded inside the sector, not adjacent to it, by people who own and run UK finishing plants. Director-level and technical search across UK finishing.", url: `${SITE_ORIGIN}/about` },
 };
 
 const LEADERS = [

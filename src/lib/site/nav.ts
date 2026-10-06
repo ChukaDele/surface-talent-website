@@ -19,8 +19,8 @@ export const BOOKING_EMBED_URL =
 
 /** Canonical contact details (source: the Surface Talent site's own contact and legal pages). */
 export const CONTACT_EMAIL = "hello@surfacetalent.co.uk";
-export const CONTACT_PHONE_DISPLAY = "+44 7798 673 654";
-export const CONTACT_PHONE_E164 = "+447798673654";
+export const CONTACT_PHONE_DISPLAY = "07401 233150";
+export const CONTACT_PHONE_E164 = "+447401233150";
 
 /** Canonical production origin — used for canonical URLs, sitemap and structured data. */
 export const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || "https://surfacetalent.co.uk";
