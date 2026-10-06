@@ -1,0 +1,24 @@
+@layer st-base {
+  .st-clients { background: #fff; }
+  .st-clients__inner { display: flex; flex-direction: column; align-items: center; gap: 60px; }
+  /* one row grid shared by the three cards: metric / label / body (flexible) / rule / author — subgrid keeps every row aligned */
+  .st-clients__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto minmax(0, 1fr) auto auto; width: 100%; max-width: var(--content-max); }
+  .st-clients__card { margin: 0; padding: 20px 32px; box-sizing: border-box; min-height: 420px; display: grid; grid-template-rows: subgrid; grid-row: span 5; row-gap: 10px; align-content: end; background: var(--testimonial-light); color: var(--ink); overflow: hidden; outline: none; will-change: transform; }
+  .st-clients__metric { align-self: end; color: var(--ink-soft); }
+  .st-clients__label { align-self: start; }
+  .st-clients__quote { align-self: start; }
+  .st-clients__card:focus-visible { box-shadow: inset 0 0 0 2px var(--primary-500); }
+  .st-clients__quote { margin: 0; width: 320px; max-width: 100%; }
+  .st-clients__rule { border: 0; border-top: 0.75px solid var(--secondary-100); margin: 0; width: 100%; }
+  .st-clients__author { display: flex; align-items: center; gap: 8px; }
+  .st-clients__author img { width: 41px; height: 41px; border-radius: 50%; display: block; }
+  /* reduced-motion active state (no tween) */
+  .st-clients__card.is-active { background: var(--deep-bg); color: #fff; }
+  .st-clients__card.is-active .st-h2, .st-clients__card.is-active .st-body { color: #fff; }
+  .st-clients__card.is-active .st-clients__rule { border-top-color: var(--secondary-500); }
+  @media (max-width: 1023px) {
+    .st-clients__inner { padding: 56px 24px; gap: 40px; }
+    .st-clients__row { grid-template-columns: 1fr; grid-template-rows: none; }
+    .st-clients__card { grid-template-rows: auto auto auto auto auto; grid-row: auto; min-height: 0; padding: 32px 24px; }
+  }
+}

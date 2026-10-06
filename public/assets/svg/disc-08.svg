@@ -1,0 +1,48 @@
+<svg width="215" height="163" viewBox="0 0 215 163" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g stroke="black" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M34 31.8L6.5 47.7L6.5 42.1L34 26.2Z" fill="#FBF8F5"/>
+<path d="M34 31.8L166.5 108.3L166.5 102.7L34 26.2Z" fill="#FBF8F5"/>
+<path d="M34 31.8L166.5 108.3L139 124.2L6.5 47.7Z" fill="#FBF8F5"/>
+<path d="M67.1 56.5L73.6 58.4L76.8 62.1L83.3 64L86.5 67.7" fill="none"/>
+<path d="M81.6 87.3L88.1 89.2L91.3 92.9L97.8 94.8" fill="none"/>
+<path d="M121.2 90.6L127.7 92.5L130.9 96.2" fill="none"/>
+<path d="M171.3 134.4L139 153.1L139 121.4L171.3 102.7Z" fill="#FBF8F5"/>
+<path d="M1.7 73.8L139 153.1L139 121.4L1.7 42.1Z" fill="#FBF8F5"/>
+<path d="M34 23.4L171.3 102.7L139 121.4L1.7 42.1ZM34 26.2L166.5 102.7L139 118.6L6.5 42.1Z" fill="#FBF8F5" fill-rule="evenodd"/>
+<path d="M29.1 88.7L29.1 60.7" fill="none"/>
+<path d="M56.6 104.6L56.6 76.6" fill="none"/>
+<path d="M84.1 120.5L84.1 92.5" fill="none"/>
+<path d="M111.5 136.3L111.5 108.3" fill="none"/>
+<g data-anim="travel">
+<path d="M39.6 27.2L136.6 83.1L132.1 85.7L35.2 29.7Z" fill="#FBF8F5"/>
+<path d="M32.8 31.1L129.7 87.1L125.3 89.7L28.3 33.7Z" fill="#FBF8F5"/>
+<path d="M28.3 33.7L125.3 89.7L125.3 92L28.3 36Z" fill="#FBF8F5"/>
+<path d="M32.8 22.7L129.7 78.7L129.7 87.1L32.8 31.1Z" fill="#FBF8F5"/>
+<path d="M39.6 16.4L136.6 72.4L125.3 78.9L28.3 23Z" fill="#FBF8F5"/>
+<path d="M28.3 23L125.3 78.9L125.3 81.3L28.3 25.3Z" fill="#FBF8F5"/>
+<path d="M136.6 83.1L132.1 85.7L132.1 77.3L136.6 74.7L136.6 72.4L125.3 78.9L125.3 81.3L129.7 78.7L129.7 87.1L125.3 89.7L125.3 92L136.6 85.5Z" fill="#FBF8F5"/>
+<path d="M45.3 26.2L51.8 30L55 28.1L48.5 24.4Z" fill="#FBF8F5"/>
+<path d="M45.3 28.1L45.3 26.2L51.8 30L51.8 31.8Z" fill="#FBF8F5"/>
+<path d="M51.8 31.8L51.8 30L55 28.1L55 30Z" fill="#FBF8F5"/>
+<path d="M50.1 27.2L50.1 10.4" fill="none" stroke-dasharray="1.6 1.6"/>
+<path d="M109.9 63.5L116.4 67.3L119.6 65.4L113.2 61.7Z" fill="#FBF8F5"/>
+<path d="M109.9 65.4L109.9 63.5L116.4 67.3L116.4 69.1Z" fill="#FBF8F5"/>
+<path d="M116.4 69.1L116.4 67.3L119.6 65.4L119.6 67.3Z" fill="#FBF8F5"/>
+<path d="M114.8 64.5L114.8 47.7" fill="none" stroke-dasharray="1.6 1.6"/>
+<path d="M39.6 4.3L120.4 50.9L125.3 48.1L44.5 1.5Z" fill="#FBF8F5"/>
+<path d="M39.6 7.1L39.6 4.3L120.4 50.9L120.4 53.7Z" fill="#FBF8F5"/>
+<path d="M120.4 53.7L120.4 50.9L125.3 48.1L125.3 50.9Z" fill="#FBF8F5"/>
+</g>
+<path d="M82.5 26.2L82.5 17.8" fill="none"/>
+<path d="M84.9 16.4A3.4 2 60 0 0 80 13.6A3.4 2 60 0 0 84.9 16.4Z" fill="none"/>
+<path d="M179.4 134.4L205.3 149.4L213.3 144.7L187.5 129.8Z" fill="#FBF8F5"/>
+<path d="M179.4 141L179.4 134.4L205.3 149.4L205.3 155.9Z" fill="#FBF8F5"/>
+<path d="M205.3 155.9L205.3 149.4L213.3 144.7L213.3 151.2Z" fill="#FBF8F5"/>
+<path d="M169.7 140L195.6 155L203.6 150.3L177.8 135.4Z" fill="#FBF8F5"/>
+<path d="M169.7 146.6L169.7 140L195.6 155L195.6 161.5Z" fill="#FBF8F5"/>
+<path d="M195.6 161.5L195.6 155L203.6 150.3L203.6 156.8Z" fill="#FBF8F5"/>
+<path d="M174.6 130.7L200.4 145.6L208.5 141L182.6 126Z" fill="#FBF8F5"/>
+<path d="M174.6 137.2L174.6 130.7L200.4 145.6L200.4 152.2Z" fill="#FBF8F5"/>
+<path d="M200.4 152.2L200.4 145.6L208.5 141L208.5 147.5Z" fill="#FBF8F5"/>
+</g>
+</svg>

@@ -1,0 +1,59 @@
+@layer st-base {
+  /* ---------- error pages: 404 and the unexpected-failure page ---------- */
+  .st-err { min-height: 100svh; display: flex; align-items: center; background: var(--hero-bg); color: #fff; }
+  .st-err__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 56px; align-items: center; max-width: var(--page-max); margin: 0 auto; padding: 120px var(--gutter) 80px; box-sizing: border-box; width: 100%; }
+  .st-err__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 520px; }
+  .st-err__copy .st-h1 { color: #fff; }
+  .st-err__copy .st-body-lg { color: var(--text-hero); opacity: 0.82; }
+  .st-err__links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 8px; }
+  .st-err__links a { color: var(--text-inverse); font-size: 15px; line-height: 24px; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.28); padding-bottom: 2px; transition: color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out); }
+  .st-err__links a:hover { color: #fff; border-bottom-color: var(--primary-500); }
+
+  /* ---------- the off-spec panel ---------- */
+  .st-offspec { width: 100%; height: auto; overflow: visible; }
+  .st-offspec__code { font-family: var(--font-mono); font-size: 40px; letter-spacing: 4px; fill: rgba(255,255,255,0.16); }
+  .st-offspec__tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 2px; fill: rgba(255,255,255,0.5); }
+  .st-offspec__rail { stroke: rgba(255,255,255,0.24); stroke-width: 1; }
+  /* the origin is set per roller inline, so each spins on its own axle rather than orbiting the SVG */
+  .st-offspec__roller { fill: none; stroke: rgba(255,255,255,0.32); stroke-width: 1.2; animation: st-offspec-roll 1.6s linear infinite; }
+  .st-offspec__coat { fill: rgba(184,115,51,0.55); }
+  .st-offspec__stampText { font-family: var(--font-mono); font-size: 17px; letter-spacing: 3px; fill: #d15b4a; text-anchor: middle; }
+
+  /* the plate arrives, the probe sweeps it, the stamp lands, then it all runs again */
+  .st-offspec__plate { animation: st-offspec-travel 7s cubic-bezier(0.23, 1, 0.32, 1) infinite; }
+  .st-offspec__probe { animation: st-offspec-sweep 7s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+  .st-offspec__stamp { transform: translate(232px, 176px) scale(1.6) rotate(-8deg); opacity: 0; animation: st-offspec-stamp 7s cubic-bezier(0.23, 1, 0.32, 1) infinite; }
+
+  @keyframes st-offspec-roll { to { transform: rotate(360deg); } }
+  @keyframes st-offspec-travel {
+    0%   { transform: translateX(-150px); opacity: 0; }
+    14%  { transform: translateX(0); opacity: 1; }
+    82%  { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(150px); opacity: 0; }
+  }
+  @keyframes st-offspec-sweep {
+    0%, 16% { transform: translateX(78px); opacity: 0; }
+    22%     { transform: translateX(78px); opacity: 1; }
+    52%     { transform: translateX(302px); opacity: 1; }
+    58%     { transform: translateX(302px); opacity: 0; }
+    100%    { transform: translateX(302px); opacity: 0; }
+  }
+  @keyframes st-offspec-stamp {
+    0%, 58%  { transform: translate(232px, 176px) scale(1.6) rotate(-8deg); opacity: 0; }
+    64%      { transform: translate(232px, 176px) scale(1) rotate(-8deg); opacity: 1; }
+    82%      { transform: translate(232px, 176px) scale(1) rotate(-8deg); opacity: 1; }
+    100%     { transform: translate(232px, 176px) scale(1) rotate(-8deg); opacity: 0; }
+  }
+
+  /* reduced motion keeps the finished composition: panel on the line, stamped, nothing moving */
+  @media (prefers-reduced-motion: reduce) {
+    .st-offspec__plate, .st-offspec__probe, .st-offspec__roller { animation: none; }
+    .st-offspec__probe { opacity: 0; }
+    .st-offspec__stamp { animation: none; opacity: 1; transform: translate(232px, 176px) rotate(-8deg); }
+  }
+
+  @media (max-width: 1023px) {
+    .st-err__inner { grid-template-columns: 1fr; gap: 32px; padding: 104px var(--gutter) 64px; }
+    .st-err__copy { max-width: none; }
+  }
+}

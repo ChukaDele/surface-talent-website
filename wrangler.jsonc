@@ -1,0 +1,41 @@
+{
+  // Surface Talent website v2.
+  //
+  // Top level = STAGING (`surface-talent-staging`), deployed with `npm run deploy:staging`.
+  // `env.production` = the live site. It is NOT deployed from this repo by default: it must be
+  // deployed from the Surface Talent Cloudflare account that holds the surfacetalent.co.uk zone.
+  // Deploying it from any other account (including the Bredge account this checkout is currently
+  // authenticated against) will fail on the route lookup rather than publish to the wrong place.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "surface-talent-staging",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "observability": { "enabled": true },
+  "vars": { "SITE_ENV": "staging", "AIRTABLE_TABLE": "Jobs" },
+  // Secrets (never in this file): APPS_SCRIPT_URL, SUBMISSION_SECRET, AIRTABLE_TOKEN, AIRTABLE_BASE_ID
+  //   npx wrangler secret put APPS_SCRIPT_URL --name surface-talent-staging
+  "env": {
+    "production": {
+      "name": "surface-talent-website",
+      // Chris@emccapital.uk's Account — the Cloudflare account that holds the surfacetalent.co.uk
+      // zone. Deploying with any other account selected fails instead of publishing elsewhere.
+      "account_id": "7d906c42ff7b64c0435b6d4c449fe77a",
+      "vars": {
+        "SITE_ENV": "production",
+        "AIRTABLE_TABLE": "Jobs",
+        "NEXT_PUBLIC_SITE_ORIGIN": "https://surfacetalent.co.uk"
+      },
+      // custom domain routes; both hostnames must exist in the Surface Talent zone
+      "routes": [
+        { "pattern": "surfacetalent.co.uk", "custom_domain": true },
+        { "pattern": "www.surfacetalent.co.uk", "custom_domain": true }
+      ],
+      "observability": { "enabled": true }
+      // Secrets must be set again per environment:
+      //   npx wrangler secret put APPS_SCRIPT_URL --env production
+      //   npx wrangler secret put SUBMISSION_SECRET --env production
+    }
+  }
+}

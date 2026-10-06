@@ -1,0 +1,16 @@
+{
+  "name": "Surface Talent",
+  "short_name": "Surface Talent",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0c2433",
+  "theme_color": "#0c2433",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
