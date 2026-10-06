@@ -7,7 +7,7 @@ import { FixedStage } from "@/components/ui/FixedStage";
 import { useStakeMotion } from "@/lib/motion/scenes/useStakeMotion";
 
 const GENERALIST = ["CVs from candidates who've never seen a plating line", "Many weeks of interviews that lead nowhere", "A hire who leaves inside six months", "The role open again. The line under capacity. Again."];
-const ST = ["A  brief taken by someone who knows the process", "Two to three candidates screened technically and commercially", "A hire who understands the job from week one", "A recruiter who stays accountable after the start date"];
+const ST = ["A brief taken by someone who knows the process", "Two to three candidates screened technically and commercially", "A hire who understands the job from week one", "A recruiter who stays accountable after the start date"];
 
 /** Figma Container 95:57950 (final) + loose Container 95:62404 (initial, vertical). */
 export function Stake() {
@@ -29,7 +29,7 @@ export function Stake() {
             <div data-stake-generalist className="st-stake__card st-stake__card--generalist">
               <Eyebrow>Generalist route</Eyebrow>
               <div className="st-stake__body">
-                <h3 className="st-h3" style={{ color: "var(--ink)", width: 295.5 }}>Going through the generalist route causes you;</h3>
+                <h3 className="st-h3" style={{ color: "var(--ink)", width: 295.5 }}>The generalist route gets you:</h3>
                 <ul className="st-stake__list">
                   {GENERALIST.map((t) => <li key={t}><span className="st-stake__bar" style={{ background: "#d9d9d9" }} /><span className="st-body" style={{ color: "var(--ink)" }}>{t}</span></li>)}
                 </ul>

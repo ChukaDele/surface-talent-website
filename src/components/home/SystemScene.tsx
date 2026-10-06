@@ -11,7 +11,7 @@ import { BrLg } from "@/components/ui/BrLg";
 export const SYSTEM_STATES = [
   { eyebrow: "01 — Surface read", title: ["Generalist recruitment", "sees a job title."], body: "A CV. A LinkedIn headline. A role brief written from outside the plant." },
   { eyebrow: "02 — Cross-section", title: ["Zoom into the", "system underneath."], body: "Coating process. Chemistry. Substrate. Equipment. Compliance. Sector. Production context." },
-  { eyebrow: "03 — Specialist read", title: ["We see the system", "behind it."], body: "That is why briefs are sharper, shortlists smaller, and hires that last." },
+  { eyebrow: "03 — Specialist read", title: ["We see the system", "behind it."], body: "That is why our briefs are sharper, our shortlists smaller and our hires last." },
 ];
 
 /**

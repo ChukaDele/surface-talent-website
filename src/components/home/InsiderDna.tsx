@@ -10,8 +10,8 @@ import { useChemistryMotion } from "@/lib/motion/scenes/useChemistryMotion";
 import { useCardHover } from "@/lib/motion/useCardHover";
 
 const PILLARS = [
-  { title: "Operator instinct", body: "A brief read by someone who's run the line. We spot what's missing before hiring mistakes." },
-  { title: "Technical fluency", body: "Chemistry kit standards assessed as an operator would, not from job description." },
+  { title: "Operator instinct", body: "A brief read by someone who's run the line. We spot what's missing before it becomes a hiring mistake." },
+  { title: "Technical fluency", body: "Chemistry, kit and standards assessed the way an operator would, not lifted from a job description." },
   { title: "Sector network", body: "Built across the IMF and SEA over 20 years. Not bought. Not rented." },
 ];
 
@@ -36,7 +36,7 @@ export function InsiderDna() {
         <div className="st-dna__headwrap">
           <div className="st-dna__head">
             <Eyebrow diamond>Insider DNA</Eyebrow>
-            <h2 id="dna-title" className="st-h2 st-dna__title">We didn&apos;t learn<br />the industry<br />from Linkedin.</h2>
+            <h2 id="dna-title" className="st-h2 st-dna__title">We didn&apos;t learn<br />the industry<br />from LinkedIn.</h2>
             <p className="st-body st-dna__lede">We have owned and operated surface finishing plants, so we know what a good hire looks like from the inside.</p>
           </div>
           <div className="st-dna__linkedin" data-linkedin aria-hidden="true">
