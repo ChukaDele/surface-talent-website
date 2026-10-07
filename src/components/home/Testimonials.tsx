@@ -21,7 +21,7 @@ export function Testimonials() {
     <section ref={root} className="st-section st-clients" aria-labelledby="clients-title">
       <div className="st-inner st-clients__inner">
         <SectionHeading eyebrow="What our clients say" title={<span id="clients-title">Operators who briefed us.<BrLg />Results they measured.</span>} wide />
-        <div className="st-clients__row" data-count={ITEMS.length}>
+        <div className="st-clients__row" data-items={ITEMS.length}>
           {ITEMS.map((t) => (
             <figure key={t.name} className="st-clients__card" data-testimonial tabIndex={0}>
               <div className="st-h2 st-clients__metric" data-t-stat>{t.stat}</div>
