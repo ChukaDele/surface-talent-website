@@ -50,7 +50,7 @@ export default async function JobsPage() {
           eyebrow="Nothing here for you?"
           titleId="register-title"
           title="Register your CV and we’ll come to you."
-          lede="New roles land every week. Tell us what you’re looking for and we’ll get in touch when the right one comes in."
+          lede="Tell us what you’re looking for and we’ll get in touch when the right role comes in."
           actions={<Button href="/candidates#register" variant="secondary">Register your CV</Button>}
         />
       </Section>

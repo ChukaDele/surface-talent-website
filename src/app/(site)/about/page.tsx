@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const ORIGIN = [
-  "The people behind Surface Talent own and run UK surface finishing plants across anodising, electroplating, hard chrome and related processes.",
+  "The people behind Surface Talent own and run UK surface finishing plants across anodising, electroplating and related processes.",
   "That gives us technical fluency, operator instinct and a network most recruiters don’t have access to.",
   "We recruit permanent, contract and interim placements across the UK. We’re not a volume agency and we don’t try to be.",
 ];

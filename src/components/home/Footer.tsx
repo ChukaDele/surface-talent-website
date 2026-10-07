@@ -13,7 +13,7 @@ const LEGAL = [["Privacy", "/privacy"], ["Candidate privacy", "/candidate-privac
 
 /**
  * Closing CTA + footer (October 2026 brand pass): anthracite, on the page grid, hairline rules.
- * The CTA keeps the "finished surface" line; the decorative orb and boxed CTA blocks are gone.
+ * The decorative orb and boxed CTA blocks are gone.
  */
 export function Footer() {
   return (
@@ -21,7 +21,7 @@ export function Footer() {
       <div className="st-wrap st-foot__cta" data-footer-cta>
         <div className="st-foot__cta-head">
           <span className="st-eyebrow">Start a conversation</span>
-          <h2 className="st-h2 st-foot__title">Find the person who changes the surface.</h2>
+          <h2 className="st-h2 st-foot__title">Make the hire you won’t have to make twice.</h2>
         </div>
         <div className="st-foot__cta-side">
           <p className="st-body-lg">Hiring for a senior or critical role, or quietly open to the right move. Every conversation is confidential.</p>

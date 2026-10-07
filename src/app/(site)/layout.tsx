@@ -10,7 +10,7 @@ import "@/styles/mobile.css";
 
 /**
  * Shared chrome for every public page other than the homepage: light header over a white page
- * hero, the page content, and the closing "finished surface" CTA + footer (Figma repeats the
+ * hero, the page content, and the closing CTA + footer (Figma repeats the
  * homepage footer block on every page frame).
  */
 export default function SiteLayout({ children }: { children: ReactNode }) {
