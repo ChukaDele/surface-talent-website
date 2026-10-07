@@ -1,6 +1,7 @@
 @layer st-base {
   /* ---------- Clients hero: 1440 × 887 composition (Figma 2027:20831 → 2010:2) ---------- */
   .st-chero { position: relative; background: #ffffff; color: var(--ink); min-height: 887px; overflow: clip; }
+  .st-chero--quiet { min-height: 0; padding-bottom: 96px; }
   .st-chero__copy { position: relative; z-index: 3; width: 680px; max-width: calc(100% - 48px); margin: 0 auto; padding-top: 115px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
   .st-chero__copy .st-h1 { color: var(--ink); }
   .st-chero__copy .st-body { color: var(--ink); max-width: 520px; }

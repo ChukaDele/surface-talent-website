@@ -17,7 +17,8 @@ export function useFooterMotion(root: RefObject<HTMLElement | null>) {
       const ro = new ResizeObserver(setOrbEnd); ro.observe(el);
       const mm = gsap.matchMedia();
       mm.add(MOTION_QUERIES.motionOk, () => {
-        const track = el.querySelector<HTMLElement>("[data-marquee]")!;
+        const track = el.querySelector<HTMLElement>("[data-marquee]");
+        if (!track) return;
         const run = track.firstElementChild as HTMLElement;
         const loop = gsap.to(track, { x: () => -run.offsetWidth, duration: () => run.offsetWidth / 40, ease: "none", repeat: -1, paused: true });
         const st = ScrollTrigger.create({ trigger: el, start: "top bottom", end: "bottom top", onToggle: (s) => (s.isActive ? loop.play() : loop.pause()) });

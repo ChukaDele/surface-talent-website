@@ -7,18 +7,11 @@ import { useFooterMotion } from "@/lib/motion/scenes/useFooterMotion";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_WHATSAPP_URL } from "@/lib/site/nav";
 import { BrLg } from "@/components/ui/BrLg";
 
-const LOGOS = [
-  { name: "Karas Plating", src: "/assets/img/footer-logo-karas.png", w: 88, h: 20.97, cw: 233.59 },
-  { name: "RDM Engineering", src: "/assets/img/footer-logo-rdm.png", w: 30.17, h: 26.38, cw: 189.76 },
-  { name: "United Anodisers", src: "/assets/img/footer-logo-ua.png", w: 72.97, h: 26.38, cw: 239.56 },
-  // logo file to follow from SurfacePrep; name-only until then
-  { name: "SurfacePrep", src: "", w: 0, h: 0, cw: 160 },
-];
 const EXPLORE = [["Clients", "/clients"], ["Candidates", "/candidates"], ["Jobs", "/jobs"], ["Disciplines", "/disciplines"], ["About", "/about"], ["Contact", "/contact"]];
 const LEGAL = [["Privacy", "/privacy"], ["Candidate privacy", "/candidate-privacy"], ["Privacy requests", "/privacy-requests"], ["Cookies", "/cookies"], ["Terms", "/terms"], ["Accessibility", "/accessibility"], ["Modern slavery", "/modern-slavery"], ["Responsible AI", "/responsible-ai"]];
 const CTAS = [
-  { label: "Clients", text: "Retained or contingent. Permanent, contract or interim.", cta: "Start a search", href: "/clients" },
-  { label: "Candidates", text: "Confidential. Every conversation with someone who knows the sector.", cta: "Submit your CV", href: "/candidates" },
+  { label: "Clients", text: "Senior and critical appointments. Retained or contingent.", cta: "Start a search", href: "/clients" },
+  { label: "Candidates", text: "Confidential. Every conversation with someone who knows the sector.", cta: "Register in confidence", href: "/candidates" },
   { label: "Live roles", text: "See open vacancies across UK surface engineering.", cta: "Browse jobs", href: "/jobs" },
 ];
 
@@ -26,33 +19,16 @@ const CTAS = [
 export function Footer() {
   const root = useRef<HTMLElement>(null);
   useFooterMotion(root);
-  const strip = [...LOGOS, ...LOGOS];
   return (
     <footer ref={root} className="st-footer" data-scene="footer">
       <div className="st-footer__orbclip" aria-hidden="true"><div className="st-footer__orb" /></div>
-      <div className="st-footer__clients" aria-label="Clients we work with">
-        <span className="st-footer__trusted">Trusted by operators</span>
-        <div className="st-footer__marquee-mask">
-          <div className="st-footer__marquee" data-marquee>
-            {[0, 1].map((rep) => (
-              <div key={rep} className="st-footer__marquee-run" aria-hidden={rep === 1}>
-                {strip.map((l, i) => (
-                  <div key={i} className="st-footer__logo" style={{ width: l.cw }}>
-                    {l.src ? <img src={l.src} alt="" style={{ width: l.w, height: l.h }} /> : null}<span>{l.name}</span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
       <div className="st-inner st-footer__inner">
         <div className="st-footer__cta" data-footer-cta>
           <span className="st-eyebrow st-eyebrow--light">The finished surface</span>
           <h2 className="st-h1 st-footer__title"><span style={{ color: "rgba(255,255,255,0.4)" }}>Find the person<BrLg />who changes</span><BrLg />the surface.</h2>
           <div className="st-btn-row">
             <Button href="/contact" tone="light">Brief us on a role</Button>
-            <Button href="/candidates" tone="light" variant="secondary">Join our talent pool</Button>
+            <Button href="/candidates" tone="light" variant="secondary">Register in confidence</Button>
           </div>
         </div>
         <div className="st-footer__cols">

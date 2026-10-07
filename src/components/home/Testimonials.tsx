@@ -6,8 +6,8 @@ import { useTestimonialHover } from "@/lib/motion/scenes/useTestimonialHover";
 import { BrLg } from "@/components/ui/BrLg";
 
 const ITEMS = [
-  { stat: "3", label: "Weeks from brief to hire", quote: "We needed someone who could walk onto our plating line and hold their own from day one. Surface Talent understood the brief before we'd finished explaining it. The shortlist was tight, technically screened, and we hired within three weeks.", name: "Alan Pennington", role: "Managing Director, Karas Plating", avatar: "/assets/img/avatar-57_26072.png" },
-  { stat: "2", label: "Weeks to a strong shortlist", quote: "We needed a salesperson who understood our products and the sectors we sell into. Surface Talent mapped the market and brought us strong candidates with relevant product and sector knowledge inside a fortnight.", name: "Barry Shaw", role: "Quality Manager, RDM Engineering", avatar: "/assets/img/avatar-57_26097.png" },
+  { stat: "3", label: "Weeks from brief to hire", quote: "We needed someone who could walk onto our plating line and hold their own from day one. Surface Talent understood the brief before we'd finished explaining it. The shortlist was tight, technically screened, and we hired within three weeks.", name: "Alan Pennington", role: "Managing Director, Karas Plating" },
+  { stat: "2", label: "Weeks to a strong shortlist", quote: "We needed a salesperson who understood our products and the sectors we sell into. Surface Talent mapped the market and brought us strong candidates with relevant product and sector knowledge inside a fortnight.", name: "Barry Shaw", role: "Quality Manager, RDM Engineering" },
 ];
 
 /**
@@ -28,9 +28,8 @@ export function Testimonials() {
               <span className="st-eyebrow st-clients__label">{t.label}</span>
               <blockquote className="st-body st-clients__quote" data-t-text>{t.quote}</blockquote>
               <hr className="st-clients__rule" data-t-rule />
-              <figcaption className="st-clients__author">
-                <img src={t.avatar} alt="" width={41} height={41} />
-                <div><div className="st-body" data-t-text>{t.name}</div><div className="st-body" data-t-text>{t.role}</div></div>
+              <figcaption className="st-clients__author st-clients__author--text">
+                <div className="st-body" data-t-text>{t.name}</div><div className="st-body" data-t-text>{t.role}</div>
               </figcaption>
             </figure>
           ))}

@@ -12,9 +12,9 @@ import { BrLg } from "@/components/ui/BrLg";
 
 export const metadata: Metadata = {
   title: "Metal Finishing Recruitment Agency — Surface Talent",
-  description: "Hiring plant managers, process engineers or quality leads for a plating, coating or heat treatment operation? Send a brief; we reply within 24 hours.",
+  description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses. Run by people who own finishing plants. Send a brief; we reply within 24 hours.",
   alternates: { canonical: `${SITE_ORIGIN}/clients` },
-  openGraph: { title: "Metal Finishing Recruitment Agency — Surface Talent", description: "Hiring plant managers, process engineers or quality leads for a plating, coating or heat treatment operation? Send a brief; we reply within 24 hours.", url: `${SITE_ORIGIN}/clients` },
+  openGraph: { title: "Metal Finishing Recruitment Agency — Surface Talent", description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses. Run by people who own finishing plants. Send a brief; we reply within 24 hours.", url: `${SITE_ORIGIN}/clients` },
 };
 
 const STEP_ART = [BriefIllustration, SearchIllustration, AssessIllustration, PlaceIllustration];
@@ -100,8 +100,8 @@ export default function ClientsPage() {
         <div className="st-split__panel">
           <div className="st-split__copy">
             <Eyebrow>Contingent</Eyebrow>
-            <h2 className="st-h2">For volume and speed.</h2>
-            <p className="st-body">Process, plant and functional hiring at pace.<BrLg />Permanent, contract or interim.</p>
+            <h2 className="st-h2">For critical roles at pace.</h2>
+            <p className="st-body">Plant, process and functional leadership when the seat is already empty.<BrLg />Permanent, contract or interim.</p>
           </div>
           <div className="st-split__cta"><Button href="/contact#brief">Brief us on a role</Button></div>
           <div className="st-split__art st-split__art--clients" aria-hidden="true"><img src="/assets/illustrations/volume-speed.svg" alt="" /></div>

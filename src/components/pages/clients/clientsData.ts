@@ -15,14 +15,14 @@ export const PROFILES: (Profile & { start: { x: number; y: number }; end: { x: n
 export const DIFFERENCE = [
   { icon: "/assets/svg/clients-icon-operator.svg", iconW: 79, title: "Operator instinct", body: "Founded by people who own and run UK finishing plants. We recruit with an operator’s perspective." },
   { icon: "/assets/svg/clients-icon-fluency.svg", iconW: 81, title: "Technical fluency", body: "We know the chemistry, the kit, the standards and the economics. Briefs are sharper. Screening is tighter. Shortlists are smaller and better." },
-  { icon: "/assets/svg/clients-icon-scope.svg", iconW: 88, title: "Full scope", body: "Permanent, contract and interim. Process and plant roles through to director-level appointments. Retained where the role warrants it." },
+  { icon: "/assets/svg/clients-icon-scope.svg", iconW: 88, title: "Senior and critical first", body: "Director-level, plant leadership and critical technical appointments. Retained where the role warrants it; contingent where speed matters. Permanent, contract and interim." },
 ];
 
 export const STEPS = [
   { n: "01 · Brief", title: "Technical brief", body: "Half a day on-site where it helps. We see the line, meet the team, understand the real role." },
   { n: "02 · Search", title: "Targeted search", body: "We map the market and approach the shortlist directly. Discreet. No job-board spray." },
   { n: "03 · Shortlist", title: "Two to three", body: "Candidates we’d stand behind. Not twenty half-fits." },
-  { n: "04 · After", title: "Post-placement", body: "We stay close through offer, onboarding and first 90 days. Rebate protection backs the shortlist." },
+  { n: "04 · After", title: "Post-placement", body: "We stay close through offer, onboarding and first 90 days. A replacement guarantee backs the shortlist." },
 ];
 
 export const RECRUIT = [
