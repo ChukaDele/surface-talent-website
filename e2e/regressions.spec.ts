@@ -8,7 +8,7 @@ test.describe("homepage regressions", () => {
     await expect(cards).toHaveCount(2);
     for (let i = 0; i < 2; i++) {
       const bg = await cards.nth(i).evaluate((el) => getComputedStyle(el).backgroundColor);
-      expect(bg, `card ${i} base background`).toBe("rgb(239, 247, 254)");
+      expect(bg, `card ${i} base background`).toBe("rgb(251, 248, 245)");
     }
     if (testInfo.project.name === "desktop-1440") {
       await cards.nth(1).scrollIntoViewIfNeeded();
@@ -16,7 +16,7 @@ test.describe("homepage regressions", () => {
       await page.keyboard.press("Tab"); // keyboard focus → :focus-visible → active state
       await page.waitForTimeout(500);
       const bg = await cards.nth(1).evaluate((el) => getComputedStyle(el).backgroundColor);
-      expect(bg).toBe("rgb(19, 30, 39)");
+      expect(bg).toBe("rgb(13, 34, 51)");
     }
   });
 
@@ -27,7 +27,7 @@ test.describe("homepage regressions", () => {
     await card.scrollIntoViewIfNeeded();
     await card.tap();
     await page.waitForTimeout(600);
-    expect(await card.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(239, 247, 254)");
+    expect(await card.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(251, 248, 245)");
   });
 
 

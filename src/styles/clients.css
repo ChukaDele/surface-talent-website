@@ -15,7 +15,7 @@
   .st-clients__author { display: flex; align-items: center; gap: 8px; }
   .st-clients__author img { width: 41px; height: 41px; border-radius: 50%; display: block; }
   /* reduced-motion active state (no tween) */
-  .st-clients__card.is-active { background: var(--deep-bg); color: #fff; }
+  .st-clients__card.is-active { background: var(--hero-bg); color: #fff; }
   .st-clients__card.is-active .st-h2, .st-clients__card.is-active .st-body { color: #fff; }
   .st-clients__card.is-active .st-clients__rule { border-top-color: var(--secondary-500); }
   @media (max-width: 1023px) {

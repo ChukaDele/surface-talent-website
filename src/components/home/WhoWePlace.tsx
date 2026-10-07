@@ -17,7 +17,7 @@ export function WhoWePlace() {
       <div className="st-inner st-place__inner">
         <div className="st-place__head">
           <Eyebrow>Who we place</Eyebrow>
-          <h2 id="place-title" className="st-h2" style={{ color: "#fff" }}>The appointments a finishing business cannot afford to get wrong.</h2>
+          <h2 id="place-title" className="st-h2">The appointments a finishing business cannot afford to get wrong.</h2>
           <p className="st-body-lg">Across electroplating, anodising, powder and paint, heat treatment, thermal spray and pre-treatment. Permanent, interim and retained.</p>
         </div>
         <div className="st-place__grid">
@@ -31,7 +31,7 @@ export function WhoWePlace() {
         </div>
         <div className="st-place__foot">
           <p className="st-body">We are not a volume agency and do not try to be. We take on a small number of searches at a time, so each one gets the attention it needs.</p>
-          <Button href="/disciplines" tone="light" variant="secondary">Disciplines we cover</Button>
+          <Button href="/disciplines" variant="secondary">Disciplines we cover</Button>
         </div>
       </div>
     </section>

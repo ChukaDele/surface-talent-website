@@ -38,7 +38,7 @@
   .st-whyfail__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; }
   .st-whyfail__item { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding: 28px 0; border-top: 1px solid rgba(20,23,28,0.12); }
   .st-whyfail__item:last-child { border-bottom: 1px solid rgba(20,23,28,0.12); }
-  .st-whyfail__n { font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; color: var(--primary-500); padding-top: 6px; }
+  .st-whyfail__n { font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; color: var(--accent-on-light); padding-top: 6px; }
   .st-whyfail__item h3 { margin: 0 0 8px; }
   .st-whyfail__item p { margin: 0; max-width: 560px; color: #4a5561; }
   .st-whyfail__close { margin-top: 28px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
@@ -48,18 +48,19 @@
     .st-whyfail__head { position: static; }
   }
 
-  /* ---------- "who we place" ---------- */
-  .st-place { background: var(--deep-bg); color: #fff; }
+  /* ---------- "who we place" (cream) ---------- */
+  .st-place { background: var(--stack-light); color: var(--ink); }
   .st-place__inner { padding-top: 112px; padding-bottom: 112px; display: flex; flex-direction: column; gap: 56px; }
   .st-place__head { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
-  .st-place__head .st-body-lg { color: rgba(255,255,255,0.72); }
-  .st-place__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid rgba(255,255,255,0.14); border-left: 1px solid rgba(255,255,255,0.14); }
-  .st-place__cell { padding: 32px 28px 36px; border-right: 1px solid rgba(255,255,255,0.14); border-bottom: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 10px; min-height: 180px; }
-  .st-place__cell .st-h4 { color: #fff; }
-  .st-place__cell p { margin: 0; color: rgba(255,255,255,0.68); }
-  .st-place__cell .st-mono { font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--glitter); }
+  .st-place__head .st-h2 { color: var(--ink); }
+  .st-place__head .st-body-lg { color: #4a5561; }
+  .st-place__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--stack-light-line); border-left: 1px solid var(--stack-light-line); background: #fff; }
+  .st-place__cell { padding: 32px 28px 36px; border-right: 1px solid var(--stack-light-line); border-bottom: 1px solid var(--stack-light-line); display: flex; flex-direction: column; gap: 10px; min-height: 180px; }
+  .st-place__cell .st-h4 { color: var(--ink); }
+  .st-place__cell p { margin: 0; color: #4a5561; }
+  .st-place__cell .st-mono { font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--accent-on-light); }
   .st-place__foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .st-place__foot p { margin: 0; color: rgba(255,255,255,0.6); max-width: 560px; }
+  .st-place__foot p { margin: 0; color: #4a5561; max-width: 560px; }
   @media (max-width: 1023px) {
     .st-place__inner { padding: 72px 24px; gap: 40px; }
     .st-place__grid { grid-template-columns: 1fr 1fr; }
@@ -67,7 +68,10 @@
   @media (max-width: 599px) { .st-place__grid { grid-template-columns: 1fr; } }
 
   /* ---------- "who we are" (replaces the plant-floor cards) ---------- */
-  .st-dna--quiet .st-dna__top { padding-bottom: 112px; }
+  .st-dna--quiet { background: var(--hero-bg); }
+  .st-dna--quiet::before { display: none; }
+  .st-dna--quiet .st-eyebrow { color: var(--glitter); }
+  .st-dna--quiet .st-dna__top { padding-top: 112px; padding-bottom: 112px; }
   .st-dna--quiet .st-dna__years { display: none; }
   .st-dna--quiet .st-dna__title { max-width: 560px; }
   .st-dna--quiet .st-dna__lede { max-width: 560px; }
@@ -85,7 +89,7 @@
   .st-process__head { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
   .st-process__steps { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 32px; border-top: 1px solid rgba(20,23,28,0.12); }
   .st-process__step { padding-top: 24px; display: flex; flex-direction: column; gap: 10px; }
-  .st-process__n { font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; color: var(--primary-500); }
+  .st-process__n { font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; color: var(--accent-on-light); }
   .st-process__step p { margin: 0; color: #4a5561; }
   .st-process__foot { display: flex; }
   @media (max-width: 1023px) {

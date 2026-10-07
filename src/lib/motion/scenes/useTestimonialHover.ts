@@ -5,7 +5,7 @@ import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { MOTION_QUERIES } from "@/lib/motion/motionModes";
 
 const BASE = { bg: "#eff7fe", text: "#1f1f1f", stat: "#293038", rule: "#e1e3e5" };
-const ACTIVE = { bg: "#131e27", text: "#ffffff", stat: "#ffffff", rule: "#3a4550" };
+const ACTIVE = { bg: "#0d2233", text: "#ffffff", stat: "#ffffff", rule: "#3a4550" };
 
 /**
  * Testimonial cards: base light state; hover / focus-visible animates into the Figma navy card

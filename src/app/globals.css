@@ -60,7 +60,8 @@
   --stack-light: #fbf8f5;
   --stack-light-line: #e6ceb8;
   --card-line: #e9e9e9;
-  --testimonial-light: #eff7fe;
+  --testimonial-light: #fbf8f5; /* cream, same family as the stack-light cards */
+  --accent-on-light: #9c622b; /* copper text on white/cream: 4.9:1 */
   --ink: #1f1f1f;
   --ink-soft: #293038;
   --text-hero: #f0f0f0;
