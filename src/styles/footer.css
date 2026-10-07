@@ -69,4 +69,5 @@
 
   .st-footer__contact { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; font-family: var(--font-body); font-size: 12px; line-height: 18px; letter-spacing: -0.01em; color: rgba(255,255,255,0.85); }
   .st-footer__contact a:hover { color: #ffffff; }
+  .st-footer__contact-row { display: flex; flex-wrap: wrap; column-gap: 16px; }
 }

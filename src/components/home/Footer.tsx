@@ -62,8 +62,10 @@ export function Footer() {
               <p className="st-body-xs" style={{ color: "#fff", opacity: 0.5, marginTop: 8, maxWidth: 271.82, fontSize: 11, lineHeight: "16px", letterSpacing: "-0.01em" }}>Surface Talent Ltd. Registered in England and Wales, no. 17497267. Registered office: 67C King Street, Knutsford WA16 6DX.</p>
               <div className="st-footer__contact">
                 <a className="st-contact-link" href={`mailto:${CONTACT_EMAIL}`}><span>{CONTACT_EMAIL}</span></a>
-                <a className="st-contact-link" href={`tel:${CONTACT_PHONE_E164}`}><span>{CONTACT_PHONE_DISPLAY}</span></a>
-                <a className="st-contact-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><span className="sr-only"> (opens WhatsApp)</span></a>
+                <div className="st-footer__contact-row">
+                  <a className="st-contact-link" href={`tel:${CONTACT_PHONE_E164}`}><span>{CONTACT_PHONE_DISPLAY}</span></a>
+                  <a className="st-contact-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><span className="sr-only"> (opens WhatsApp)</span></a>
+                </div>
               </div>
             </div>
           </div>
