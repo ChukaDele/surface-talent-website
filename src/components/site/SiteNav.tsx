@@ -6,9 +6,8 @@ import { useEffect, useId, useState } from "react";
 import { NAV } from "@/lib/site/nav";
 
 /**
- * Primary nav with the current-route state from Figma (Candidates/About frames): a 14px copper
- * diamond sits 8px before the current label. `aria-current="page"` carries the semantics; the
- * diamond is decorative. Distinct from hover (colour only) and focus (ring).
+ * Primary nav. The current route carries a fixed copper underline (`aria-current="page"` carries the
+ * semantics); hover draws the same rule in from the left. Distinct from focus (ring).
  * Below 1024px (no Figma state) the same list sits behind a real <button> "Menu" toggle so the
  * routes stay reachable by keyboard, touch and automated agents.
  */
@@ -49,7 +48,6 @@ export function SiteNav() {
           const current = pathname === n.href || pathname.startsWith(n.href + "/");
           return (
             <Link key={n.href} href={n.href} prefetch={false} aria-current={current ? "page" : undefined} onClick={() => setOpen(false)}>
-              {current ? <img className="st-header__current" src="/assets/svg/eyebrow-diamond.svg" alt="" width={14} height={14} /> : null}
               <span>{n.label}</span>
             </Link>
           );

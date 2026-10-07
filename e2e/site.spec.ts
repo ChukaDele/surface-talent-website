@@ -73,7 +73,6 @@ test.describe("site chrome", () => {
       const current = nav.locator("a[aria-current='page']");
       await expect(current).toHaveCount(1);
       await expect(current).toHaveAttribute("href", r);
-      await expect(current.locator("img.st-header__current")).toHaveCount(1);
     }
     await page.goto("/");
     await expect(page.getByRole("navigation", { name: "Primary" }).locator("a[aria-current='page']")).toHaveCount(0);
@@ -132,7 +131,7 @@ test.describe("site chrome", () => {
     await page.goto("/");
     const footer = page.getByRole("contentinfo");
     await expect(footer.locator(".st-footer__wordmark")).toHaveCount(0);
-    await expect(footer.locator(".st-footer__brand")).toContainText("Surface Talent");
+    await expect(footer.locator(".st-footer__brand").getByRole("img", { name: "Surface Talent" })).toHaveCount(1);
   });
 });
 
@@ -150,17 +149,16 @@ test.describe("corrections pass", () => {
     await expect(header).not.toHaveClass(/is-hidden/);
   });
 
-  test("footer circle terminates just below the CTA row and the legal links resolve", async ({ page }, testInfo) => {
+  test("footer CTA sits on the page grid and the legal links resolve", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1440");
     await page.goto("/contact");
-    // --orb-end is measured by the footer script after hydration; wait for it rather than racing the CSS fallback
-    await page.waitForFunction(() => (document.querySelector(".st-footer") as HTMLElement | null)?.style.getPropertyValue("--orb-end") !== "");
-    const { orbEnd, ctaBottom, footerH } = await page.evaluate(() => {
-      const f = document.querySelector(".st-footer") as HTMLElement; const cta = document.querySelector("[data-footer-cta]") as HTMLElement; const clip = document.querySelector(".st-footer__orbclip") as HTMLElement;
-      const fr = f.getBoundingClientRect();
-      return { orbEnd: clip.getBoundingClientRect().height, ctaBottom: cta.getBoundingClientRect().bottom - fr.top, footerH: fr.height };
-    });
-    expect(orbEnd).toBeGreaterThan(ctaBottom); expect(orbEnd).toBeLessThan(ctaBottom + 80); expect(orbEnd).toBeLessThan(footerH * 0.7);
+    // October 2026 brand pass: the decorative orb is gone; the closing CTA aligns with the page gutter
+    await expect(page.locator(".st-footer__orbclip")).toHaveCount(0);
+    const { ctaLeft, logoLeft } = await page.evaluate(() => ({
+      ctaLeft: (document.querySelector("[data-footer-cta] .st-foot__title") as HTMLElement).getBoundingClientRect().left,
+      logoLeft: (document.querySelector(".st-header__brand") as HTMLElement).getBoundingClientRect().left,
+    }));
+    expect(Math.abs(ctaLeft - logoLeft)).toBeLessThan(2);
     const legal = page.getByRole("navigation", { name: "Legal" });
     const hrefs = await legal.getByRole("link").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href")));
     expect(hrefs).toEqual(expect.arrayContaining(["/privacy", "/cookies", "/modern-slavery", "/terms", "/accessibility", "/privacy-requests", "/candidate-privacy", "/responsible-ai"]));
@@ -186,10 +184,10 @@ test.describe("corrections pass", () => {
     const form = page.getByRole("form", { name: "Send a brief" });
     const trigger = form.getByRole("combobox", { name: "What brings you here?" });
     await expect(trigger).toHaveText(/I.m hiring/);
-    const restingBg = await trigger.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(restingBg).not.toBe("rgb(255, 255, 255)"); // bright treatment is hover/focus only
+    // light form on the brand palette: hover darkens the hairline from rule to brushed nickel
+    expect(await trigger.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe("rgb(218, 221, 223)");
     await trigger.hover();
-    await expect.poll(() => trigger.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
+    await expect.poll(() => trigger.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe("rgb(192, 197, 201)");
     await trigger.focus(); await page.keyboard.press("Enter");
     const list = page.getByRole("listbox"); await expect(list).toBeVisible();
     await expect.poll(() => page.evaluate(() => document.activeElement?.getAttribute("role"))).toBe("option");
@@ -228,8 +226,8 @@ test.describe("corrections pass", () => {
     await page.goto("/contact");
     await expect(page.locator(".st-cohero__spacer")).toHaveCount(0);
     await page.goto("/clients");
-    // The clients hero is static: the first content block follows it directly.
-    const firstBlock = page.locator(".st-block").first();
+    // The clients hero is static: the first content section follows it directly.
+    const firstBlock = page.locator(".st-sec").first();
     await expect(firstBlock).toBeVisible();
     const previousClass = await firstBlock.evaluate((el) => el.previousElementSibling?.className ?? "");
     expect(previousClass).toMatch(/st-chero/);

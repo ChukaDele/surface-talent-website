@@ -29,7 +29,7 @@ export function ContactForm() {
   }, [kind]);
   if (state === "success") {
     return (
-      <div className="st-form st-form--dark st-form--done" role="status" aria-live="polite">
+      <div className="st-form st-form--done" role="status" aria-live="polite">
         <p className="st-eyebrow">Received</p>
         <h3 className="st-h4">Thanks — we’ve got it.</h3>
         <p className="st-body">We’ll come back within 24 hours. Your reference is <strong>{submissionId}</strong>.</p>
@@ -37,7 +37,7 @@ export function ContactForm() {
     );
   }
   return (
-    <form className="st-form st-form--dark" id="brief-form" aria-label="Send a brief" onSubmit={onSubmit} noValidate aria-describedby="brief-status" onChange={(e) => { const t = e.target as unknown as { name?: string }; if (t.name) clearError(t.name); }}>
+    <form className="st-form" id="brief-form" aria-label="Send a brief" onSubmit={onSubmit} noValidate aria-describedby="brief-status" onChange={(e) => { const t = e.target as unknown as { name?: string }; if (t.name) clearError(t.name); }}>
       <input type="hidden" name="form_type" value={formType} />
       <BotGuards />
       <div className="st-form__row">
@@ -48,7 +48,7 @@ export function ContactForm() {
         {kind === "hiring"
           ? <TextField label="Company" name="company" autoComplete="organization" required error={errors.company} placeholder="Company" />
           : <TextField label="Phone (optional)" name="phone" type="tel" autoComplete="tel" inputMode="tel" error={errors.phone} />}
-        <SelectField dark label="What brings you here?" name="enquiry_type" options={ENQUIRY_TYPES} value={kind} onValueChange={setKind} required />
+        <SelectField label="What brings you here?" name="enquiry_type" options={ENQUIRY_TYPES} value={kind} onValueChange={setKind} required />
       </div>
       {kind === "hiring" ? (
         <>
@@ -58,19 +58,19 @@ export function ContactForm() {
           </div>
           <div className="st-form__row">
             <TextField label="Phone" name="phone" type="tel" autoComplete="tel" inputMode="tel" required error={errors.phone} placeholder="Phone" />
-            <SelectField dark label="Discipline" name="discipline" options={DISCIPLINES} />
+            <SelectField label="Discipline" name="discipline" options={DISCIPLINES} />
           </div>
           <div className="st-form__row">
-            <SelectField dark label="How many hires?" name="hires_count" options={HIRES} />
-            <SelectField dark label="Timeline" name="hiring_timeline" options={TIMELINES} />
+            <SelectField label="How many hires?" name="hires_count" options={HIRES} />
+            <SelectField label="Timeline" name="hiring_timeline" options={TIMELINES} />
           </div>
-          <SelectField dark label="Employment type" name="employment_types" options={HIRE_EMPLOYMENT} />
+          <SelectField label="Employment type" name="employment_types" options={HIRE_EMPLOYMENT} />
         </>
       ) : kind === "career_move" ? (
         <>
           <div className="st-form__row">
             <TextField label="Current role and employer" name="current_title" autoComplete="organization-title" placeholder="Current role and employer" />
-            <SelectField dark label="Discipline" name="discipline" options={DISCIPLINES} />
+            <SelectField label="Discipline" name="discipline" options={DISCIPLINES} />
           </div>
           <FileField name="cv" label={<>Attach your CV<br />(optional)</>} error={errors.cv} fileName={cvName} onChange={(f) => setCvName(f ? f.name : "")} hint="PDF or Word, up to 10 MB." />
         </>

@@ -44,13 +44,13 @@ export function OffSpecPlate({ code = "404" }: { code?: string }) {
       {/* inspection head sweeping the panel */}
       <g className="st-offspec__probe">
         <line x1="0" y1="118" x2="0" y2="150" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
-        <rect x="-13" y="100" width="26" height="20" rx="3" fill="#0d2233" stroke="var(--primary-500)" strokeWidth="1.2" />
-        <circle cx="0" cy="152" r="2.6" fill="var(--primary-500)" />
+        <rect x="-13" y="100" width="26" height="20" rx="3" fill="var(--anthracite)" stroke="var(--copper)" strokeWidth="1.2" />
+        <circle cx="0" cy="152" r="2.6" fill="var(--copper)" />
       </g>
 
       {/* the verdict */}
       <g className="st-offspec__stamp">
-        <rect x="-64" y="-19" width="128" height="38" rx="4" fill="none" stroke="#d15b4a" strokeWidth="2" />
+        <rect x="-64" y="-19" width="128" height="38" rx="4" fill="none" stroke="var(--signal)" strokeWidth="2" />
         <text x="0" y="6" className="st-offspec__stampText">OFF SPEC</text>
       </g>
 

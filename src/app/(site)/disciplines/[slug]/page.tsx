@@ -3,12 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PageHero } from "@/components/site/PageHero";
+import { Section, SectionHead, RuleGrid } from "@/components/site/Blocks";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import * as Icons from "@/components/pages/disciplines/icons";
 import { DISCIPLINE_PAGES } from "@/lib/site/disciplinePages";
 import { SITE_ORIGIN } from "@/lib/site/nav";
 import { JsonLd, breadcrumbLd } from "@/lib/site/structuredData";
-import "@/styles/pages/disciplines.css";
 import "@/styles/pages/discipline-detail.css";
 
 /** Per-discipline landing pages (process, roles, standards, hiring challenges, related lanes). */
@@ -44,96 +45,68 @@ export default async function DisciplineDetailPage({ params }: { params: Promise
   return (
     <div className="st-page st-ddetail">
       <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Disciplines", path: "/disciplines" }, { name: d.title, path: `/disciplines/${d.slug}` }])} />
-      <nav className="st-inner st-crumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><Link href="/" prefetch={false}>Home</Link></li>
-          <li><Link href="/disciplines" prefetch={false}>Disciplines</Link></li>
-          <li aria-current="page">{d.title}</li>
-        </ol>
-      </nav>
+      <PageHero
+        eyebrow={d.eyebrow}
+        title={d.h1}
+        body={<>{d.intro.map((p) => <p key={p.slice(0, 24)}>{p}</p>)}</>}
+        actions={<><Button href="/contact#brief">Brief us on a role</Button><BookCallButton variant="secondary">Book a call</BookCallButton></>}
+        aside={Icon ? <div className="st-ddetail__art" aria-hidden="true"><Icon className="st-ddetail__icon" /></div> : undefined}
+        crumbs={
+          <nav aria-label="Breadcrumb">
+            <ol className="st-crumbs-inline">
+              <li><Link href="/" prefetch={false}>Home</Link></li>
+              <li><Link href="/disciplines" prefetch={false}>Disciplines</Link></li>
+              <li aria-current="page">{d.title}</li>
+            </ol>
+          </nav>
+        }
+      />
 
-      <header className="st-inner st-ddetail__hero">
-        <div className="st-ddetail__herocopy">
-          <Eyebrow>{d.eyebrow}</Eyebrow>
-          <h1 className="st-h1">{d.h1}</h1>
-          {d.intro.map((p) => <p key={p.slice(0, 24)} className="st-body-lg">{p}</p>)}
-          <div className="st-btn-row">
-            <Button href="/contact#brief">Brief us on a role</Button>
-            <BookCallButton variant="secondary">Book a call</BookCallButton>
+      <Section tone="white" labelledBy="process-h">
+        <div className="st-twocol">
+          <div className="st-shead__main">
+            <Eyebrow>The work</Eyebrow>
+            <h2 id="process-h" className="st-h2">{d.process.heading}</h2>
           </div>
+          <div className="st-prose st-prose--lead">{d.process.body.map((p) => <p key={p.slice(0, 24)}>{p}</p>)}</div>
         </div>
-        {Icon ? <div className="st-ddetail__art" aria-hidden="true"><Icon className="st-ddetail__icon" /></div> : null}
-      </header>
+      </Section>
 
-      <section className="st-block st-block--cream" aria-labelledby="process-h">
-        <div className="st-inner st-ddetail__two">
-          <h2 id="process-h" className="st-h2">{d.process.heading}</h2>
-          <div className="st-ddetail__prose">{d.process.body.map((p) => <p key={p.slice(0, 24)} className="st-body">{p}</p>)}</div>
+      <Section tone="chalk" labelledBy="roles-h">
+        <SectionHead layout="split" eyebrow="Who we place" titleId="roles-h" title={`Roles we recruit in ${d.title.toLowerCase()}`} />
+        <RuleGrid items={d.roles} />
+      </Section>
+
+      <Section tone="dark" labelledBy="challenges-h">
+        <SectionHead layout="split" eyebrow="What makes this hard" titleId="challenges-h" title="Hiring challenges in this lane" />
+        <RuleGrid items={d.challenges} />
+        <div className="st-standards">
+          <h3 className="st-eyebrow">Standards and approvals we screen against</h3>
+          <ul>{d.standards.map((s) => <li key={s}>{s}</li>)}</ul>
         </div>
-      </section>
+      </Section>
 
-      <section className="st-block" aria-labelledby="roles-h">
-        <div className="st-inner st-block__inner st-block__inner--tight">
-          <div className="st-heading st-heading--center st-heading--520">
-            <Eyebrow diamond>Who we place</Eyebrow>
-            <h2 id="roles-h" className="st-h2" style={{ color: "var(--ink-soft)" }}>Roles we recruit in {d.title.toLowerCase()}</h2>
-          </div>
-          <div className="st-grid3">
-            {d.roles.map((r) => (
-              <article key={r.title} className="st-grid3__card" style={{ minHeight: 170 }}>
-                <div className="st-grid3__text">
-                  <h3 className="st-grid3__title">{r.title}</h3>
-                  <p className="st-body">{r.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="st-band" aria-labelledby="challenges-h">
-        <div className="st-inner st-band__inner">
-          <div className="st-heading st-heading--center">
-            <Eyebrow diamond>What makes this hard</Eyebrow>
-            <h2 id="challenges-h" className="st-h2">Hiring challenges in this lane</h2>
-          </div>
-          <div className="st-grid3 st-grid3--dark">
-            {d.challenges.map((c) => (
-              <article key={c.title} className="st-grid3__card" style={{ minHeight: 170 }}>
-                <div className="st-grid3__text">
-                  <h3 className="st-h4">{c.title}</h3>
-                  <p className="st-body">{c.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="st-ddetail__standards">
-            <h3 className="st-eyebrow st-eyebrow--light">Standards and approvals we screen against</h3>
-            <ul>{d.standards.map((s) => <li key={s}>{s}</li>)}</ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="st-block" aria-labelledby="next-h">
-        <div className="st-inner st-ddetail__next">
-          <div>
-            <Eyebrow diamond>Where next</Eyebrow>
-            <h2 id="next-h" className="st-h2" style={{ color: "var(--ink-soft)" }}>Related disciplines</h2>
-            <ul className="st-ddetail__related">
-              {related.map((r) => <li key={r.slug}><Link href={`/disciplines/${r.slug}`} prefetch={false}>{r.title}</Link></li>)}
-              <li><Link href="/disciplines" prefetch={false}>All 14 disciplines</Link></li>
-            </ul>
-          </div>
-          <div className="st-ddetail__actions">
-            <p className="st-body">Hiring in {d.title.toLowerCase()}? Send us the role and we will come back within 24 hours. Looking for your next move? Register and we will call when the right one lands.</p>
+      <Section tone="white" labelledBy="next-h">
+        <div className="st-twocol">
+          <div className="st-shead__main">
+            <Eyebrow>Where next</Eyebrow>
+            <h2 id="next-h" className="st-h2">Hiring in {d.title.toLowerCase()}?</h2>
+            <p className="st-body-lg st-shead__lede">Send us the role and we will come back within 24 hours. Looking for your next move? Register and we will call when the right one lands.</p>
             <div className="st-btn-row">
               <Button href="/contact#brief">Brief us on a role</Button>
               <Button href="/candidates#register" variant="secondary">Register your CV</Button>
-              <Button href="/jobs" variant="secondary">See live roles</Button>
             </div>
           </div>
+          <div>
+            <span className="st-rgrid__kicker st-related__label">Related disciplines</span>
+            <ul className="st-related">
+              {related.map((r) => <li key={r.slug}><Link href={`/disciplines/${r.slug}`} prefetch={false}>{r.title}</Link></li>)}
+              <li><Link href="/disciplines" prefetch={false}>All 14 disciplines</Link></li>
+              <li><Link href="/jobs" prefetch={false}>See live roles</Link></li>
+            </ul>
+          </div>
         </div>
-      </section>
+      </Section>
     </div>
   );
 }

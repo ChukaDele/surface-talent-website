@@ -24,7 +24,7 @@ const FAILURES = [
 export function WhyGeneralists() {
   return (
     <section className="st-section st-whyfail" aria-labelledby="whyfail-title">
-      <div className="st-inner st-whyfail__inner">
+      <div className="st-wrap st-whyfail__inner">
         <div className="st-whyfail__head">
           <Eyebrow>Why specialist search</Eyebrow>
           <h2 id="whyfail-title" className="st-h2">Surface engineering is a technical trade. Most recruiters cannot speak it.</h2>

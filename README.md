@@ -51,10 +51,11 @@ All run against a production server (`npm run build && npx next start -p 3501`):
 
 ## Fonts
 
-Headings use **Coolvetica**. Drop the licensed webfont at `public/fonts/coolvetica-rg.woff2`
-and set `--heading-tracking` in `globals.css` to `0`. Until then the page falls back to a
-locally installed Coolvetica (a QA-only copy is git-ignored) with a tracking compensation so
-Figma's line breaks hold. Geist, Geist Mono, IBM Plex Mono and Gochi Hand load via `next/font`.
+Brand typography from the Brand and Launch Pack: **Inter Tight** (headlines), **Inter** (body) and
+**IBM Plex Mono** (labels, codes, figures). All three are SIL OFL and self-hosted from `src/fonts/`
+through `next/font/local`, so builds need no network and every visitor sees the same faces.
+Coolvetica is retired (it was never shipped as a webfont, so visitors were seeing fallbacks).
+See `docs/brand-system.md` for the full palette, type scale and component rules.
 
 ## Hero H
 
@@ -101,6 +102,4 @@ without an explicit decision.
    answers 503 and the forms show a recoverable "not switched on yet" message.
 2. **Live jobs** — optional: `AIRTABLE_TOKEN` / `AIRTABLE_BASE_ID` secrets on the Worker (same Airtable
    base as the legacy site) turn the Jobs empty state into the live list.
-3. **Coolvetica** — place the licensed `coolvetica-rg.woff2` in `public/fonts/`, move it to the front
-   of the `@font-face` `src` list in `src/app/globals.css`, update the preload in `src/app/layout.tsx`,
-   and set `--heading-tracking` to 0.
+3. **Fonts** — nothing to do: brand fonts are self-hosted (see Fonts above).

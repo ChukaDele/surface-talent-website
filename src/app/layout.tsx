@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Geist, Geist_Mono, IBM_Plex_Mono, Gochi_Hand } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import "@/styles/brand.css";
 import { SITE_ORIGIN } from "@/lib/site/nav";
 import { JsonLd, organizationLd, websiteLd } from "@/lib/site/structuredData";
 
-const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
-const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400"], display: "swap" });
-const gochi = Gochi_Hand({ variable: "--font-gochi", subsets: ["latin"], weight: ["400"], display: "swap" });
+// Brand typography (Brand and Launch Pack): Inter Tight headlines, Inter body, IBM Plex Mono for
+// labels, codes and figures. Self-hosted OFL files so builds need no network and every visitor
+// sees the same faces (the previous Coolvetica heading face was never shipped as a webfont).
+const interTight = localFont({ src: "../fonts/InterTight-Variable.woff2", variable: "--font-inter-tight", weight: "100 900", display: "swap" });
+const inter = localFont({ src: "../fonts/Inter-Variable.woff2", variable: "--font-inter", weight: "100 900", display: "swap" });
+const plexMono = localFont({
+  src: [
+    { path: "../fonts/ibm-plex-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/ibm-plex-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
+  variable: "--font-plex-mono",
+  display: "swap",
+});
 
 const isStaging = process.env.SITE_ENV !== "production";
 
@@ -38,9 +48,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-GB" className={`${geist.variable} ${geistMono.variable} ${plexMono.variable} ${gochi.variable}`}>
+    <html lang="en-GB" className={`${interTight.variable} ${inter.variable} ${plexMono.variable}`}>
       <head>
-        <link rel="preload" href="/fonts/coolvetica-local-qa.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <JsonLd data={[organizationLd, websiteLd]} />
       </head>
       <body>{children}</body>

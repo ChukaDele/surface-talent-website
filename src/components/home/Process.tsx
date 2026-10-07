@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Section, SectionHead, Steps } from "@/components/site/Blocks";
 
 const STEPS = [
   { title: "Brief", body: "A proper technical brief, on site where it helps. We agree what good looks like for this hire and put it in writing before anything else happens." },
@@ -9,28 +9,18 @@ const STEPS = [
   { title: "Place and stay", body: "Offer, resignation and onboarding handled with care. We stay accountable after the start date, not just until the invoice." },
 ];
 
-/** Homepage section 5 (October 2026): the search process, five steps, no illustrations. */
+/** Homepage section 5: the search process, five steps. */
 export function Process() {
   return (
-    <section className="st-section st-process" aria-labelledby="process-title">
-      <div className="st-inner st-process__inner">
-        <div className="st-process__head">
-          <Eyebrow>How we work</Eyebrow>
-          <h2 id="process-title" className="st-h2">From brief to hire, without the noise.</h2>
-        </div>
-        <ol className="st-process__steps">
-          {STEPS.map((s, i) => (
-            <li key={s.title} className="st-process__step">
-              <span className="st-process__n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="st-h4">{s.title}</h3>
-              <p className="st-body-sm">{s.body}</p>
-            </li>
-          ))}
-        </ol>
-        <div className="st-process__foot">
-          <Button href="/contact#brief">Brief us on a role</Button>
-        </div>
-      </div>
-    </section>
+    <Section tone="white" labelledBy="process-title" className="st-section st-process">
+      <SectionHead
+        layout="split"
+        eyebrow="How we work"
+        titleId="process-title"
+        title="From brief to hire, without the noise."
+        actions={<Button href="/contact#brief">Brief us on a role</Button>}
+      />
+      <Steps items={STEPS} />
+    </Section>
   );
 }

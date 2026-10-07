@@ -1,28 +1,25 @@
 import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 /**
- * Production homepage hero (October 2026 reposition). Typographic only: no portrait, no plant
- * imagery. One headline, one positioning line, two CTAs, and a quiet single-colour client row.
+ * Homepage hero (October 2026). Typographic only: one headline, one positioning line, two CTAs and
+ * the client row. Client logos are each company's own artwork with the background keyed out to
+ * transparency, so they sit on anthracite (or any surface) without a box.
  * `data-hero-static` keeps the legacy hero scroll handoff (useHeroMotion) inert.
- */
-/**
- * Client logos: each company's own artwork, taken from its website in October 2026 and rendered
- * on the hero navy (#0d2233). Karas and SurfacePrep are the dark-background versions they publish.
- * Replace a file in /assets/img/clients/ to update one; keep the navy background.
  */
 const CLIENTS = [
   { name: "Karas Plating", src: "/assets/img/clients/karas.png", h: 30 },
-  { name: "RDM Engineering", src: "/assets/img/clients/rdm.png", h: 42 },
-  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.png", h: 38 },
-  { name: "SurfacePrep", src: "/assets/img/clients/surfaceprep.png", h: 30 },
+  { name: "RDM Engineering", src: "/assets/img/clients/rdm.png", h: 40 },
+  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.png", h: 34 },
+  { name: "SurfacePrep", src: "/assets/img/clients/surfaceprep.png", h: 28 },
 ];
 
 export function HeroPremium() {
   return (
     <section className="st-section st-phero" data-scene="hero" data-hero-static="true" aria-labelledby="hero-title">
-      <div className="st-inner st-phero__inner">
+      <div className="st-wrap st-phero__inner">
         <div className="st-phero__copy">
-          <p className="st-phero__eyebrow">Executive and technical search · UK surface engineering</p>
+          <Eyebrow className="st-phero__eyebrow">Executive and technical search · UK surface engineering</Eyebrow>
           <h1 id="hero-title" className="st-h1 st-phero__title" data-hero-title>Recruitment built around Surface Engineering</h1>
           <p className="st-body-lg st-phero__lede">
             Senior and critical appointments for plating, anodising, coating and heat treatment businesses.

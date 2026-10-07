@@ -1,10 +1,14 @@
 import type { ReactNode } from "react";
 
-/** Figma eyebrow: Geist Mono 12/16, tracking 2px, uppercase, copper — optional 14px diamond. */
-export function Eyebrow({ children, diamond = false, tone = "copper", className = "" }: { children: ReactNode; diamond?: boolean; tone?: "copper" | "light" | "muted"; className?: string }) {
+/**
+ * Section label: IBM Plex Mono, uppercase, tracked, led by a short copper rule (the brand's
+ * "coating layer" line). Copper on light surfaces, lighter copper on anthracite (set by the
+ * surface, see brand.css). `diamond` is accepted for older call sites and ignored: the rule
+ * replaces it everywhere.
+ */
+export function Eyebrow({ children, tone = "copper", className = "" }: { children: ReactNode; diamond?: boolean; tone?: "copper" | "light" | "muted"; className?: string }) {
   return (
     <span className={`st-eyebrow ${tone === "light" ? "st-eyebrow--light" : tone === "muted" ? "st-eyebrow--muted" : ""} ${className}`}>
-      {diamond ? <img className="st-eyebrow__diamond" src="/assets/svg/eyebrow-diamond.svg" alt="" width={14} height={14} /> : null}
       {children}
     </span>
   );

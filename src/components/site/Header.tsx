@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { SiteNav } from "@/components/site/SiteNav";
+import { Logo } from "@/components/site/Logo";
 import { useHeaderAutoHide } from "@/lib/motion/useHeaderAutoHide";
 
 /**
@@ -17,12 +18,11 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
   return (
     <header ref={ref} className={`st-header ${tone === "light" ? "st-header--light" : ""}`}>
       <Link href="/" prefetch={false} className="st-header__brand" aria-label="Surface Talent home">
-        <img src="/assets/svg/brand-mark.svg" alt="" width={28} height={20} />
-        <span>Surface Talent</span>
+        <Logo title="Surface Talent" />
       </Link>
       <div className="st-header__right">
         <SiteNav />
-        <Button href="/contact" tone={tone === "light" ? "copper" : "light"}>Brief us</Button>
+        <Button href="/contact" tone="copper">Brief us</Button>
       </div>
     </header>
   );

@@ -35,7 +35,7 @@ export default function NotFound() {
             </p>
             <div className="st-btn-row">
               <Button href="/" tone="light">Back to the start</Button>
-              <Button href="/jobs" variant="secondary">See live roles</Button>
+              <Button href="/jobs" tone="light" variant="secondary">See live roles</Button>
             </div>
             <div className="st-err__links">
               <Link href="/candidates" prefetch={false}>Register your CV</Link>

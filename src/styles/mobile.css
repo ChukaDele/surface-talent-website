@@ -193,26 +193,10 @@
     .st-problem__cardhead .st-body { max-width: none; }
     .st-problem__stack { display: flex; flex-direction: column; gap: 16px; }
 
-    /* ---------- alignment: one rule for the whole phone layout ---------- */
-    /* Everything centres. Mixing a centred eyebrow over a left-aligned heading, which is what the
-       desktop grid produced once it collapsed to one column, is what made the page feel unsettled.
-       The two exceptions are the legal documents and the forms: centred legal prose is genuinely
-       harder to read, and form fields and their labels must share a left edge. */
-    main, .st-section, .st-block, .st-band, .st-inner { text-align: center; }
-    .st-eyebrow, .st-heading, .st-btn-row, .st-hero__ctas, .st-page-hero__ctas,
-    .st-card__icon, .st-caproc__n, .st-cstep__n, .st-ctier__label { justify-content: center; }
-    .st-heading, .st-hero__copy, .st-page-hero__copy, .st-cahero__copy, .st-chero__copy,
-    .st-split__copy, .st-cstep, .st-caproc__item, .st-card, .st-dcard, .st-grid3__card,
-    .st-clients__card, .st-why__cardhead, .st-problem__cardhead, .st-system__state,
-    .st-footer__ctablock, .st-stake__card { align-items: center; }
-    .st-btn-row, .st-hero__ctas, .st-page-hero__ctas { align-self: center; }
-    ul, ol { list-style-position: inside; }
-    .st-stake__list li, .st-fn__list li { justify-content: center; }
-
-    /* the exceptions */
-    .st-legal__body, .st-legal__body *, .st-form, .st-form *, .st-toc, .st-toc * { text-align: left; }
-    .st-form :is(label, .st-field), .st-legal__body :is(ul, ol) { align-items: flex-start; }
-    .st-form .st-btn-row, .st-form .st-check { justify-content: flex-start; }
+    /* ---------- alignment ---------- */
+    /* October 2026 brand pass: phones keep the desktop's left edge. One reading line from eyebrow
+       to button, the same as the printed brand material; nothing is centred. */
+    ul, ol { list-style-position: outside; }
 
     /* tiles sized to their own content instead of the tallest sibling */
     .st-cwhat__grid, .st-grid3, .st-cards3 { grid-auto-rows: auto; }
@@ -224,10 +208,10 @@
     /* The statistic, the quote and the attribution belong together, so they share a centre line and
        the rule closes the card underneath the author rather than splitting it in half. */
     .st-clients__row { gap: 16px; }
-    .st-clients__card { text-align: center; row-gap: 12px; box-shadow: inset 0 0 0 1px rgba(20,23,28,0.08); }
+    .st-clients__card { row-gap: 12px; }
     .st-clients__quote { text-align: left; }
-    .st-clients__metric { grid-row: 1; align-self: center; }
-    .st-clients__label { grid-row: 2; align-self: center; justify-content: center; }
+    .st-clients__metric { grid-row: 1; align-self: start; }
+    .st-clients__label { grid-row: 2; align-self: start; }
     .st-clients__quote { grid-row: 3; align-self: start; width: 100%; }
     .st-clients__author { grid-row: 4; flex-direction: column; gap: 6px; }
     .st-clients__rule { grid-row: 5; align-self: start; }

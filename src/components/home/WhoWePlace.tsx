@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Section, SectionHead, RuleGrid } from "@/components/site/Blocks";
 
 const ROLES = [
   ["Leadership", "Managing, operations and technical directors", "Confidential, board-level search for owners and investors. Succession, turnaround and growth appointments."],
@@ -10,30 +10,22 @@ const ROLES = [
   ["Maintenance and control", "Engineering managers, electrical and controls", "Keeping plant, rectifiers, ovens and automation running."],
 ];
 
-/** Homepage section 4 (October 2026): the roles we take on, senior and critical first. */
+/** Homepage section 4: the roles we take on, senior and critical first. */
 export function WhoWePlace() {
   return (
-    <section className="st-section st-place" aria-labelledby="place-title">
-      <div className="st-inner st-place__inner">
-        <div className="st-place__head">
-          <Eyebrow>Who we place</Eyebrow>
-          <h2 id="place-title" className="st-h2">The appointments a finishing business cannot afford to get wrong.</h2>
-          <p className="st-body-lg">Across electroplating, anodising, powder and paint, heat treatment, thermal spray and pre-treatment. Permanent, interim and retained.</p>
-        </div>
-        <div className="st-place__grid">
-          {ROLES.map(([lane, title, body]) => (
-            <article key={lane} className="st-place__cell">
-              <span className="st-mono">{lane}</span>
-              <h3 className="st-h4">{title}</h3>
-              <p className="st-body-sm">{body}</p>
-            </article>
-          ))}
-        </div>
-        <div className="st-place__foot">
-          <p className="st-body">We are not a volume agency and do not try to be. We take on a small number of searches at a time, so each one gets the attention it needs.</p>
-          <Button href="/disciplines" variant="secondary">Disciplines we cover</Button>
-        </div>
+    <Section tone="chalk" labelledBy="place-title" className="st-section st-place">
+      <SectionHead
+        layout="split"
+        eyebrow="Who we place"
+        titleId="place-title"
+        title="The appointments a finishing business cannot afford to get wrong."
+        lede="Across electroplating, anodising, powder and paint, heat treatment, thermal spray and pre-treatment. Permanent, interim and retained."
+      />
+      <RuleGrid items={ROLES.map(([kicker, title, body]) => ({ kicker, title, body }))} />
+      <div className="st-place__foot">
+        <p className="st-body">We are not a volume agency and do not try to be. We take on a small number of searches at a time, so each one gets the attention it needs.</p>
+        <Button href="/disciplines" variant="secondary">Disciplines we cover</Button>
       </div>
-    </section>
+    </Section>
   );
 }

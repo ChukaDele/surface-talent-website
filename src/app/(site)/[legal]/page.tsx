@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PageHero } from "@/components/site/PageHero";
 import { LegalToc } from "@/components/pages/legal/LegalToc";
 import manifest from "@/content/legal/manifest.json";
 import { SITE_ORIGIN } from "@/lib/site/nav";
@@ -50,14 +50,8 @@ export default async function LegalPage({ params }: { params: Promise<{ legal: s
   const body = raw.replace(/<h2([^>]*)>/g, (m0, attrs) => (i < toc.length ? `<h2${attrs} id="${toc[i++].id}">` : m0));
   return (
     <div className="st-page st-legal">
-      <header className="st-legal__hero">
-        <div className="st-inner st-legal__head">
-          <Eyebrow>{entry.eyebrow}</Eyebrow>
-          <h1 className="st-h1">{entry.title}</h1>
-          {entry.updated ? <p className="st-body-sm st-legal__updated">{entry.updated}</p> : null}
-        </div>
-      </header>
-      <div className="st-inner st-legal__layout">
+      <PageHero eyebrow={entry.eyebrow} title={entry.title} body={entry.updated ? <p className="st-legal__updated">{entry.updated}</p> : undefined} className="st-legal__hero" />
+      <div className="st-wrap st-legal__layout">
         <LegalToc items={toc} />
         <div className="st-legal__body" dangerouslySetInnerHTML={{ __html: body }} />
       </div>
