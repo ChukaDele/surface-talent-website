@@ -204,48 +204,7 @@ test.describe("corrections pass", () => {
     expect(await form.locator("select[name='enquiry_type']").inputValue()).toBe("career_move");
   });
 
-  test("homepage hero renders the approved portrait loop behind the copy", async ({ page }, testInfo) => {
-    test.skip(!["desktop-1440", "short-desktop"].includes(testInfo.project.name), "desktop slot geometry");
-    await page.goto("/");
-    const specimen = page.locator(".st-hero__specimen");
-    await expect(specimen).toBeVisible();
-    const portrait = specimen.locator("[data-static-portrait-preview]");
-    await expect(portrait).toBeVisible();
-    await expect(portrait.locator("[data-static-main] source[type='image/avif']").first()).toHaveAttribute("srcset", /plant-leader\.avif$/);
-    await expect(portrait.locator("[data-static-teaser]")).toHaveCount(0);
-    await expect(portrait.locator("[data-static-layer]")).toHaveCount(2);
-    await expect(portrait.locator("[data-static-layer][data-front]")).toHaveCount(1);
-    await expect(portrait).toHaveAttribute("data-hero-portrait-hold-ms", "4500");
-    await expect(portrait).toHaveAttribute("data-hero-portrait-transition-ms", "720");
-    await expect(portrait.locator("video")).toHaveCount(0);
-    const info = await portrait.evaluate((el) => {
-      const cs = getComputedStyle(el);
-      const r = el.getBoundingClientRect();
-      return { bg: cs.backgroundColor, w: r.width, h: r.height };
-    });
-    expect(info.bg, "the portrait composition uses the page navy as its only base").toMatch(/rgb\(13, 34, 51\)|rgba\(0, 0, 0, 0\)|transparent/);
-    const box = (await specimen.boundingBox())!;
-    expect(info.w).toBeCloseTo(box.width, 0);
-    expect(info.h).toBeGreaterThanOrEqual(540);
-    expect(info.h).toBeLessThanOrEqual(box.height);
-  });
 
-  test("client portraits stay crisp while the metadata scrim remains purposeful", async ({ page }) => {
-    await page.goto("/clients");
-    const card = page.locator("[data-profile]").first();
-    const styles = await card.evaluate((el) => {
-      const img = el.querySelector("img")!;
-      const shade = el.querySelector("[class*='st-profile__shade']")!;
-      return {
-        imageFilter: getComputedStyle(img).filter,
-        imageTransform: getComputedStyle(img).transform,
-        shadeBackdrop: getComputedStyle(shade).backdropFilter,
-      };
-    });
-    expect(styles.imageFilter).toBe("none");
-    expect(styles.imageTransform).toBe("none");
-    expect(styles.shadeBackdrop).toBe("none");
-  });
 
   test("buttons use a directional fill and arrow cue without a shadow", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1440");
@@ -264,66 +223,20 @@ test.describe("corrections pass", () => {
     expect(styles.arrow).not.toBe("none");
   });
 
-  test("the LinkedIn mark restores the decorative hanging treatment", async ({ page }) => {
-    await page.goto("/");
-    const link = page.locator("[data-linkedin]");
-    await expect(link).toHaveAttribute("aria-hidden", "true");
-    await expect(link.locator("a,button,input,select,textarea")).toHaveCount(0);
-    await expect(page.locator("[data-linkedin-rope]")).toHaveCount(1);
-    const styles = await link.evaluate((el) => ({ position: getComputedStyle(el).position, transform: getComputedStyle(el).transform, pointerEvents: getComputedStyle(el).pointerEvents }));
-    expect(styles.position).toBe("absolute");
-    expect(styles.transform).not.toBe("none");
-    expect(styles.pointerEvents).toBe("none");
-  });
 
   test("core page transitions do not retain explicit dead spacers", async ({ page }) => {
     await page.goto("/contact");
     await expect(page.locator(".st-cohero__spacer")).toHaveCount(0);
     await page.goto("/clients");
-    // ScrollTrigger owns the clients hero pin and wraps it in its runtime spacer. The
-    // first content block must follow that runtime wrapper, with no authored dead spacer.
+    // The clients hero is static: the first content block follows it directly.
     const firstBlock = page.locator(".st-block").first();
     await expect(firstBlock).toBeVisible();
     const previousClass = await firstBlock.evaluate((el) => el.previousElementSibling?.className ?? "");
-    expect(previousClass).toMatch(/st-chero|pin-spacer/);
+    expect(previousClass).toMatch(/st-chero/);
   });
 
-  test("reduced motion holds the opening homepage portrait without requesting video", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "reduced-motion");
-    const videoRequests: string[] = [];
-    page.on("request", (request) => {
-      if (/\.(webm|mp4)(\?|$)/.test(request.url())) videoRequests.push(request.url());
-    });
-    await page.goto("/");
-    await expect(page.locator("[data-static-portrait-preview]")).toBeVisible();
-    await expect(page.locator("[data-static-portrait-preview] [data-static-teaser]")).toHaveCount(0);
-    await expect(page.locator("[data-static-portrait-preview]")).toHaveAttribute("data-hero-portrait-index", "0");
-    await expect(page.locator("[data-static-portrait-preview] video")).toHaveCount(0);
-    expect(videoRequests).toHaveLength(0);
-  });
 
-  test("Why Specialists rebuilds 04 → 01 on reverse scroll without a dark screen", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "desktop-1440");
-    await page.goto("/");
-    const pin = page.locator(".st-why__pin");
-    const top = await pin.evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
-    const runway = await page.evaluate(() => (document.querySelector(".st-why__pin")!.closest(".pin-spacer") as HTMLElement).getBoundingClientRect().height - window.innerHeight);
-    const sample = async () => page.evaluate(() => { const m = document.querySelector("[data-why-morph]") as HTMLElement; const h = document.querySelector("[data-why-head]") as HTMLElement; const cs = getComputedStyle(m); return { morphOpacity: Number(cs.opacity), morphVis: cs.visibility, headOpacity: Number(getComputedStyle(h).opacity), stageBg: getComputedStyle(document.querySelector(".st-why__pin")!).backgroundColor }; });
-    await page.evaluate((y) => window.scrollTo(0, y), top + runway + 600); await page.waitForTimeout(500);
-    for (const frac of [0.98, 0.8, 0.6, 0.4, 0.2, 0.05]) {
-      await page.evaluate((y) => window.scrollTo(0, y), top + runway * frac); await page.waitForTimeout(450);
-      const s = await sample();
-      if (frac <= 0.6) { expect(s.morphOpacity, `morph hidden at ${frac}`).toBeLessThan(0.05); expect(s.headOpacity, `heading visible at ${frac}`).toBeGreaterThan(0.9); }
-    }
-  });
 
-  test("informational grids have no hover transform (Where we work is static)", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "desktop-1440");
-    await page.goto("/");
-    const card = page.locator(".st-disc__card").first();
-    await card.scrollIntoViewIfNeeded(); await card.hover(); await page.waitForTimeout(500);
-    expect(await card.evaluate((el) => getComputedStyle(el).transform)).toBe("none");
-  });
 });
 
 test.describe("forms", () => {

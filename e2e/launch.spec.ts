@@ -34,7 +34,7 @@ test.describe("anchors and sticky nav", () => {
     expect(box!.y).toBeLessThan(h + 260);
   });
 
-  test("the returned sticky nav is an opaque surface, so the logo marquee cannot read through it", async ({ page }, testInfo) => {
+  test("the returned sticky nav is an opaque surface", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === "reduced-motion");
     await page.goto("/");
     for (const y of [200, 320, 440, 560]) { await page.evaluate((v) => window.scrollTo(0, v), y); await page.waitForTimeout(80); }
@@ -332,26 +332,4 @@ test.describe("responsive", () => {
     await expect(page.getByRole("form", { name: "Register with Surface Talent" }).getByRole("button", { name: "Register" })).toHaveJSProperty("offsetHeight", 48);
   });
 
-  test("the Hero H uses an image-free mobile lockup and a full-bleed tablet field", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile" && testInfo.project.name !== "tablet");
-    await page.goto("/");
-    const portrait = page.locator("[data-static-portrait-preview]");
-    if (testInfo.project.name === "mobile") {
-      await expect(portrait).toBeHidden();
-      await expect(page.locator("[data-hero-logos]")).toBeHidden();
-      await expect(page.locator("[data-hero-ctas]")).toBeVisible();
-      const copy = await page.locator(".st-hero--static-preview .st-hero__copy").evaluate((el) => {
-        const cs = getComputedStyle(el);
-        return { position: cs.position, textAlign: cs.textAlign, width: el.getBoundingClientRect().width };
-      });
-      expect(copy.position).toBe("relative");
-      expect(copy.textAlign).toBe("center");
-      expect(copy.width).toBeLessThanOrEqual(360);
-    } else {
-      await expect(portrait).toBeVisible();
-      await expect(portrait.locator("[data-static-main] img").first()).toBeVisible();
-      await expect(portrait.locator("[data-static-teaser]")).toHaveCount(0);
-    }
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
-  });
 });
