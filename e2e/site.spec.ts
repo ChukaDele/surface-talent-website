@@ -153,6 +153,8 @@ test.describe("corrections pass", () => {
   test("footer circle terminates just below the CTA row and the legal links resolve", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1440");
     await page.goto("/contact");
+    // --orb-end is measured by the footer script after hydration; wait for it rather than racing the CSS fallback
+    await page.waitForFunction(() => (document.querySelector(".st-footer") as HTMLElement | null)?.style.getPropertyValue("--orb-end") !== "");
     const { orbEnd, ctaBottom, footerH } = await page.evaluate(() => {
       const f = document.querySelector(".st-footer") as HTMLElement; const cta = document.querySelector("[data-footer-cta]") as HTMLElement; const clip = document.querySelector(".st-footer__orbclip") as HTMLElement;
       const fr = f.getBoundingClientRect();
