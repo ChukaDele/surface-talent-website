@@ -16,7 +16,6 @@
   .st-phero__logos { display: flex; align-items: center; gap: clamp(28px, 4vw, 64px); margin: 0; padding: 0; list-style: none; flex-wrap: wrap; }
   .st-phero__logo { display: flex; align-items: center; }
   .st-phero__logo img { display: block; width: auto; }
-  .st-phero__wordmark { font-family: var(--font-heading); font-size: 22px; line-height: 1; letter-spacing: 0.02em; color: #fff; white-space: nowrap; }
 
   @media (max-width: 1023px) {
     .st-phero__inner { min-height: 0; padding: 120px 24px 32px; gap: 56px; }
@@ -27,8 +26,7 @@
     .st-phero__inner { padding-top: 104px; }
     .st-phero__title { font-size: 42px; line-height: 48px; }
     .st-phero__logos { gap: 22px 28px; }
-    .st-phero__logo img { height: 22px !important; }
-    .st-phero__wordmark { font-size: 18px; }
+    .st-phero__logo img { height: 26px !important; }
   }
 
   /* ---------- "why generalists fail" ---------- */

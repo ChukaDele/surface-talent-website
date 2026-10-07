@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/Button";
  * `data-hero-static` keeps the legacy hero scroll handoff (useHeroMotion) inert.
  */
 /**
- * Client logos: full-colour artwork supplied by each company, served from /assets/img/clients/.
- * Drop a replacement file with the same name to update one. SurfacePrep is a typeset wordmark
- * until its artwork arrives (set `src` when it does).
+ * Client logos: each company's own artwork, taken from its website in October 2026 and rendered
+ * on the hero navy (#0d2233). Karas and SurfacePrep are the dark-background versions they publish.
+ * Replace a file in /assets/img/clients/ to update one; keep the navy background.
  */
 const CLIENTS = [
-  { name: "Karas Plating", src: "/assets/img/clients/karas.png", h: 24 },
-  { name: "RDM Engineering", src: "/assets/img/clients/rdm.png", h: 32 },
-  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.png", h: 32 },
-  { name: "SurfacePrep", src: "", h: 0 },
+  { name: "Karas Plating", src: "/assets/img/clients/karas.png", h: 30 },
+  { name: "RDM Engineering", src: "/assets/img/clients/rdm.png", h: 42 },
+  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.png", h: 38 },
+  { name: "SurfacePrep", src: "/assets/img/clients/surfaceprep.png", h: 30 },
 ];
 
 export function HeroPremium() {
@@ -38,11 +38,7 @@ export function HeroPremium() {
           <ul className="st-phero__logos">
             {CLIENTS.map((c) => (
               <li key={c.name} className="st-phero__logo">
-                {c.src ? (
-                  <img src={c.src} alt={c.name} style={{ height: c.h }} loading="eager" decoding="async" />
-                ) : (
-                  <span className="st-phero__wordmark" role="img" aria-label={c.name}>{c.name}</span>
-                )}
+                <img src={c.src} alt={c.name} style={{ height: c.h }} loading="eager" decoding="async" />
               </li>
             ))}
           </ul>

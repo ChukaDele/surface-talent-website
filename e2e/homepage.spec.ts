@@ -9,7 +9,7 @@ test.describe("homepage", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Recruitment built around");
     await expect(page.locator("[data-static-portrait-preview]")).toHaveCount(0);
-    await expect(page.locator("[data-hero-static='true'] img, [data-hero-static='true'] video, [data-hero-static='true'] picture")).toHaveCount(3);
+    await expect(page.locator("[data-hero-static='true'] img, [data-hero-static='true'] video, [data-hero-static='true'] picture")).toHaveCount(4);
     for (const sel of [".st-phero", ".st-whyfail", ".st-dna", ".st-place", ".st-process", ".st-clients", ".st-footer"]) {
       await expect(page.locator(sel)).toHaveCount(1);
     }
@@ -27,7 +27,7 @@ test.describe("homepage", () => {
     await page.goto("/");
     const logos = page.locator("[data-hero-logos]");
     await expect(logos).toBeVisible();
-    await expect(logos.locator("img")).toHaveCount(3);
+    await expect(logos.locator("img")).toHaveCount(4);
     await expect(logos.getByRole("img", { name: "SurfacePrep" })).toHaveCount(1);
     await expect(page.locator("[data-linkedin], [data-count], [data-defect], .st-dna__partner")).toHaveCount(0);
     await expect(page.getByText(/\$|£200k/)).toHaveCount(0);
