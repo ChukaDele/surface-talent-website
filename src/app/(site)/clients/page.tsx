@@ -12,9 +12,9 @@ import { BrLg } from "@/components/ui/BrLg";
 
 export const metadata: Metadata = {
   title: "Metal Finishing Recruitment Agency — Surface Talent",
-  description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses. Run by people who own finishing plants. Send a brief; we reply within 24 hours.",
+  description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses, run by people who own finishing plants. Brief us today.",
   alternates: { canonical: `${SITE_ORIGIN}/clients` },
-  openGraph: { title: "Metal Finishing Recruitment Agency — Surface Talent", description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses. Run by people who own finishing plants. Send a brief; we reply within 24 hours.", url: `${SITE_ORIGIN}/clients` },
+  openGraph: { title: "Metal Finishing Recruitment Agency — Surface Talent", description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses, run by people who own finishing plants. Brief us today.", url: `${SITE_ORIGIN}/clients` },
 };
 
 const STEP_ART = [BriefIllustration, SearchIllustration, AssessIllustration, PlaceIllustration];
