@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHero } from "@/components/site/PageHero";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, SITE_ORIGIN } from "@/lib/site/nav";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_WHATSAPP_URL, SITE_ORIGIN } from "@/lib/site/nav";
 import "@/styles/pages/contact.css";
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export default function ContactPage() {
           <article className="st-card st-card--between">
             <div className="st-card__icon"><img src="/assets/svg/contact-icon-phone.svg" alt="" width={88} height={64} /></div>
             <div className="st-card__text">
-              <h2 className="st-h4">Email or phone</h2>
+              <h2 className="st-h4">Email, phone or WhatsApp</h2>
               <p className="st-body st-cocontact">
                 <a className="st-contact-link" href={`mailto:${CONTACT_EMAIL}`}>
                   <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" fill="none" stroke="currentColor" /><path d="M2 4.5l6 4 6-4" fill="none" stroke="currentColor" /></svg>
@@ -48,6 +48,10 @@ export default function ContactPage() {
                 <a className="st-contact-link" href={`tel:${CONTACT_PHONE_E164}`}>
                   <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5h2.2l1.1 2.7-1.5 1.1a7.5 7.5 0 0 0 3.9 3.9l1.1-1.5 2.7 1.1V12a1.5 1.5 0 0 1-1.6 1.5A10.5 10.5 0 0 1 2.5 4.1 1.5 1.5 0 0 1 3 2.5Z" fill="none" stroke="currentColor" /></svg>
                   <span>{CONTACT_PHONE_DISPLAY}</span>
+                </a>
+                <a className="st-contact-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75a6.25 6.25 0 0 0-5.4 9.4l-.85 3.1 3.2-.83A6.25 6.25 0 1 0 8 1.75Z" fill="none" stroke="currentColor" /><path d="M5.9 5.2c.2-.3.6-.3.8 0l.5.9c.1.2 0 .4-.1.6l-.3.3a4 4 0 0 0 2.2 2.2l.3-.3c.2-.1.4-.2.6-.1l.9.5c.3.2.3.6 0 .8-.5.5-1.2.7-1.9.4a6 6 0 0 1-3.2-3.2c-.3-.7-.1-1.4.2-2.1Z" fill="currentColor" /></svg>
+                  <span>WhatsApp us</span><span className="sr-only"> (opens WhatsApp)</span>
                 </a>
               </p>
             </div>

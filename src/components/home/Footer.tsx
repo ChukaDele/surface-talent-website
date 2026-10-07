@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { useFooterMotion } from "@/lib/motion/scenes/useFooterMotion";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/site/nav";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_WHATSAPP_URL } from "@/lib/site/nav";
 import { BrLg } from "@/components/ui/BrLg";
 
 const LOGOS = [
@@ -63,6 +63,7 @@ export function Footer() {
               <div className="st-footer__contact">
                 <a className="st-contact-link" href={`mailto:${CONTACT_EMAIL}`}><span>{CONTACT_EMAIL}</span></a>
                 <a className="st-contact-link" href={`tel:${CONTACT_PHONE_E164}`}><span>{CONTACT_PHONE_DISPLAY}</span></a>
+                <a className="st-contact-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><span className="sr-only"> (opens WhatsApp)</span></a>
               </div>
             </div>
           </div>

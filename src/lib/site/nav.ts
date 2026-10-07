@@ -21,6 +21,8 @@ export const BOOKING_EMBED_URL =
 export const CONTACT_EMAIL = "hello@surfacetalent.co.uk";
 export const CONTACT_PHONE_DISPLAY = "07401 233150";
 export const CONTACT_PHONE_E164 = "+447401233150";
+/** Official Surface Talent WhatsApp Business account (click-to-chat link). */
+export const CONTACT_WHATSAPP_URL = "https://wa.me/message/MTVIXSI3FXC6F1";
 
 /** Canonical production origin — used for canonical URLs, sitemap and structured data. */
 export const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || "https://surfacetalent.co.uk";
