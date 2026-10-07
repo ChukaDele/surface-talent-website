@@ -11,6 +11,8 @@ const LOGOS = [
   { name: "Karas Plating", src: "/assets/img/footer-logo-karas.png", w: 88, h: 20.97, cw: 233.59 },
   { name: "RDM Engineering", src: "/assets/img/footer-logo-rdm.png", w: 30.17, h: 26.38, cw: 189.76 },
   { name: "United Anodisers", src: "/assets/img/footer-logo-ua.png", w: 72.97, h: 26.38, cw: 239.56 },
+  // logo file to follow from SurfacePrep; name-only until then
+  { name: "SurfacePrep", src: "", w: 0, h: 0, cw: 160 },
 ];
 const EXPLORE = [["Clients", "/clients"], ["Candidates", "/candidates"], ["Jobs", "/jobs"], ["Disciplines", "/disciplines"], ["About", "/about"], ["Contact", "/contact"]];
 const LEGAL = [["Privacy", "/privacy"], ["Candidate privacy", "/candidate-privacy"], ["Privacy requests", "/privacy-requests"], ["Cookies", "/cookies"], ["Terms", "/terms"], ["Accessibility", "/accessibility"], ["Modern slavery", "/modern-slavery"], ["Responsible AI", "/responsible-ai"]];
@@ -36,7 +38,7 @@ export function Footer() {
               <div key={rep} className="st-footer__marquee-run" aria-hidden={rep === 1}>
                 {strip.map((l, i) => (
                   <div key={i} className="st-footer__logo" style={{ width: l.cw }}>
-                    <img src={l.src} alt="" style={{ width: l.w, height: l.h }} /><span>{l.name}</span>
+                    {l.src ? <img src={l.src} alt="" style={{ width: l.w, height: l.h }} /> : null}<span>{l.name}</span>
                   </div>
                 ))}
               </div>

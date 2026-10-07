@@ -6,9 +6,8 @@ import { useTestimonialHover } from "@/lib/motion/scenes/useTestimonialHover";
 import { BrLg } from "@/components/ui/BrLg";
 
 const ITEMS = [
-  { stat: "65%", label: "Reduction in plating line", quote: "We needed someone who could walk onto our plating line and hold their own from day one. Surface Talent understood the brief before we'd finished explaining it. The shortlist was tight, technically screened, and we hired within three weeks.", name: "Alan Pennington", role: "Managing Director, Karas Plating", avatar: "/assets/img/avatar-57_26072.png" },
-  { stat: "100%", label: "Reduction in plating line", quote: "We'd been let down by generalist agencies sending candidates who couldn't tell an anodising line from a paint booth. Surface Talent knew exactly what we needed and the person they placed hit the ground running.", name: "Peter Watts", role: "Managing Director, United Anodisers", avatar: "/assets/img/avatar-57_26085.png" },
-  { stat: "24", label: "Weeks of hire time", quote: "We needed a salesperson who understood our products and the sectors we sell into. Surface Talent mapped the market and brought us strong candidates with relevant product and sector knowledge inside a fortnight.", name: "Barry Shaws", role: "Quality Manager, RDM Engineering", avatar: "/assets/img/avatar-57_26097.png" },
+  { stat: "3", label: "Weeks from brief to hire", quote: "We needed someone who could walk onto our plating line and hold their own from day one. Surface Talent understood the brief before we'd finished explaining it. The shortlist was tight, technically screened, and we hired within three weeks.", name: "Alan Pennington", role: "Managing Director, Karas Plating", avatar: "/assets/img/avatar-57_26072.png" },
+  { stat: "2", label: "Weeks to a strong shortlist", quote: "We needed a salesperson who understood our products and the sectors we sell into. Surface Talent mapped the market and brought us strong candidates with relevant product and sector knowledge inside a fortnight.", name: "Barry Shaw", role: "Quality Manager, RDM Engineering", avatar: "/assets/img/avatar-57_26097.png" },
 ];
 
 /**
@@ -22,7 +21,7 @@ export function Testimonials() {
     <section ref={root} className="st-section st-clients" aria-labelledby="clients-title">
       <div className="st-inner st-clients__inner">
         <SectionHeading eyebrow="What our clients say" title={<span id="clients-title">Operators who briefed us.<BrLg />Results they measured.</span>} wide />
-        <div className="st-clients__row">
+        <div className="st-clients__row" data-count={ITEMS.length}>
           {ITEMS.map((t) => (
             <figure key={t.name} className="st-clients__card" data-testimonial tabIndex={0}>
               <div className="st-h2 st-clients__metric" data-t-stat>{t.stat}</div>

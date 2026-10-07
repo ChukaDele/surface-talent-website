@@ -5,8 +5,8 @@ test.describe("homepage regressions", () => {
   test("testimonials all render in the light base state; hover/focus turns navy", async ({ page }, testInfo) => {
     await page.goto("/");
     const cards = page.locator("[data-testimonial]");
-    await expect(cards).toHaveCount(3);
-    for (let i = 0; i < 3; i++) {
+    await expect(cards).toHaveCount(2);
+    for (let i = 0; i < 2; i++) {
       const bg = await cards.nth(i).evaluate((el) => getComputedStyle(el).backgroundColor);
       expect(bg, `card ${i} base background`).toBe("rgb(239, 247, 254)");
     }

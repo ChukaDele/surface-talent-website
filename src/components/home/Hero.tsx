@@ -7,6 +7,8 @@ const LOGOS = [
   { name: "Karas Plating", src: "/assets/img/footer-logo-karas.png", w: 88, h: 20.97 },
   { name: "RDM Engineering", src: "/assets/img/footer-logo-rdm.png", w: 30.17, h: 26.38 },
   { name: "United Anodisers", src: "/assets/img/footer-logo-ua.png", w: 72.97, h: 26.38 },
+  // logo file to follow from SurfacePrep; name-only until then
+  { name: "SurfacePrep", src: "", w: 0, h: 0 },
 ];
 
 /** Figma "Hero" (35:228), bg #0d2233. The homepage defaults to the approved portrait loop;
@@ -35,7 +37,7 @@ export function Hero({ variant }: { variant?: HeroVariant } = {}) {
           <div className="st-hero__logos-track">
             {LOGOS.map((l, i) => (
               <div key={l.name} className={`st-hero__logo st-hero__logo--${i}`}>
-                <img src={l.src} alt="" width={l.w} height={l.h} style={{ width: l.w, height: l.h }} />
+                {l.src ? <img src={l.src} alt="" width={l.w} height={l.h} style={{ width: l.w, height: l.h }} /> : null}
                 <span>{l.name}</span>
               </div>
             ))}
@@ -43,7 +45,7 @@ export function Hero({ variant }: { variant?: HeroVariant } = {}) {
               <div className="st-hero__logos-dup" aria-hidden="true">
                 {LOGOS.map((l, i) => (
                   <div key={l.name} className={`st-hero__logo st-hero__logo--${i}`}>
-                    <img src={l.src} alt="" width={l.w} height={l.h} style={{ width: l.w, height: l.h }} />
+                    {l.src ? <img src={l.src} alt="" width={l.w} height={l.h} style={{ width: l.w, height: l.h }} /> : null}
                     <span>{l.name}</span>
                   </div>
                 ))}
