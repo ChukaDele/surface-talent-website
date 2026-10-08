@@ -127,10 +127,10 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
       if (!approved(target)) throw new Error("Invalid Apps Script endpoint");
       const signal = AbortSignal.timeout(90_000);
       const requestId = typeof payload.submission_id === "string" && /^ST-\d{8}-[0-9a-f]{8}$/.test(payload.submission_id) ? payload.submission_id : null;
-      let redirects = 0;
       // Google ContentService returns a one-time response URL. Send the submission once;
       // read that response with GET, without forwarding the submission secret or body.
       async function readResponse(current: URL, res: Response): Promise<{ ok: boolean; status: number; body: Record<string, unknown>; invalid?: boolean }> {
+        let redirects = 0;
         let responseRetries = 0;
         let text = "";
         for (;;) {
