@@ -43,7 +43,7 @@ export async function processSubmission(form: FormData, ctx: { ip: string; userA
   // 1. bot guards: honeypot + minimum fill time
   if (str(form.get("website_url")) || str(form.get("_gotcha"))) return { ok: true, id: "ignored" };
   const started = Number(form.get("_form_started") || 0);
-  if (started && Date.now() - started < 1500) return { ok: true, id: "ignored" };
+  if (started && Date.now() - started < 1500) return { ok: false, error: "minimum_fill_time", status: 400, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." };
 
   const formType = str(form.get("form_type")) as FormType;
   if (!FORM_TYPES.includes(formType)) return { ok: false, error: "invalid_form_type", status: 400, message: "This form isn't recognised. Reload the page and try again." };

@@ -56,6 +56,15 @@ test.describe("validation library", () => {
     expect(oversized.ok).toBe(false);
     expect(forwarded).toBe(false);
   });
+  test("a submission faster than the bot guard never reports a saved receipt", async () => {
+    const fd = new FormData();
+    fd.set("_form_started", String(Date.now()));
+    let forwarded = false;
+    const result = await processSubmission(fd, { ip: "test", userAgent: "test", environment: "staging", persistence: { forward: async () => { forwarded = true; return { ok: true, status: 200, body: { ok: true } }; } } });
+    expect(result.ok).toBe(false);
+    if (!result.ok) { expect(result.error).toBe("minimum_fill_time"); expect(result.status).toBe(400); }
+    expect(forwarded).toBe(false);
+  });
 });
 
 test.describe("Google response adapter", () => {
