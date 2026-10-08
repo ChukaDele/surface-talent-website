@@ -129,7 +129,7 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
       const requestId = typeof payload.submission_id === "string" && /^ST-\d{8}-[0-9a-f]{8}$/.test(payload.submission_id) ? payload.submission_id : null;
       // Google ContentService returns a one-time response URL. Send the submission once;
       // read that response with GET, without forwarding the submission secret or body.
-      async function readResponse(current: URL, res: Response): Promise<{ ok: boolean; status: number; body: Record<string, unknown>; invalid?: boolean }> {
+      async function readResponse(current: URL, res: Response, phase: "original" | "lookup"): Promise<{ ok: boolean; status: number; body: Record<string, unknown>; invalid?: boolean }> {
         let redirects = 0;
         let responseRetries = 0;
         let text = "";
@@ -145,6 +145,11 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
               console.error("[submit] response redirect denied", { status: res.status, origin: next.origin, redirects, reason: "destination" });
               return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
             }
+            console.warn("[submit] Google response hop", {
+              phase, sameDeploymentExec: next.hostname === target.hostname && next.pathname === target.pathname, origin: next.origin,
+              kind: /\/macros\/s\/[^/]+\/exec$/.test(next.pathname) ? "exec" : next.pathname === "/macros/echo" ? "echo" : "other",
+              secret: next.searchParams.has("secret"), resource: next.searchParams.has("resource"), requestId: next.searchParams.has("request_id"), redirects,
+            });
             if (next.searchParams.has("secret")) next.searchParams.delete("secret");
             current = next;
             res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
@@ -181,14 +186,14 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
         return { ok: res.ok, status: res.status, body, invalid };
       }
       const first = await fetch(target, { method: "POST", headers: { "Content-Type": "application/json", "X-ST-Secret": secret }, body: JSON.stringify(payload), redirect: "manual", cache: "no-store", signal });
-      const result = await readResponse(target, first);
+      const result = await readResponse(target, first, "original");
       if (!result.invalid || !requestId) return result;
       // Ask the same authenticated script for its completed receipt under a fresh
       // response URL. This reads the actual outcome and never submits again.
       const lookup = new URL(target);
       lookup.searchParams.set("resource", "receipt");
       lookup.searchParams.set("request_id", requestId);
-      const recovered = await readResponse(lookup, await fetch(lookup, { method: "GET", redirect: "manual", cache: "no-store", signal }));
+      const recovered = await readResponse(lookup, await fetch(lookup, { method: "GET", redirect: "manual", cache: "no-store", signal }), "lookup");
       if (recovered.ok && recovered.body.ok === true) console.warn("[submit] receipt recovered", { status: recovered.status });
       return recovered;
     },
