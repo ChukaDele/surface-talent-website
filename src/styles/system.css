@@ -1,0 +1,27 @@
+@layer st-base {
+  .st-system { background: var(--system-bg); color: #fff; }
+  .st-system__pin { position: relative; min-height: 100svh; display: flex; align-items: center; }
+  .st-system__frame { display: flex; width: 100%; max-width: var(--page-max); margin: 0 auto; min-height: 620px; }
+  .st-system__copy { position: relative; flex: 1 1 50%; min-height: 620px; box-shadow: inset 0 0 0 0.75px var(--system-line); padding: 80px 56px; box-sizing: border-box; }
+  .st-system__state { position: absolute; left: 56px; right: 56px; top: 80px; }
+  .st-system__state[aria-hidden="true"] { opacity: 0; visibility: hidden; }
+  .st-system__stage-col { flex: 1 1 50%; box-shadow: inset 0 0 0 0.75px var(--system-line); display: flex; align-items: center; }
+  .st-system__stage { width: 100%; }
+  .st-system__static { display: none; }
+
+  @media (max-width: 1023px) {
+    .st-system__pin { min-height: 0; }
+    .st-system__frame { flex-direction: column; min-height: 0; }
+    .st-system__copy { min-height: 0; padding: 56px 24px; }
+    .st-system__state { position: relative; left: 0; right: 0; top: 0; }
+    .st-system__state + .st-system__state { margin-top: 40px; }
+    .st-system__state[aria-hidden="true"] { opacity: 1; visibility: visible; }
+  }
+  @media (min-width: 1024px) and (prefers-reduced-motion: reduce), (min-width: 1024px) and (max-height: 699px) {
+    .st-system__pin { min-height: 0; }
+    .st-system__copy { min-height: 0; }
+    .st-system__state { position: relative; left: 0; right: 0; top: 0; }
+    .st-system__state + .st-system__state { margin-top: 40px; }
+    .st-system__state[aria-hidden="true"] { opacity: 1; visibility: visible; }
+  }
+}

@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* Explicit precedence for the project stylesheets. Next's CSS chunk order follows the module
+   graph, so page-level sheets can land after the responsive layer; naming the layers here makes
+   the cascade deterministic no matter which route pulls which sheet. */
+@layer st-base, st-brand, st-responsive;
+
+/*
+  Surface Talent website tokens — Brand and Launch Pack palette (restored October 2026).
+    Anthracite  #1C1F22  primary: dark surfaces and ink
+    Chalk       #F5F5F2  background: warmer than pure white
+    Brushed nickel #C0C5C9  secondary: hairlines, muted text on dark
+    Oxide copper #B87333  accent: rules, marks, primary actions
+    Steel blue  #3A4A5C  depth: secondary text on light, tonal depth on dark
+    Signal red  #C0392B  reserved for live job tags and error states only
+  Never write a raw colour in a component; add a token here. Legacy token names below are kept
+  so older stylesheets inherit the palette instead of drifting from it.
+*/
+:root {
+  /* ---- brand palette ---- */
+  --anthracite: #1c1f22;
+  --anthracite-2: #24282c;   /* raised surface on anthracite */
+  --anthracite-3: #2e3338;   /* hairline / hover on anthracite */
+  --chalk: #f5f5f2;
+  --nickel: #c0c5c9;
+  --copper: #b87333;
+  --steel: #3a4a5c;
+  --signal: #c0392b;
+
+  /* ---- roles (contrast-checked: see docs/brand-system.md) ---- */
+  --surface: #ffffff;
+  --surface-alt: var(--chalk);
+  --surface-dark: var(--anthracite);
+  --text: var(--anthracite);              /* 15.2:1 on chalk */
+  --text-2: var(--steel);                 /* 8.3:1 on chalk  */
+  --text-3: #5b6670;                      /* 5.4:1 on chalk, captions and meta */
+  --text-on-dark: var(--chalk);
+  --text-2-on-dark: var(--nickel);        /* 9.5:1 on anthracite */
+  --text-3-on-dark: #8a939b;              /* 5.3:1 on anthracite */
+  --copper-text: #9c622b;                 /* copper for small text on white/chalk: 4.6–5.0:1 */
+  --copper-on-dark: #c98a4e;              /* copper for small text on anthracite: 5.7:1 */
+  --copper-action: #9c622b;               /* button fill: white label at 5.0:1 */
+  --copper-action-hover: #815024;
+  --rule: #dadddf;                        /* hairline on light (nickel, lightened) */
+  --rule-strong: var(--nickel);
+  --rule-dark: rgba(192, 197, 201, 0.16); /* hairline on anthracite */
+  --rule-dark-strong: rgba(192, 197, 201, 0.32);
+
+  /* ---- scales (copper / steel / neutral), legacy names ---- */
+  --primary-50: #faf6f1;
+  --primary-100: #f4eae0;
+  --primary-200: #e6ceb8;
+  --primary-300: #d8b28f;
+  --primary-400: #c98a4e;
+  --primary-500: #b87333; /* oxide copper */
+  --primary-600: #9c622b;
+  --primary-700: #815024;
+  --primary-800: #653f1c;
+  --primary-900: #4a2e14;
+  --secondary-50: #f3f5f7;
+  --secondary-100: #e2e6ea;
+  --secondary-200: #c0c5c9;
+  --secondary-300: #98a3ae;
+  --secondary-400: #6b7a89;
+  --secondary-500: #3a4a5c; /* steel blue */
+  --secondary-600: #313f4e;
+  --secondary-700: #283340;
+  --secondary-800: #1f2731;
+  --secondary-900: #1c1f22;
+  --grey-50: #f8f8f6;
+  --grey-100: #eeefed;
+  --grey-200: #dadddf;
+  --grey-300: #c0c5c9;
+  --grey-400: #a3a9ae;
+  --grey-500: #868d93;
+  --grey-600: #6b737a;
+  --grey-700: #525a61;
+  --grey-800: #3a4148;
+  --grey-900: #1c1f22;
+  --white: #ffffff;
+  --black: #1c1f22;
+
+  /* ---- legacy surface names, now mapped onto the palette ---- */
+  --hero-bg: var(--anthracite);
+  --system-bg: var(--anthracite);
+  --system-line: var(--anthracite-3);
+  --system-card: var(--anthracite-2);
+  --system-card-line: var(--anthracite-3);
+  --deep-bg: var(--anthracite);
+  --deep-bg-2: #16181b;
+  --deep-card: var(--anthracite-2);
+  --deep-card-2: var(--anthracite-3);
+  --stack-dark: var(--anthracite);
+  --stack-light: var(--chalk);
+  --stack-light-line: var(--rule);
+  --card-line: var(--rule);
+  --testimonial-light: var(--surface);
+  --accent-on-light: var(--copper-text);
+  --ink: var(--anthracite);
+  --ink-soft: var(--anthracite);
+  --text-hero: var(--chalk);
+  --text-inverse: var(--chalk);
+  --text-muted-dark: var(--nickel);
+  --text-muted-mid: var(--text-3);
+  --live-dot: var(--signal);
+  --glitter: var(--copper-on-dark);
+  --ok: #2f7d4f;
+  --warn: var(--signal);
+
+  /* ---- type (Brand and Launch Pack: Inter Tight / Inter / IBM Plex Mono) ---- */
+  --font-heading: var(--font-inter-tight), "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono-plex: var(--font-mono);
+  --font-hand: var(--font-body);
+  --heading-tracking: -0.025em;
+
+  /* Motion (Emil / apple-design defaults) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 140ms;
+  --dur-hover: 180ms;
+
+  /* Layout — 1440 frame with 56px gutters (1328 content) */
+  --page-max: 1440px;
+  --gutter: 56px;
+  --content-max: 1328px;
+}
+
+@theme inline {
+  --color-copper: var(--primary-500);
+  --color-copper-dark: var(--primary-600);
+  --color-copper-deep: var(--primary-700);
+  --color-hero: var(--hero-bg);
+  --color-system: var(--system-bg);
+  --color-deep: var(--deep-bg);
+  --color-ink: var(--ink);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  color-scheme: light;
+  background: var(--surface);
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Typography scale straight from the Figma text styles */
+.t-h1 { font-family: var(--font-heading); font-size: 64px; line-height: 1.2; letter-spacing: 0; font-weight: 400; }
+.t-h2 { font-family: var(--font-heading); font-size: 48px; line-height: 1.2; letter-spacing: 0; font-weight: 400; }
+.t-h3 { font-family: var(--font-heading); font-size: 32px; line-height: 1.2; letter-spacing: 0; font-weight: 400; }
+.t-h4 { font-family: var(--font-heading); font-size: 24px; line-height: 1.2; letter-spacing: 0; font-weight: 400; }
+.t-body-lg { font-family: var(--font-body); font-size: 18px; line-height: 1.65; letter-spacing: -0.02em; }
+.t-body { font-family: var(--font-body); font-size: 16px; line-height: 1.65; letter-spacing: -0.02em; }
+.t-body-sm { font-family: var(--font-body); font-size: 14px; line-height: 1.5; letter-spacing: -0.02em; }
+.t-body-xs { font-family: var(--font-body); font-size: 12px; line-height: 1.5; letter-spacing: -0.01em; }
+.t-eyebrow { font-family: var(--font-mono); font-size: 12px; line-height: 16px; letter-spacing: 2px; font-weight: 400; }
+
+/* Reduced motion: the global guard. Scenes also branch on this via gsap.matchMedia. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

@@ -1,0 +1,224 @@
+[
+  {
+    "route": "/",
+    "intent": "commercial",
+    "primaryKeyword": "surface engineering recruitment",
+    "secondaryKeywords": [
+      "surface engineering recruitment UK",
+      "surface engineering recruitment agency",
+      "specialist surface engineering recruiters",
+      "metal finishing recruiters UK"
+    ],
+    "title": "Surface Engineering Recruitment — Surface Talent",
+    "metaDescription": "Specialist recruitment for UK surface engineering and metal finishing. Permanent, contract and interim roles from process engineer to managing director.",
+    "h1": "Recruitment for the businesses that finish metal.",
+    "indexable": true,
+    "notes": "Home takes the unmodified category head term because it is the only page addressing both audiences, and it accumulates the brand and internal-link equity. The '+ agency' modifier is left as a secondary here and given to /clients as its primary, so the two pages never chase the same SERP. Head term is contested by Hays and the Agency Central directory, so this is a long-term target — the page earns its keep on brand and navigational queries meanwhile.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/clients",
+    "intent": "commercial",
+    "primaryKeyword": "metal finishing recruitment agency",
+    "secondaryKeywords": [
+      "metal finishing recruitment",
+      "surface treatment recruitment agency",
+      "hire plating process engineers UK",
+      "NADCAP quality engineer recruitment",
+      "AS9100 quality hiring metal finishing"
+    ],
+    "title": "Metal Finishing Recruitment Agency — Surface Talent",
+    "metaDescription": "Hiring plant managers, process engineers or quality leads for a plating, coating or heat treatment operation? Send a brief; we reply within 24 hours.",
+    "h1": "Command of the sector. Not adjacent to it.",
+    "indexable": true,
+    "notes": "The 'agency' modifier is employer-leaning, which matches this page's hiring intent and keeps it clear of home's unmodified head term. No incumbent owns 'metal finishing recruitment agency' — the SERP splits between job boards, generalist agencies and finishers' own careers pages. The NADCAP/AS9100 secondaries live here rather than on a separate page: the research found zero recruitment competition on those terms, so a well-built section converts without needing its own URL and without fragmenting authority.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/candidates",
+    "intent": "informational",
+    "primaryKeyword": "surface engineering jobs",
+    "secondaryKeywords": [
+      "surface engineering careers UK",
+      "surface finishing jobs",
+      "register CV metal finishing",
+      "confidential job search surface engineering"
+    ],
+    "title": "Surface Engineering Jobs and Careers — Surface Talent",
+    "metaDescription": "Roles across electroplating, anodising, powder coating, heat treatment and thermal spray. Confidential, and your CV goes nowhere without your say-so.",
+    "h1": "Your next role in surface engineering.",
+    "indexable": true,
+    "notes": "Deliberate split from /jobs to avoid cannibalisation: 'surface engineering jobs' is broad career-exploration intent — Indeed's 1,597 matches include OEM, R&D and academic roles — so it is best served by a page that explains the sector, the role families and how to register. /jobs takes the concrete vacancy-hunting term instead. This page must link prominently to /jobs so the two read as a funnel, not as rivals.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/jobs",
+    "intent": "transactional",
+    "primaryKeyword": "metal finishing jobs",
+    "secondaryKeywords": [
+      "metal finishing jobs UK",
+      "surface treatment jobs",
+      "plating jobs UK",
+      "surface coating jobs",
+      "metal finisher vacancies"
+    ],
+    "title": "Live Metal Finishing Jobs — Surface Talent",
+    "metaDescription": "Live permanent, contract and interim vacancies across UK metal finishing — plating, anodising, powder coating, heat treatment and surface treatment.",
+    "h1": "Current vacancies.",
+    "indexable": true,
+    "notes": "The live listing page takes the vacancy-hunting terms; /candidates takes the career-exploration term. 'Metal finishing jobs' is the broadest generic vacancy query with real demand (Reed 183, Jobted 144, Glassdoor 117) that the discipline pages do not claim — each of those owns its own process term instead. A job pack sits above organic on every query here, so JobPosting structured data matters more than copy. Add that markup with the live feed, not before: marking up the current empty state would be worse than nothing.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/disciplines",
+    "intent": "commercial",
+    "primaryKeyword": "surface finishing recruitment",
+    "secondaryKeywords": [
+      "surface coatings recruitment",
+      "surface engineering disciplines",
+      "galvanising recruitment UK",
+      "electroless nickel recruitment",
+      "PVD CVD coating recruitment"
+    ],
+    "title": "Surface Finishing Recruitment — Surface Talent",
+    "metaDescription": "Fourteen finishing disciplines recruited individually — electroplating, anodising, galvanising, thermal spray, PVD, electroless nickel and more.",
+    "h1": "The full breadth of surface engineering. Known individually, not generically.",
+    "indexable": true,
+    "notes": "Given the term Google currently mis-serves: the SERP for 'surface finishing recruitment' returns plasterers and office-support agencies, so a correctly-scoped industrial page has an unusually clean run. Cheap to take, but low and ambiguous volume — do not expect traffic. This page is also the parent hub for the discipline children and the home for the disciplines with too little demand to justify their own URL (galvanising, PVD/CVD, electroless, PCB finishing, weld overlay, plating on plastics, polishing, blasting). Children must expand its copy, never restate it.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/about",
+    "intent": "commercial",
+    "primaryKeyword": "surface engineering executive search",
+    "secondaryKeywords": [
+      "metal finishing managing director recruitment",
+      "surface treatment director recruitment",
+      "retained search surface engineering",
+      "EMC Surface Technologies recruitment"
+    ],
+    "title": "Surface Engineering Executive Search — Surface Talent",
+    "metaDescription": "Founded inside the sector, not adjacent to it. Sister company of EMC Surface Technologies, running retained director-level search across UK finishing.",
+    "h1": "Built by operators. Run by recruiters who know the trade.",
+    "indexable": true,
+    "notes": "The page already carries the director-level and retained-search content, so it takes the executive-search term rather than leaving it homeless — no competitor page was found on it. Brand queries ('Surface Talent') resolve to home, not here, so there is no navigational conflict. This is also the E-E-A-T page: state the EMC Surface Technologies relationship explicitly and link it, because that verifiable operator lineage is the one authority asset no competing agency can match.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/contact",
+    "intent": "navigational",
+    "primaryKeyword": "contact Surface Talent",
+    "secondaryKeywords": [
+      "Surface Talent phone number",
+      "brief a surface engineering recruiter",
+      "book a call surface engineering recruitment"
+    ],
+    "title": "Contact Surface Talent",
+    "metaDescription": "Book a 20-minute call, send a role brief, or email and phone us directly. Hiring or exploring a move, every conversation stays confidential.",
+    "h1": "Talk to us.",
+    "indexable": true,
+    "notes": "Pure navigational and conversion intent. Kept indexable so brand-plus-contact queries land correctly and so NAP details are crawlable for the entity, but it should carry no category keywords — those all belong to the pages above. No cannibalisation risk by design.",
+    "recommend": "exists"
+  },
+  {
+    "route": "/disciplines/electroplating",
+    "intent": "transactional",
+    "primaryKeyword": "electroplating jobs",
+    "secondaryKeywords": [
+      "electroplating recruitment",
+      "electroplater jobs UK",
+      "hard chrome plating jobs",
+      "plating process engineer jobs",
+      "barrel and rack plating jobs"
+    ],
+    "title": "Electroplating Jobs and Recruitment — Surface Talent",
+    "metaDescription": "Zinc, nickel, hard chrome, precious metals — rack and barrel. We recruit platers, process chemists, line supervisors and plating managers UK-wide.",
+    "h1": "Electroplating recruitment, from the line to the boardroom.",
+    "indexable": true,
+    "notes": "Create. Genuine distinct intent and Surface Talent's core discipline: 23 live UK roles on LinkedIn, 9 on Glassdoor, and the IMF's own four-item noticeboard is majority plating roles. No agency page ranks at all — the SERP is job boards, employer careers pages and a Talent.com salary page. Real bands (£34–38k at Hayes) sit well above the £27,750 blended average those salary pages report, which is the wedge. Owns the process term so /jobs can keep the generic one.",
+    "recommend": "create"
+  },
+  {
+    "route": "/disciplines/anodising",
+    "intent": "transactional",
+    "primaryKeyword": "anodising jobs",
+    "secondaryKeywords": [
+      "anodising recruitment",
+      "anodiser jobs UK",
+      "aluminium anodising jobs",
+      "hard anodising jobs",
+      "architectural anodising jobs"
+    ],
+    "title": "Anodising Jobs and Recruitment — Surface Talent",
+    "metaDescription": "Sulphuric, chromic, hard and architectural anodising. We recruit line technicians, quality leads and plant managers for UK anodisers and finishers.",
+    "h1": "Anodising recruitment across aluminium and multi-metal.",
+    "indexable": true,
+    "notes": "Create. Distinct intent with a distinct employer set (architectural anodisers, aerospace finishers, specialist hard anodisers) and a shallow SERP — only 4 live Totaljobs roles, with employer vacancy pages and DWP Find a Job placing organically, which signals the SERP is weak enough to enter. Use UK 'anodising' in title, H1 and URL; cover the -z- variant in body copy only, since 'anodizing' results skew to non-UK boards.",
+    "recommend": "create"
+  },
+  {
+    "route": "/disciplines/powder-coating",
+    "intent": "transactional",
+    "primaryKeyword": "powder coating jobs",
+    "secondaryKeywords": [
+      "powder coating recruitment",
+      "powder coating supervisor jobs",
+      "Qualicoat powder coating jobs",
+      "industrial coatings production manager jobs",
+      "wet spray finishing jobs"
+    ],
+    "title": "Powder Coating Jobs and Recruitment — Surface Talent",
+    "metaDescription": "Architectural and industrial powder coating to Qualicoat and BS EN standards. We recruit supervisors, quality leads, production and plant managers.",
+    "h1": "Powder coating and industrial coatings recruitment.",
+    "indexable": true,
+    "notes": "Create, but scope it narrowly. Highest observed demand of any discipline (CV-Library 189 roles from 103 employers, Adzuna 115, Reed 91) — and the most hostile: Agency Central lists 60+ industrial agencies already supplying powder coaters, including Adecco and Manpower, at £12.21–£14.00/hour. Do not compete for operative volume. Target supervisory and technical grades and the Qualicoat/BS EN standards long-tail, where the volume agencies have nothing to say. Head-term ranking is not realistic near-term.",
+    "recommend": "create"
+  },
+  {
+    "route": "/disciplines/heat-treatment",
+    "intent": "transactional",
+    "primaryKeyword": "heat treatment jobs",
+    "secondaryKeywords": [
+      "heat treatment recruitment",
+      "vacuum furnace jobs UK",
+      "carburising nitriding jobs",
+      "metallurgist jobs UK",
+      "heat treatment process engineer jobs"
+    ],
+    "title": "Heat Treatment Jobs and Recruitment — Surface Talent",
+    "metaDescription": "Carburising, nitriding, vacuum, atmosphere and induction. We recruit metallurgists, furnace managers, process engineers and quality professionals.",
+    "h1": "Heat treatment recruitment, commercial and captive.",
+    "indexable": true,
+    "notes": "Create. Strongest listing volume in the set (Glassdoor 212, LinkedIn 151, ZipRecruiter 110, Totaljobs 74) and a genuinely separate sub-sector — the CHTA and Wolfson Heat Treatment Centre have their own standing inside the SEA. Two constraints to plan around: the bare head term is not winnable against those job-board counts, and 'heat treatment recruitment' collides with Heat Recruitment Ltd (financial services) and with HVAC heating-engineer agencies. Win on metallurgical long-tail and disambiguate with process vocabulary in the first paragraph.",
+    "recommend": "create"
+  },
+  {
+    "route": "/disciplines/thermal-spray",
+    "intent": "transactional",
+    "primaryKeyword": "thermal spray jobs",
+    "secondaryKeywords": [
+      "HVOF coating jobs UK",
+      "thermal spray recruitment",
+      "plasma spray technician jobs",
+      "thermal spray coating engineer jobs"
+    ],
+    "title": "Thermal Spray and HVOF Jobs — Surface Talent",
+    "metaDescription": "HVOF, plasma, arc and flame spray for aerospace, gas turbine and energy. We recruit coating engineers, operators and commercial leads across the UK.",
+    "h1": "Thermal spray recruitment for aerospace, energy and gas turbine.",
+    "indexable": true,
+    "notes": "Create, but on value rather than volume, and treat as lower priority than the four above. Intent is unambiguous and distinct (HVOF/plasma means nothing else) but demand is tiny — 7 live UK roles each on LinkedIn and Glassdoor, with US results bleeding in because supply is so thin. The justification is that no thermal spray recruitment landing page exists anywhere in the UK index: VHR ranks on a single job posting for a £50–60k manager role. Expect a handful of visits; one placement at that grade repays the page many times over. Do not report this page on traffic.",
+    "recommend": "create"
+  },
+  {
+    "route": "/disciplines/pre-treatment",
+    "intent": "transactional",
+    "primaryKeyword": "pre-treatment jobs",
+    "secondaryKeywords": [],
+    "title": "Pre-treatment and Surface Preparation — Surface Talent",
+    "metaDescription": "Aqueous and ultrasonic cleaning, vapour degreasing, pickling and chemical pre-treatment — the lines that sit in front of every plating operation.",
+    "h1": "Industrial cleaning and pre-treatment recruitment.",
+    "indexable": false,
+    "notes": "Skip — three reasons, all evidenced. (1) 'Pre-treatment jobs' is not a jobseeker query: the search returned shot blasting results instead, and no UK job board maintains a pre-treatment listing page, so there is no intent to serve. The term is B2B process jargon used by buyers, not candidates. (2) The adjacent term that does have demand is different — shot blasting (Glassdoor 95, CV-Library, Jooble) — and building on 'pre-treatment' would target neither. (3) That blasting demand is overwhelmingly low-skill operative and temp work at the bottom of the market, which sits outside Surface Talent's process-engineer-to-MD positioning. Keep both topics as sections on /disciplines, where lanes 10 and 11 already cover them. If a page is ever justified, build /disciplines/shot-blasting-and-peening on real blasting and Almen/shot-peening demand — not 'pre-treatment'.",
+    "recommend": "skip"
+  }
+]
