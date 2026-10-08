@@ -3,7 +3,7 @@ import { Section, SectionHead, RuleGrid } from "@/components/site/Blocks";
 const PILLARS = [
   { title: "Operator instinct", body: "Every brief is read by someone who has run a finishing plant. We see what is missing before it becomes a hiring mistake." },
   { title: "Technical fluency", body: "Chemistry, kit, standards and economics, assessed the way an operator would. Not lifted from a job description." },
-  { title: "Sector network", body: "Most of the people you want are not looking. We know who they are, where they work and how to approach them in confidence." },
+  { title: "Sector network", body: "We already know the credible people in each discipline, so a search starts from a shortlist, not a job advert." },
 ];
 
 /** Homepage section 3: the operator lineage, stated plainly. */
