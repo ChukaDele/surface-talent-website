@@ -43,7 +43,7 @@ export async function processSubmission(form: FormData, ctx: { ip: string; userA
   // 1. bot guards: honeypot + minimum fill time
   if (str(form.get("website_url")) || str(form.get("_gotcha"))) return { ok: true, id: "ignored" };
   const started = Number(form.get("_form_started") || 0);
-  if (started && Date.now() - started < 1500) return { ok: true, id: "ignored" };
+  if (started && Date.now() - started < 1500) return { ok: false, error: "minimum_fill_time", status: 400, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." };
 
   const formType = str(form.get("form_type")) as FormType;
   if (!FORM_TYPES.includes(formType)) return { ok: false, error: "invalid_form_type", status: 400, message: "This form isn't recognised. Reload the page and try again." };
@@ -123,10 +123,33 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
   return {
     async forward(payload) {
       const target = new URL(url); target.searchParams.set("secret", secret);
-      const res = await fetch(target.toString(), { method: "POST", headers: { "Content-Type": "application/json", "X-ST-Secret": secret }, body: JSON.stringify(payload), redirect: "follow" });
+      const approved = (value: URL) => value.protocol === "https:" && !value.username && !value.password && !value.port && ["script.google.com", "script.googleusercontent.com"].includes(value.hostname);
+      if (!approved(target)) throw new Error("Invalid Apps Script endpoint");
+      const signal = AbortSignal.timeout(90_000);
+      let current = target;
+      // Google ContentService returns a one-time response URL. Send the submission once;
+      // read that response with GET, without forwarding the submission secret or body.
+      let res = await fetch(current, { method: "POST", headers: { "Content-Type": "application/json", "X-ST-Secret": secret }, body: JSON.stringify(payload), redirect: "manual", cache: "no-store", signal });
+      for (let redirects = 0; res.status >= 300 && res.status < 400; redirects++) {
+        const location = res.headers.get("location");
+        if (redirects >= 3 || ![302, 303].includes(res.status) || !location) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+        const next = new URL(location, current);
+        if (!approved(next)) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+        next.searchParams.delete("secret");
+        current = next;
+        res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
+      }
       const text = await res.text();
       let body: Record<string, unknown> = {};
-      try { body = JSON.parse(text); } catch { body = { ok: false, error: "upstream_invalid", detail: text.slice(0, 200) }; }
+      try {
+        const parsed: unknown = JSON.parse(text.replace(/^\uFEFF/, ""));
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("Invalid response shape");
+        body = parsed as Record<string, unknown>;
+        if (body.ok === true && (typeof body.submission_id !== "string" || !body.submission_id.trim())) throw new Error("Missing submission receipt");
+      } catch {
+        console.error("[submit] non-JSON Google response", { status: res.status, origin: current.origin, length: text.length, firstCodePoint: text.codePointAt(0), html: /^\s*<!?\w/i.test(text), googleFileError: /Sorry, unable to open the file|Google Drive.*error|file you have requested does not exist/i.test(text) });
+        body = { ok: false, error: "upstream_invalid" };
+      }
       return { ok: res.ok, status: res.status, body };
     },
   };

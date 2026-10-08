@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { validateEmail, validatePhone, validateCv, validateFields } from "../src/lib/forms/validate";
-import { processSubmission, newSubmissionId } from "../src/lib/forms/submission";
+import { appsScriptPersistence, processSubmission, newSubmissionId } from "../src/lib/forms/submission";
 
 test.describe("validation library", () => {
   test("email accepts real-world addresses and rejects malformed ones", () => {
@@ -55,5 +55,70 @@ test.describe("validation library", () => {
     const oversized = await processSubmission(fd, { ...ctx, persistence: { forward: async () => { forwarded = true; return { ok: true, status: 200, body: { ok: true } }; } } });
     expect(oversized.ok).toBe(false);
     expect(forwarded).toBe(false);
+  });
+  test("a submission faster than the bot guard never reports a saved receipt", async () => {
+    const fd = new FormData();
+    fd.set("_form_started", String(Date.now()));
+    let forwarded = false;
+    const result = await processSubmission(fd, { ip: "test", userAgent: "test", environment: "staging", persistence: { forward: async () => { forwarded = true; return { ok: true, status: 200, body: { ok: true } }; } } });
+    expect(result.ok).toBe(false);
+    if (!result.ok) { expect(result.error).toBe("minimum_fill_time"); expect(result.status).toBe(400); }
+    expect(forwarded).toBe(false);
+  });
+});
+
+test.describe("Google response adapter", () => {
+  const endpoint = "https://script.google.com/macros/s/SYNTHETIC/exec";
+  const secret = "SYNTHETIC-SECRET-NOT-A-CREDENTIAL";
+  async function scenario(responses: Response[]) {
+    const original = globalThis.fetch;
+    const calls: Request[] = [];
+    globalThis.fetch = async (input, init) => {
+      calls.push(new Request(input, init));
+      const response = responses.shift();
+      if (!response) throw new Error("Unexpected extra provider request");
+      return response;
+    };
+    try { return { result: await appsScriptPersistence(endpoint, secret).forward({ form_type: "contact_hiring" }), calls }; }
+    finally { globalThis.fetch = original; }
+  }
+  test("reads the Google response without forwarding credentials or replaying the submission", async () => {
+    for (const status of [302, 303]) {
+      const { result, calls } = await scenario([
+        new Response(null, { status, headers: { location: `https://script.googleusercontent.com/macros/echo?user_content_key=SYNTHETIC&secret=${secret}` } }),
+        Response.json({ ok: true, submission_id: "SYNTHETIC-ID" }),
+      ]);
+      expect(result.body.ok).toBe(true); expect(calls).toHaveLength(2);
+      expect(calls[0].method).toBe("POST"); expect(calls[0].headers.get("X-ST-Secret")).toBe(secret);
+      expect(calls[1].method).toBe("GET"); expect(await calls[1].text()).toBe("");
+      expect(calls[1].headers.has("X-ST-Secret")).toBe(false); expect(calls[1].headers.has("Content-Type")).toBe(false);
+      expect(new URL(calls[1].url).searchParams.has("secret")).toBe(false);
+      expect(new URL(calls[1].url).searchParams.get("user_content_key")).toBe("SYNTHETIC");
+      expect(calls[0].signal.aborted).toBe(false); expect(calls[1].cache).toBe("no-store");
+    }
+  });
+  test("rejects untrusted redirect destinations before making another request", async () => {
+    for (const location of ["http://script.googleusercontent.com/", "https://example.com/", "https://script.googleusercontent.com.example.com/", "https://user:pass@script.googleusercontent.com/", "https://script.googleusercontent.com:8443/"]) {
+      const { result, calls } = await scenario([new Response(null, { status: 302, headers: { location } })]);
+      expect(result.ok).toBe(false); expect(result.body.error).toBe("upstream_redirect"); expect(calls).toHaveLength(1);
+    }
+  });
+  test("does not replay POST-preserving redirects and bounds response redirect loops", async () => {
+    for (const status of [307, 308]) {
+      const { result, calls } = await scenario([new Response(null, { status, headers: { location: "https://script.googleusercontent.com/macros/echo" } })]);
+      expect(result.ok).toBe(false); expect(calls).toHaveLength(1);
+    }
+    const { result, calls } = await scenario(Array.from({ length: 4 }, () => new Response(null, { status: 302, headers: { location: "https://script.googleusercontent.com/macros/echo" } })));
+    expect(result.ok).toBe(false); expect(calls).toHaveLength(4);
+    expect(calls.filter(r => r.method === "POST")).toHaveLength(1);
+  });
+  test("rejects malformed and non-object responses without exposing provider content", async () => {
+    for (const text of ["<html>Sorry, unable to open the file</html>", "null", "[]", "true", "not json", '{"ok":true,"service":"Surface Talent submissions"}']) {
+      const { result, calls } = await scenario([new Response(text)]);
+      expect(result.body).toEqual({ ok: false, error: "upstream_invalid" }); expect(calls).toHaveLength(1);
+    }
+    const { result, calls } = await scenario([new Response('\uFEFF{"ok":true,"submission_id":"SYNTHETIC-ID"}')]);
+    expect(result.body.ok).toBe(true);
+    expect(calls).toHaveLength(1);
   });
 });

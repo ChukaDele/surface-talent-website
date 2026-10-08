@@ -17,11 +17,12 @@ export function useSubmission(formType: FormType) {
   const [submissionId, setSubmissionId] = useState<string>("");
   const started = useRef<number>(0);
   const clientKey = useRef<string>("");
+  const inFlight = useRef(false);
   useEffect(() => { started.current = Date.now(); clientKey.current = crypto.randomUUID(); }, []);
 
   const onSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (state === "submitting" || state === "uploading") return;
+    if (inFlight.current || state === "submitting" || state === "uploading") return;
     const formEl = e.currentTarget;
     const fd = new FormData(formEl);
     const fields: Record<string, string> = {};
@@ -46,20 +47,30 @@ export function useSubmission(formType: FormType) {
     const params = new URLSearchParams(window.location.search);
     for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"]) if (params.get(k)) fd.set(k, params.get(k)!);
     const hasFile = cv && typeof cv === "object" && cv.size > 0;
+    inFlight.current = true;
     setState(hasFile ? "uploading" : "submitting"); setMessage(hasFile ? "Uploading your CV…" : "Sending…");
     try {
+      // Autofill can complete faster than the server's minimum fill time. Respect that
+      // guard using elapsed time before posting, without changing the recorded start.
+      const remaining = Math.min(1500, Math.max(0, 1500 - (Date.now() - started.current)));
+      if (remaining) await new Promise((resolve) => setTimeout(resolve, remaining));
       const res = await fetch("/api/submit", { method: "POST", body: fd });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok) {
+      const parsed: unknown = await res.json().catch(() => null);
+      const data = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed as Record<string, unknown> : {};
+      const field = typeof data.field === "string" ? data.field : undefined;
+      const errorMessage = typeof data.message === "string" ? data.message : undefined;
+      if (res.ok && data.ok === true && typeof data.id === "string" && data.id.trim() && data.id.trim() !== "ignored") {
         setSubmissionId(data.id); setState("success"); setMessage("Sent. We'll come back to you within 24 hours.");
         clientKey.current = crypto.randomUUID();
       } else {
-        if (data.field) setErrors({ [data.field]: data.message || "Check this field." });
-        setState("error"); setMessage(data.message || "Something went wrong sending that. Your details are still here — try again.");
-        if (data.field) formEl.querySelector<HTMLElement>(`[name="${data.field}"]`)?.focus();
+        if (field) setErrors({ [field]: errorMessage || "Check this field." });
+        setState("error"); setMessage(errorMessage || "Something went wrong sending that. Your details are still here — try again.");
+        if (field) formEl.querySelector<HTMLElement>(`[name="${CSS.escape(field)}"]`)?.focus();
       }
     } catch {
       setState("error"); setMessage("We couldn't reach the server. Check your connection — your details are still here.");
+    } finally {
+      inFlight.current = false;
     }
   }, [formType, state]);
 

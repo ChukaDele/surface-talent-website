@@ -57,6 +57,44 @@ test("job application query selects the career form and preserves the vacancy", 
   await expect(page.locator('input[name="form_type"]')).toHaveValue("contact_general");
 });
 
+for (const [label, responseBody] of [["ignored receipt", { ok: true, id: "ignored" }], ["null response", null], ["invalid error message", { ok: false, message: { invalid: true }, field: ["email"] }]] as const) {
+test(`fast autofill sends one request after the guard and rejects ${label}`, async ({ page }) => {
+  const time = new Date("2026-10-08T12:00:00Z");
+  await page.clock.install({ time });
+  await page.clock.pauseAt(time);
+  let requests = 0;
+  await page.route("**/api/submit", async (route) => {
+    requests++;
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(responseBody) });
+  });
+  await page.goto("/contact");
+  const form = page.getByRole("form", { name: "Send a brief" });
+  await expect(form).toBeVisible();
+  // The select opening proves client hydration before the simultaneous submit events.
+  await form.getByRole("combobox", { name: "What brings you here?" }).click();
+  await page.getByRole("option", { name: "General enquiry", exact: true }).click();
+  await page.evaluate(() => {
+    const form = document.querySelector<HTMLFormElement>("#brief-form")!;
+    for (const [name, value] of Object.entries({ name: "Synthetic QA", email: "synthetic@example.com", message: "Synthetic fixture" })) (form.elements.namedItem(name) as HTMLInputElement).value = value;
+    (form.elements.namedItem("privacy_consent") as HTMLInputElement).checked = true;
+    const originalFetch = window.fetch;
+    window.fetch = (input, init) => {
+      if (input === "/api/submit") (window as unknown as { formAge: number }).formAge = Date.now() - Number((init!.body as FormData).get("_form_started"));
+      return originalFetch(input, init);
+    };
+    form.requestSubmit(); form.requestSubmit();
+  });
+  await page.clock.runFor(1499);
+  expect(requests).toBe(0);
+  await page.clock.runFor(1);
+  await expect(form.getByRole("status")).toContainText("Something went wrong sending that.");
+  expect(requests).toBe(1);
+  expect(await page.evaluate(() => (window as unknown as { formAge: number }).formAge)).toBeGreaterThanOrEqual(1500);
+  await expect(form.getByLabel("Email", { exact: true })).toHaveValue("synthetic@example.com");
+  await expect(page.getByText("Received", { exact: true })).toHaveCount(0);
+});
+}
+
 test("indexing matches the environment and internal previews stay private", async ({ request }) => {
   const production = process.env.RELEASE_ENV === "production";
   const response = await request.get("/");
