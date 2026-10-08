@@ -93,7 +93,8 @@
   /* long-form prose beside a heading */
   .st-prose { display: flex; flex-direction: column; gap: 16px; max-width: 64ch; }
   .st-prose p { margin: 0; color: var(--text-2); }
-  .st-prose--lead p:first-child { color: var(--text); font-size: 18px; line-height: 1.6; }
+  /* lead prose: every paragraph in one voice — ink, 18px — so no paragraph reads as an afterthought */
+  .st-prose--lead p { color: var(--text); font-size: 18px; line-height: 1.6; }
   .st-twocol { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; }
 
   /* ================================================================ inner-page hero */

@@ -12,7 +12,7 @@ import { useCardHover } from "@/lib/motion/useCardHover";
 const PILLARS = [
   { title: "Operator instinct", body: "A brief read by someone who's run the line. We spot what's missing before it becomes a hiring mistake." },
   { title: "Technical fluency", body: "Chemistry, kit and standards assessed the way an operator would, not lifted from a job description." },
-  { title: "Sector network", body: "Built across the IMF and SEA over 20 years. Not bought. Not rented." },
+  { title: "Sector network", body: "Built plant by plant across UK finishing. Not bought. Not rented." },
 ];
 
 const FLOOR_CARDS = [

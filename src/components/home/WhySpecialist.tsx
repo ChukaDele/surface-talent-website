@@ -10,7 +10,7 @@ export const WHY_CARD = { w: 960, h: 480, peek: 100 }; // peek = 33 pad + 16 eye
 
 const CARDS = [
   { n: "01 - the process", title: "Understand the process", body: "We recruit with the eye of someone who has managed the line — not just read about it.", dark: false, Illus: ProcessIllustration },
-  { n: "02 - THE NETWORK", title: "Know the people", body: "Connected across the IMF and the Surface Engineering Association. UK-wide reach into every process lane.", dark: true, Illus: NetworkIllustration },
+  { n: "02 - THE NETWORK", title: "Know the people", body: "Connected across UK finishing. UK-wide reach into every process lane.", dark: true, Illus: NetworkIllustration },
   { n: "03 - CONTEXT", title: "Assess the context", body: "Chemistry, kit, standards, economics. Briefs are sharper. Screening is tighter. Shortlists are smaller and better.", dark: false, Illus: ContextIllustration },
   { n: "04 - MATCH", title: "Make the match", body: "Two to three candidates you'd hire. Screened technically and commercially. We stay accountable after the start date.", dark: true, Illus: MatchIllustration },
 ];

@@ -21,7 +21,7 @@ export function Footer() {
       <div className="st-wrap st-foot__cta" data-footer-cta>
         <div className="st-foot__cta-head">
           <span className="st-eyebrow">Start a conversation</span>
-          <h2 className="st-h2 st-foot__title">Make the hire you won’t have to make twice.</h2>
+          <h2 className="st-h2 st-foot__title">Exceptional people for exacting processes.</h2>
         </div>
         <div className="st-foot__cta-side">
           <p className="st-body-lg">Hiring for a senior or critical role, or quietly open to the right move. Every conversation is confidential.</p>
@@ -57,7 +57,7 @@ export function Footer() {
       </div>
 
       <div className="st-wrap st-foot__base">
-        <p className="st-foot__reg">© 2026 Surface Talent Ltd. Registered in England and Wales, no. 17497267. Registered office: 67C King Street, Knutsford WA16 6DX.</p>
+        <p className="st-foot__reg">© 2026 Surface Talent Ltd. Registered in England and Wales with company number 17497267. Registered office: 67C King Street, Knutsford WA16 6DX.</p>
         <nav className="st-footer__legal st-foot__legal" aria-label="Legal">
           {LEGAL.map(([l, h]) => <Link key={h} href={h} prefetch={false}>{l}</Link>)}
         </nav>

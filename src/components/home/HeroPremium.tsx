@@ -19,11 +19,10 @@ export function HeroPremium() {
     <section className="st-section st-phero" data-scene="hero" data-hero-static="true" aria-labelledby="hero-title">
       <div className="st-wrap st-phero__inner">
         <div className="st-phero__copy">
-          <Eyebrow className="st-phero__eyebrow">Executive and technical search · UK surface engineering</Eyebrow>
+          <Eyebrow className="st-phero__eyebrow">Executive and technical search</Eyebrow>
           <h1 id="hero-title" className="st-h1 st-phero__title" data-hero-title>Recruitment built around Surface Engineering</h1>
           <p className="st-body-lg st-phero__lede">
-            Senior and critical appointments for plating, anodising, coating and heat treatment businesses.
-            Run by people who own and operate finishing plants, for owners who cannot afford to get the hire wrong.
+            Technical, managerial and leadership appointments for plating, anodising and surface technology businesses.
           </p>
           <div className="st-btn-row st-phero__ctas" data-hero-ctas>
             <Button href="/contact#brief" tone="light">Brief us on a role</Button>

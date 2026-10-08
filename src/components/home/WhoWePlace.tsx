@@ -19,7 +19,7 @@ export function WhoWePlace() {
         eyebrow="Who we place"
         titleId="place-title"
         title="The appointments a finishing business cannot afford to get wrong."
-        lede="Across electroplating, anodising, powder and paint, heat treatment, thermal spray and pre-treatment. Permanent, interim and retained."
+        lede="Across electroplating, anodising, powder and paint, heat treatment, thermal spray and pre-treatment."
       />
       <RuleGrid items={ROLES.map(([kicker, title, body]) => ({ kicker, title, body }))} />
       <div className="st-place__foot">

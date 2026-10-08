@@ -25,8 +25,11 @@
   @media (max-width: 599px) {
     .st-phero__inner { padding-top: 112px; }
     .st-phero__title { font-size: 42px; line-height: 1.05; }
-    .st-phero__logos { gap: 22px 32px; }
-    .st-phero__logo img { height: 24px !important; }
+    /* phones: client logos on a 2 × 2 grid at a legible size rather than a ragged wrap */
+    .st-phero__clients { width: 100%; }
+    .st-phero__logos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px; width: 100%; }
+    .st-phero__logo img { height: 28px !important; max-width: 100%; object-fit: contain; object-position: left center; }
+    .st-phero__logo:nth-child(2) img { height: 36px !important; }
   }
 
   /* ---------- why specialist search ---------- */
@@ -45,6 +48,11 @@
   @media (max-width: 1023px) {
     .st-whyfail__inner { grid-template-columns: 1fr; gap: 40px; padding-top: 72px; padding-bottom: 72px; }
     .st-whyfail__head { position: static; }
+  }
+  @media (max-width: 767px) {
+    /* numbers sit above each point so the text gets the full column */
+    .st-whyfail__item { grid-template-columns: 1fr; gap: 10px; }
+    .st-whyfail__n { padding-top: 0; }
   }
 
   /* ---------- who we place: closing line ---------- */

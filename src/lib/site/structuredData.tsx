@@ -1,7 +1,7 @@
 import { CONTACT_EMAIL, CONTACT_PHONE_E164, SITE_ORIGIN } from "./nav";
 
 /**
- * Truthful JSON-LD only. Surface Talent Ltd (company no. 17497267) is a UK employment agency for surface
+ * Truthful JSON-LD only. Surface Talent Ltd (company number 17497267) is a UK employment agency for surface
  * engineering. No review, rating or aggregate markup (none is
  * verifiable), and JobPosting is emitted per real vacancy detail page, never on the listing.
  */
