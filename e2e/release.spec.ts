@@ -57,14 +57,15 @@ test("job application query selects the career form and preserves the vacancy", 
   await expect(page.locator('input[name="form_type"]')).toHaveValue("contact_general");
 });
 
-test("fast autofill sends one request after the guard and never treats an ignored receipt as saved", async ({ page }) => {
+for (const [label, responseBody] of [["ignored receipt", { ok: true, id: "ignored" }], ["null response", null], ["invalid error message", { ok: false, message: { invalid: true }, field: ["email"] }]] as const) {
+test(`fast autofill sends one request after the guard and rejects ${label}`, async ({ page }) => {
   const time = new Date("2026-10-08T12:00:00Z");
   await page.clock.install({ time });
   await page.clock.pauseAt(time);
   let requests = 0;
   await page.route("**/api/submit", async (route) => {
     requests++;
-    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, id: "ignored" }) });
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(responseBody) });
   });
   await page.goto("/contact");
   const form = page.getByRole("form", { name: "Send a brief" });
@@ -92,6 +93,7 @@ test("fast autofill sends one request after the guard and never treats an ignore
   await expect(form.getByLabel("Email", { exact: true })).toHaveValue("synthetic@example.com");
   await expect(page.getByText("Received", { exact: true })).toHaveCount(0);
 });
+}
 
 test("indexing matches the environment and internal previews stay private", async ({ request }) => {
   const production = process.env.RELEASE_ENV === "production";
