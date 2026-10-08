@@ -289,7 +289,8 @@ function doPost(e) {
 
     loadConfig_();
 
-    var submissionId =
+    var requestId = String(body.submission_id || "");
+    var submissionId = /^ST-\d{8}-[0-9a-f]{8}$/.test(requestId) ? requestId :
       "ST-" +
       Utilities.formatDate(new Date(), "UTC", "yyyyMMdd") +
       "-" +
@@ -378,14 +379,26 @@ function doPost(e) {
       body.source_page
     );
 
-    return jsonOut_({
+    var receipt = {
       ok: true,
       submission_id: submissionId,
       sheet: pageSheet,
-      sheets: ["_Raw", "Inbox", pageSheet],
       email_ok: emailOk,
       audit_ok: auditOk,
       cv_ok: cvOk,
+    };
+    // Cache only the completed technical receipt. A fresh authenticated GET can
+    // recover it when Google's one-time response URL is temporarily unavailable.
+    try { CacheService.getScriptCache().put("receipt:" + submissionId, JSON.stringify(receipt), 1800); }
+    catch (receiptError) { console.error("receipt_cache_write_failed"); }
+    return jsonOut_({
+      ok: receipt.ok,
+      submission_id: receipt.submission_id,
+      sheet: receipt.sheet,
+      sheets: ["_Raw", "Inbox", pageSheet],
+      email_ok: receipt.email_ok,
+      audit_ok: receipt.audit_ok,
+      cv_ok: receipt.cv_ok,
       cv_url: cvUrl,
     });
   } catch (err) {
@@ -398,9 +411,26 @@ function doPost(e) {
 function doGet(e) {
   var params = (e && e.parameter) || {};
   if (String(params.resource || "") === "jobs") return jobsOut_(params);
+  if (String(params.resource || "") === "receipt") return receiptOut_(params);
   return ContentService.createTextOutput(
     JSON.stringify({ ok: true, service: "Surface Talent submissions", architecture: "raw+inbox+page+audit" })
   ).setMimeType(ContentService.MimeType.JSON);
+}
+
+function receiptOut_(params) {
+  var secret = PropertiesService.getScriptProperties().getProperty("WEBHOOK_SECRET");
+  if (!secret || String(params.secret || "") !== secret) return jsonOut_({ ok: false, error: "unauthorized" }, 401);
+  var requestId = String(params.request_id || "");
+  if (!/^ST-\d{8}-[0-9a-f]{8}$/.test(requestId)) return jsonOut_({ ok: false, error: "invalid_request_id" }, 400);
+  var cached;
+  try { cached = CacheService.getScriptCache().get("receipt:" + requestId); }
+  catch (err) { return jsonOut_({ ok: false, error: "receipt_unavailable" }, 503); }
+  if (!cached) return jsonOut_({ ok: false, error: "receipt_unavailable" }, 404);
+  try {
+    var receipt = JSON.parse(cached);
+    if (!receipt || receipt.ok !== true || receipt.submission_id !== requestId) throw new Error("Invalid receipt");
+    return jsonOut_(receipt);
+  } catch (err) { return jsonOut_({ ok: false, error: "receipt_unavailable" }, 503); }
 }
 
 /**

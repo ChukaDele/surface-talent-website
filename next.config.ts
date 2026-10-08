@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     // the interim /legal/* paths published on staging now live at clean canonical roots
     return [
+      { source: "/", has: [{ type: "host", value: "www.surfacetalent.co.uk" }], destination: "https://surfacetalent.co.uk/", permanent: true },
       { source: "/:path*", has: [{ type: "host", value: "www.surfacetalent.co.uk" }], destination: "https://surfacetalent.co.uk/:path*", permanent: true },
       { source: "/legal/:slug", destination: "/:slug", permanent: true },
       { source: "/legal", destination: "/privacy", permanent: false },

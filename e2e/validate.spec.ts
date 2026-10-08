@@ -70,7 +70,7 @@ test.describe("validation library", () => {
 test.describe("Google response adapter", () => {
   const endpoint = "https://script.google.com/macros/s/SYNTHETIC/exec";
   const secret = "SYNTHETIC-SECRET-NOT-A-CREDENTIAL";
-  async function scenario(responses: Response[]) {
+  async function scenario(responses: Response[], payload: Record<string, unknown> = { form_type: "contact_hiring" }) {
     const original = globalThis.fetch;
     const calls: Request[] = [];
     globalThis.fetch = async (input, init) => {
@@ -79,7 +79,7 @@ test.describe("Google response adapter", () => {
       if (!response) throw new Error("Unexpected extra provider request");
       return response;
     };
-    try { return { result: await appsScriptPersistence(endpoint, secret).forward({ form_type: "contact_hiring" }), calls }; }
+    try { return { result: await appsScriptPersistence(endpoint, secret).forward(payload), calls }; }
     finally { globalThis.fetch = original; }
   }
   test("reads the Google response without forwarding credentials or replaying the submission", async () => {
@@ -141,5 +141,26 @@ test.describe("Google response adapter", () => {
     expect(hostile.result.ok).toBe(false); expect(hostile.calls).toHaveLength(3);
     const applicationError = await scenario([redirect(), Response.json({ ok: false, error: "file you have requested does not exist" }, { status: 503 })]);
     expect(applicationError.result.body.ok).toBe(false); expect(applicationError.calls).toHaveLength(2);
+  });
+  test("recovers the authenticated completed receipt once without replaying the POST", async () => {
+    const id = "ST-20261008-abcd1234";
+    const redirect = () => new Response(null, { status: 302, headers: { location: "https://script.googleusercontent.com/macros/echo?user_content_key=SYNTHETIC" } });
+    const lost = () => [redirect(), ...Array.from({ length: 3 }, () => new Response("Page not found", { status: 404 }))];
+    for (const receipt of [{ ok: true, submission_id: id, cv_ok: true, email_ok: true, audit_ok: true }, { ok: false, error: "receipt_unavailable" }]) {
+      const { result, calls } = await scenario([...lost(), redirect(), Response.json(receipt)], { submission_id: id, form_type: "contact_general" });
+      expect(result.body.ok).toBe(receipt.ok);
+      expect(calls.map(c => c.method)).toEqual(["POST", "GET", "GET", "GET", "GET", "GET"]);
+      const lookup = new URL(calls[4].url);
+      expect(lookup.origin).toBe("https://script.google.com");
+      expect(lookup.searchParams.get("secret")).toBe(secret);
+      expect(lookup.searchParams.get("resource")).toBe("receipt");
+      expect(lookup.searchParams.get("request_id")).toBe(id);
+      expect(calls[5].headers.has("X-ST-Secret")).toBe(false);
+      expect(new URL(calls[5].url).searchParams.has("secret")).toBe(false);
+    }
+    const appFailure = await scenario([Response.json({ ok: false, error: "upstream_invalid" })], { submission_id: id });
+    expect(appFailure.calls).toHaveLength(1);
+    const mismatch = await scenario([...lost(), redirect(), Response.json({ ok: true, submission_id: "ST-20261008-ffffffff" })], { submission_id: id });
+    expect(mismatch.result.body.ok).toBe(false); expect(mismatch.calls).toHaveLength(6);
   });
 });
