@@ -145,6 +145,11 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
               console.error("[submit] response redirect denied", { status: res.status, origin: next.origin, redirects, reason: "destination" });
               return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
             }
+            console.warn("[submit] Google response hop", {
+              origin: next.origin,
+              kind: /\/macros\/s\/[^/]+\/exec$/.test(next.pathname) ? "exec" : next.pathname === "/macros/echo" ? "echo" : "other",
+              secret: next.searchParams.has("secret"), resource: next.searchParams.has("resource"), requestId: next.searchParams.has("request_id"), redirects,
+            });
             if (next.searchParams.has("secret")) next.searchParams.delete("secret");
             current = next;
             res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
