@@ -64,8 +64,8 @@ illustrations and the former scroll narrative are absent from its public composi
 `/` (homepage, protected baseline), `/clients`, `/candidates`, `/contact`, `/about`, `/disciplines`,
 `/jobs`. Non-home routes share `src/app/(site)/layout.tsx` (light header + footer). Forms post to
 `/api/submit` (see `integrations/google-apps-script/README.md` for the Google backend and secrets).
-Jobs read Airtable through `src/lib/jobs/source.ts` when `AIRTABLE_TOKEN`/`AIRTABLE_BASE_ID` exist,
-otherwise the approved empty state renders.
+Jobs read the Live Jobs sheet through the Apps Script web app. Existing Airtable secrets take
+precedence when configured. Without either source the approved empty state renders.
 
 ## Cloudflare deployment
 
@@ -85,7 +85,8 @@ npm run deploy:production
 Build with the matching `SITE_ENV`: staging must be `noindex`, while production must be indexable.
 Worker secrets remain provider-managed. Never commit their values or replace them during a visual
 release: `APPS_SCRIPT_URL`, `SUBMISSION_SECRET`, `AIRTABLE_TOKEN`, `AIRTABLE_BASE_ID`.
-The forms persist through the Google Apps Script integration. Jobs read Airtable when configured.
+The forms persist through the Google Apps Script integration. Jobs use the same web app to read
+the Live Jobs sheet, with Airtable as a compatible legacy source when its secrets are configured.
 Check `/api/jobs` directly because the public empty state also appears when the upstream is unavailable.
 
 ## History and rollback
