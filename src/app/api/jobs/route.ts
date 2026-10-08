@@ -13,5 +13,6 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const r = await fetchLiveJobs();
   if (!r.configured) return NextResponse.json({ error: "jobs_unavailable", message: "Jobs source is not configured." }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  if (r.error) return NextResponse.json({ jobs: [], source: r.source, error: r.error }, { status: 503, headers: { "Cache-Control": "no-store" } });
   return NextResponse.json({ jobs: r.jobs, source: r.source, error: r.error }, { headers: { "Cache-Control": "public, max-age=60" } });
 }
