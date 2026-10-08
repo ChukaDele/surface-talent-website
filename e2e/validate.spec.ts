@@ -121,4 +121,25 @@ test.describe("Google response adapter", () => {
     expect(result.body.ok).toBe(true);
     expect(calls).toHaveLength(1);
   });
+  test("re-reads a transient Google response failure without submitting another enquiry", async () => {
+    const redirect = () => new Response(null, { status: 302, headers: { location: "https://script.googleusercontent.com/macros/echo?user_content_key=SYNTHETIC" } });
+    const receipt = () => Response.json({ ok: true, submission_id: "SYNTHETIC-ID" });
+    for (const temporary of [new Response("Page not found", { status: 404 }), new Response("Unavailable", { status: 503 }), new Response("<html>Sorry, unable to open the file</html>")]) {
+      const { result, calls } = await scenario([redirect(), temporary, receipt()]);
+      expect(result.body.ok).toBe(true); expect(calls).toHaveLength(3);
+      expect(calls.map(c => c.method)).toEqual(["POST", "GET", "GET"]);
+      expect(calls[1].url).toBe(calls[2].url);
+      expect(calls[2].headers.has("X-ST-Secret")).toBe(false);
+    }
+    const { result, calls } = await scenario([redirect(), ...Array.from({ length: 3 }, () => new Response("Page not found", { status: 404 }))]);
+    expect(result.ok).toBe(false); expect(result.body.error).toBe("upstream_invalid");
+    expect(calls.map(c => c.method)).toEqual(["POST", "GET", "GET", "GET"]);
+    const recovered = await scenario([redirect(), new Response("Page not found", { status: 404 }), redirect(), receipt()]);
+    expect(recovered.result.body.ok).toBe(true);
+    expect(recovered.calls.map(c => c.method)).toEqual(["POST", "GET", "GET", "GET"]);
+    const hostile = await scenario([redirect(), new Response("Page not found", { status: 404 }), new Response(null, { status: 302, headers: { location: "https://example.com/" } })]);
+    expect(hostile.result.ok).toBe(false); expect(hostile.calls).toHaveLength(3);
+    const applicationError = await scenario([redirect(), Response.json({ ok: false, error: "file you have requested does not exist" }, { status: 503 })]);
+    expect(applicationError.result.body.ok).toBe(false); expect(applicationError.calls).toHaveLength(2);
+  });
 });

@@ -130,16 +130,34 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
       // Google ContentService returns a one-time response URL. Send the submission once;
       // read that response with GET, without forwarding the submission secret or body.
       let res = await fetch(current, { method: "POST", headers: { "Content-Type": "application/json", "X-ST-Secret": secret }, body: JSON.stringify(payload), redirect: "manual", cache: "no-store", signal });
-      for (let redirects = 0; res.status >= 300 && res.status < 400; redirects++) {
-        const location = res.headers.get("location");
-        if (redirects >= 3 || ![302, 303].includes(res.status) || !location) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
-        const next = new URL(location, current);
-        if (!approved(next)) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
-        next.searchParams.delete("secret");
-        current = next;
-        res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
+      let redirects = 0;
+      let responseRetries = 0;
+      let text = "";
+      for (;;) {
+        if (res.status >= 300 && res.status < 400) {
+          const location = res.headers.get("location");
+          if (redirects++ >= 3 || ![302, 303].includes(res.status) || !location) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+          const next = new URL(location, current);
+          if (!approved(next)) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+          if (next.searchParams.has("secret")) next.searchParams.delete("secret");
+          current = next;
+          res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
+          continue;
+        }
+        text = await res.text();
+        // Google's response URL can briefly return a missing-file page after the write.
+        // Re-read only that response. Never repeat the original submission POST.
+        const jsonResponse = /^\s*[\[{]/.test(text);
+        const fileErrorPage = /^\s*</.test(text) && /Sorry, unable to open the file|file you have requested does not exist/i.test(text);
+        const temporaryResponse = !jsonResponse && (res.status === 404 || (res.status >= 500 && res.status <= 599) || (res.status === 200 && fileErrorPage));
+        if (redirects > 0 && current.hostname === "script.googleusercontent.com" && responseRetries < 2 && temporaryResponse) {
+          await new Promise((resolve) => setTimeout(resolve, 500 * 2 ** responseRetries++));
+          signal.throwIfAborted();
+          res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
+          continue;
+        }
+        break;
       }
-      const text = await res.text();
       let body: Record<string, unknown> = {};
       try {
         const parsed: unknown = JSON.parse(text.replace(/^\uFEFF/, ""));
@@ -147,9 +165,10 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
         body = parsed as Record<string, unknown>;
         if (body.ok === true && (typeof body.submission_id !== "string" || !body.submission_id.trim())) throw new Error("Missing submission receipt");
       } catch {
-        console.error("[submit] non-JSON Google response", { status: res.status, origin: current.origin, length: text.length, firstCodePoint: text.codePointAt(0), html: /^\s*<!?\w/i.test(text), googleFileError: /Sorry, unable to open the file|Google Drive.*error|file you have requested does not exist/i.test(text) });
+        console.error("[submit] non-JSON Google response", { status: res.status, origin: current.origin, length: text.length, firstCodePoint: text.codePointAt(0), html: /^\s*<!?\w/i.test(text), googleFileError: /Sorry, unable to open the file|Google Drive.*error|file you have requested does not exist/i.test(text), responseRetries });
         body = { ok: false, error: "upstream_invalid" };
       }
+      if (body.ok === true && responseRetries) console.warn("[submit] Google response recovered", { status: res.status, responseRetries });
       return { ok: res.ok, status: res.status, body };
     },
   };
