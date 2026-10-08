@@ -3,7 +3,7 @@ import { FORM_TYPES, cvExtension, validateCv, validateEmail, validateFields, val
 /** Server-side submission pipeline shared by the route handler and tests. */
 
 export type SubmitResult =
-  | { ok: true; id: string; sheet?: string; cv_ok?: boolean; email_ok?: boolean; duplicate?: boolean }
+  | { ok: true; id: string; sheet?: string; cv_ok?: boolean; email_ok?: boolean; audit_ok?: boolean; duplicate?: boolean }
   | { ok: false; error: string; field?: string; message?: string; status: number };
 
 export type Persistence = { forward: (payload: Record<string, unknown>) => Promise<{ ok: boolean; status: number; body: Record<string, unknown> }> };
@@ -106,14 +106,15 @@ export async function processSubmission(form: FormData, ctx: { ip: string; userA
   if (!ctx.persistence) return { ok: false, error: "submit_unavailable", status: 503, message: "Submissions aren't switched on for this environment yet. Email hello@surfacetalent.co.uk and we'll pick it up." };
   let up: { ok: boolean; status: number; body: Record<string, unknown> };
   try { up = await ctx.persistence.forward(payload); }
-  catch (err) { console.error("[submit] upstream unreachable", id, String(err)); return { ok: false, error: "upstream_unreachable", status: 502, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." }; }
+  catch (err) { console.error("[submit] upstream unreachable", id, err instanceof Error ? err.name : "Error"); return { ok: false, error: "upstream_unreachable", status: 502, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." }; }
   if (!up.ok || up.body.ok !== true) {
-    console.error("[submit] upstream failed", id, up.status, JSON.stringify(up.body).slice(0, 300));
+    console.error("[submit] upstream failed", id, up.status);
     return { ok: false, error: String(up.body.error || "upstream_failed"), status: 502, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." };
   }
-  const result: SubmitResult = { ok: true, id: String(up.body.submission_id || id), sheet: up.body.sheet as string | undefined, cv_ok: typeof up.body.cv_ok === "boolean" ? up.body.cv_ok : undefined, email_ok: typeof up.body.email_ok === "boolean" ? up.body.email_ok : undefined, duplicate: up.body.duplicate === true || undefined };
+  const result: SubmitResult = { ok: true, id: String(up.body.submission_id || id), sheet: up.body.sheet as string | undefined, cv_ok: typeof up.body.cv_ok === "boolean" ? up.body.cv_ok : undefined, email_ok: typeof up.body.email_ok === "boolean" ? up.body.email_ok : undefined, audit_ok: typeof up.body.audit_ok === "boolean" ? up.body.audit_ok : undefined, duplicate: up.body.duplicate === true || undefined };
   if (dedupeKey) rememberResult(dedupeKey, result);
   if (result.email_ok === false) console.warn("[submit] saved but notification failed", result.id);
+  if (result.audit_ok === false) console.warn("[submit] saved but audit write failed", result.id);
   return result;
 }
 

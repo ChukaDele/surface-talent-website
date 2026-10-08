@@ -48,6 +48,15 @@ test("contact and registration controls remain labelled without submitting", asy
   }
 });
 
+test("job application query selects the career form and preserves the vacancy", async ({ page }) => {
+  await page.goto("/contact?enquiry=career_move&role=Synthetic%20Test%20Role#brief");
+  await expect(page.locator('input[name="form_type"]')).toHaveValue("contact_career_move");
+  await expect(page.locator('input[name="target_role"]')).toHaveValue("Synthetic Test Role");
+  await page.getByRole("combobox", { name: "What brings you here?" }).click();
+  await page.getByRole("option", { name: "General enquiry", exact: true }).click();
+  await expect(page.locator('input[name="form_type"]')).toHaveValue("contact_general");
+});
+
 test("indexing matches the environment and internal previews stay private", async ({ request }) => {
   const production = process.env.RELEASE_ENV === "production";
   const response = await request.get("/");
