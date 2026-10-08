@@ -1,85 +1,35 @@
-/**
- * Visual-QA capture: renders the homepage at the Figma reference viewport (1440 wide) and saves
- * screenshots per section plus scroll-progress frames for the pinned scenes.
- * Usage: node scripts/qa-shots.mjs [baseUrl] [outDir] [--full] [--vw=1440] [--vh=900] [--reduced]
- */
+/** Capture the October 2026 homepage from a remote deployment. */
 import { chromium } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-const base = process.argv[2] || "http://localhost:3400";
+const base = process.argv[2];
+if (!base) throw new Error("Provide the verified HTTPS Cloudflare preview or production URL.");
+const target = new URL(base);
+if (target.protocol !== "https:" || !(/\.(workers|pages)\.dev$/.test(target.hostname) || ["surfacetalent.co.uk", "www.surfacetalent.co.uk"].includes(target.hostname))) throw new Error("Remote release URL required.");
 const out = process.argv[3] || "design-dump/qa";
-const full = process.argv.includes("--full");
-const vwArg = process.argv.find((a) => a.startsWith("--vw="));
-const VW = vwArg ? Number(vwArg.split("=")[1]) : 1440;
-const vhArg = process.argv.find((a) => a.startsWith("--vh="));
-const VH = vhArg ? Number(vhArg.split("=")[1]) : VW < 700 ? 844 : 900;
+const numberArg = (key, fallback) => Number(process.argv.find((value) => value.startsWith(`${key}=`))?.split("=")[1] || fallback);
+const width = numberArg("--vw", 1440);
+const height = numberArg("--vh", width < 700 ? 844 : 900);
 mkdirSync(out, { recursive: true });
-
 const browser = await chromium.launch();
-const reduced = process.argv.includes("--reduced");
-const page = await browser.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1, reducedMotion: reduced ? "reduce" : "no-preference" });
-await page.goto(base, { waitUntil: "load" });
-await page.evaluate(() => document.fonts.ready);
-await page.waitForTimeout(600);
-
-const tops = await page.evaluate(() => {
-  const q = (s) => document.querySelector(s);
-  const top = (el) => Math.round(el.getBoundingClientRect().top + window.scrollY);
-  return {
-    hero: 0,
-    system: top(q("[data-scene='system']")),
-    systemEnd: top(q("[data-scene='system']")) + q("[data-scene='system']").offsetHeight,
-    why: top(q("[data-scene='why']")),
-    whyEnd: top(q("[data-scene='why']")) + q("[data-scene='why']").offsetHeight,
-    dna: top(q("[data-scene='dna']")),
-    floor: top(q("[data-scene='floor']")),
-    floorEnd: top(q("[data-scene='floor']")) + q("[data-scene='floor']").offsetHeight,
-    problem: top(q("[data-scene='problem']")),
-    problemEnd: top(q("[data-scene='problem']")) + q("[data-scene='problem']").offsetHeight,
-    clients: top(q(".st-clients")),
-    how: top(q("[data-scene='how']")),
-    howEnd: top(q("[data-scene='how']")) + q("[data-scene='how']").offsetHeight,
-    disc: top(q(".st-disc")),
-    fn: top(q(".st-fn")),
-    stake: top(q("[data-scene='stake']")),
-    stakeEnd: top(q("[data-scene='stake']")) + q("[data-scene='stake']").offsetHeight,
-    footer: top(q(".st-footer")),
-    height: document.body.scrollHeight,
-  };
-});
-console.log(JSON.stringify(tops));
-
-async function shot(name, y) {
-  await page.evaluate((yy) => window.scrollTo(0, yy), y);
-  await page.waitForTimeout(700);
-  await page.screenshot({ path: `${out}/${name}.png` });
-  console.log("shot", name, y);
+try {
+  const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: process.argv.includes("--reduced") ? "reduce" : "no-preference" });
+  await page.goto(base, { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  const sections = [".st-phero", ".st-whyfail", ".st-dna", ".st-place", ".st-process", ".st-clients", ".st-footer"];
+  for (const [index, selector] of sections.entries()) {
+    const section = page.locator(selector);
+    if (await section.count() !== 1) throw new Error(`Expected one ${selector}`);
+    await section.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    await section.screenshot({ path: `${out}/${String(index).padStart(2, "0")}-${selector.slice(4)}.png` });
+  }
+  if (process.argv.includes("--full")) {
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${out}/full.png`, fullPage: true });
+  }
+  console.log(JSON.stringify({ base, width, height, out, sections: sections.length }));
+} finally {
+  await browser.close();
 }
-
-await shot("00-hero", 0);
-await shot("00-hero-dissolve-50", 410);
-await shot("01-system-p00", tops.system);
-const sysRun = tops.systemEnd - tops.system - 900;
-for (const p of [0.15, 0.3, 0.42, 0.55, 0.7, 0.85, 1]) await shot(`01-system-p${String(Math.round(p * 100)).padStart(2, "0")}`, Math.round(tops.system + sysRun * p));
-await shot("04-why-top", tops.why);
-const whyRun = tops.whyEnd - tops.why - 900;
-for (const p of [0.25, 0.5, 0.75, 1]) await shot(`04-why-p${Math.round(p * 100)}`, Math.round(tops.why + whyRun * p));
-await shot("05-dna-top", tops.dna);
-await shot("05-dna-years", tops.dna + 400);
-await shot("05-dna-pillars", tops.dna + 900);
-const floorRun = tops.floorEnd - tops.floor - 900;
-for (const p of [0, 0.5, 1]) await shot(`05-floor-p${Math.round(p * 100)}`, Math.round(tops.floor + floorRun * p));
-const probRun = tops.problemEnd - tops.problem - 900;
-for (const p of [0, 0.3, 0.6, 1]) await shot(`06-problem-p${Math.round(p * 100)}`, Math.round(tops.problem + probRun * p));
-await shot("07-clients", tops.clients);
-const howRun = tops.howEnd - tops.how - 900;
-for (const p of [0, 0.25, 0.5, 0.75, 1]) await shot(`08-how-p${Math.round(p * 100)}`, Math.round(tops.how + howRun * p));
-await shot("09-disc", tops.disc);
-await shot("09-disc-2", tops.disc + 700);
-await shot("10-fn", tops.fn);
-const stakeRun = tops.stakeEnd - tops.stake - 900;
-for (const p of [0, 0.5, 1]) await shot(`11-stake-p${Math.round(p * 100)}`, Math.round(tops.stake + stakeRun * p));
-await shot("12-footer", tops.footer);
-await shot("12-footer-2", tops.footer + 700);
-if (full) { await page.screenshot({ path: `${out}/full.png`, fullPage: true }); }
-await browser.close();

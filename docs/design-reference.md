@@ -1,3 +1,28 @@
+# Current design reference: October 2026 export
+
+The owner authorized publishing Chris's supplied October 7 export on October 8, 2026.
+Its source and screenshots supersede the earlier Figma frames for this release. The brand rules
+are in `docs/brand-system.md`: Inter Tight, Inter and IBM Plex Mono, with anthracite, chalk,
+copper and steel. The public homepage mounts the premium static composition.
+
+| Current section | Component | Remote screenshot selector |
+|---|---|---|
+| Hero | `HeroPremium` | `.st-phero` |
+| Why specialist search | `WhyGeneralists` | `.st-whyfail` |
+| Insider DNA | `WhoWeAre` | `.st-dna` |
+| Appointments | `WhoWePlace` | `.st-place` |
+| Process | `Process` | `.st-process` |
+| Client quotations | `Testimonials` | `.st-clients` |
+| Closing block | `Footer` | `.st-footer` |
+
+Compare the remote deployment with the supplied `Screenshots` folder. The release QA harness checks
+public pages at five viewport/motion settings. `npm run qa:shots` captures the current sections from
+HTTPS Cloudflare deployments. The old scroll-scene screenshot targets do not describe this release.
+No product markup, copy, fonts, assets, forms handlers or jobs implementation was altered by the
+history integration. Historical Figma documentation follows as provenance, not current acceptance criteria.
+
+---
+
 # Design reference — homepage
 
 Figma file: `Surface Talent (Copy)` · key `UEi5kOOH84s4Vb2VXo5dZK` · page "Design".

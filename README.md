@@ -1,8 +1,12 @@
 # Surface Talent — website (v2)
 
-The new Surface Talent marketing website, rebuilt from the approved Figma design
-(`Surface Talent (Copy)`, file key `UEi5kOOH84s4Vb2VXo5dZK`, homepage frame `35:219`).
-This repository is separate from the legacy static site and from the product application.
+The Surface Talent marketing website supplied in Chris's October 7, 2026 export.
+The October release uses the Brand and Launch Pack palette and typography, a static premium
+hero, and restrained page transitions. `docs/brand-system.md` and the supplied export screenshots
+are the current visual reference. The earlier Figma implementation remains in Git history.
+
+The release joins the legacy GitHub `main` history, the existing v2 history, and the export's
+18 original commits without rewriting any of them. It remains separate from the product application.
 
 ## Stack
 
@@ -10,44 +14,36 @@ This repository is separate from the legacy static site and from the product app
 - GSAP 3 + ScrollTrigger (`@gsap/react` for lifecycle) — the only scroll engine on the page
 - Playwright for browser tests and visual QA
 
-## Commands
+## Commands and remote QA
 
 ```bash
-npm run dev            # dev server (port 3400 via .claude/launch.json, or default 3000)
-npm run lint           # eslint
-npm run typecheck      # tsc --noEmit
-npm run build          # production build
-npm run test:e2e       # build + Playwright invariant tests (desktop, short-desktop, tablet, mobile, reduced-motion)
-npm run qa:shots       # section + scroll-progress screenshots at 1440 (scripts/qa-shots.mjs, --vw=390 for mobile)
-npm run qa:perf        # scroll frame-time probe
-npm run qa:video       # WebM motion evidence (add --reduced for the reduced-motion run)
+npm ci
+npm run lint
+npm run typecheck
+npm run build:staging
+npm run deploy:staging
+RELEASE_BASE_URL=https://surface-talent-staging.<subdomain>.workers.dev npm run test:e2e:only -- --config=playwright.release.config.ts
+npm run qa:shots -- https://surface-talent-staging.<subdomain>.workers.dev design-dump/qa --full
 ```
 
-## QA scripts
+Use GitHub and a Cloudflare preview before browser QA. Do not start a local application server.
+`playwright.release.config.ts` targets remote HTTPS deployments and does not launch a server.
+It tests desktop, short desktop, tablet, mobile and reduced motion. It excludes historical design
+experiments and the local Apps Script test double, which writes submissions. Release checks inspect
+forms without submitting enquiries. Set `RELEASE_ENV=production` for production checks.
 
-All run against a production server (`npm run build && npx next start -p 3501`):
-
-- `node scripts/qa-shots.mjs http://localhost:3501 design-dump/after-1440 --full [--vw=1536 --vh=864] [--reduced]` — per-section and scroll-progress screenshots.
-- `node scripts/qa-video.mjs http://localhost:3501 design-dump/after-video` — slow top-to-bottom and reverse scroll recording.
-- `node scripts/qa-measure.mjs http://localhost:3501 1440 900` — pinned-element heights, runway per scene, footer bounds, Why stage fit, horizontal overflow.
-- `node scripts/qa-footer-measure.mjs`, `scripts/qa-hover.mjs`, `scripts/qa-console.mjs`, `scripts/qa-perf.mjs` — footer child heights, testimonial hover/focus colours, console + failed requests during a full scroll, frame timing.
-- `npx playwright test` — invariants in `e2e/homepage.spec.ts` and the regression guards in `e2e/regressions.spec.ts` (desktop-1440, short-desktop, tablet, mobile, reduced-motion).
+Acquire the appropriate Major build/browser leases and run `major web preflight` before browser QA.
+The general historical Playwright configuration and motion scripts are retained for reference;
+the remote release configuration and `qa:shots` are the current launch entry points.
 
 ## Architecture
 
-- `src/app/page.tsx` composes the homepage from scene components in `src/components/home/`.
-- Each interaction-heavy scene owns its markup **and** a motion hook in `src/lib/motion/scenes/`
-  (`useSystemSceneMotion`, `useWhySpecialistMotion`, `usePlantFloorMotion`, `useProblemMotion`,
-  `useHowItWorksMotion`, `useStakeMotion`, `useInsiderDnaMotion`, `useChemistryMotion`, `useFooterMotion`,
-  `useHeroMotion`). GSAP owns transient animation state; React owns nothing animation-related.
-- `src/lib/motion/gsap.ts` registers plugins once; `geometryCoordinator.ts` is the single debounced
-  refresh path (window/visualViewport resize, orientation, fonts); `pinRegistry.ts` asserts in dev
-  that two pinned scenes never own the viewport at once; `motionModes.ts` holds the matchMedia
-  conditions (desktop-enhanced needs ≥1024 wide, ≥700 tall and no reduced-motion preference).
-- `src/components/ui/FixedStage.tsx` renders a composition at its Figma pixel size and scales it
-  to its container, so illustration geometry stays exact at every width.
-- Design reference data: `src/data/heroSpecimen.ts`, `src/data/systemDiagram.ts`,
-  `src/data/imageManifest.json`. Exact Figma exports live in `public/assets/`.
+`src/app/page.tsx` composes `HeroPremium`, `WhyGeneralists`, `WhoWeAre`, `WhoWePlace`, `Process`
+and `Testimonials`, with the shared header and footer. `PageMotion` owns the remaining page
+transitions. The public homepage does not mount the former pinned illustration narrative.
+Older scene components and design experiments are retained in this export. Internal design-lab
+routes return 404 in production. Public components use the tokens in `src/app/globals.css` and
+the brand rules in `docs/brand-system.md`.
 
 ## Fonts
 
@@ -57,15 +53,11 @@ through `next/font/local`, so builds need no network and every visitor sees the 
 Coolvetica is retired (it was never shipped as a webfont, so visitors were seeing fallbacks).
 See `docs/brand-system.md` for the full palette, type scale and component rules.
 
-## Hero H
+## Visual reference
 
-The homepage hero uses the approved Hero H composition: one original editorial portrait fills the
-page-level field behind the navigation and copy, and the desktop/tablet field crossfades through the
-four approved portraits on a calm 4.5-second hold with a 720ms transition. The copy and CTAs stay
-fixed, and there are no teaser tiles or portrait videos. Reduced motion holds the opening portrait;
-phone-sized layouts use an intentional image-free navy lockup. The former shutter loop remains only at
-`/design-lab/hero/h` for internal comparison. Assets live in `public/assets/media/hero/portraits/`;
-`SOURCE.txt` records their provenance.
+`docs/design-reference.md` records the October export as the current reference and preserves the
+historical Figma map. The homepage is typographic and static. Portrait loops, mock interface
+illustrations and the former scroll narrative are absent from its public composition.
 
 ## Routes
 
@@ -75,31 +67,32 @@ phone-sized layouts use an intentional image-free navy lockup. The former shutte
 Jobs read Airtable through `src/lib/jobs/source.ts` when `AIRTABLE_TOKEN`/`AIRTABLE_BASE_ID` exist,
 otherwise the approved empty state renders.
 
-## Staging deployment (Cloudflare Workers via OpenNext)
+## Cloudflare deployment
+
+OpenNext deploys a Next.js Worker, including `/api/submit` and `/api/jobs`.
+Top-level `wrangler.jsonc` targets `surface-talent-staging`. `env.production` targets
+`surface-talent-website` in Chris's account (`7d906c42ff7b64c0435b6d4c449fe77a`) and the existing
+`surfacetalent.co.uk` and `www.surfacetalent.co.uk` custom domains.
 
 ```bash
-npm run build:staging     # SITE_ENV=staging → X-Robots-Tag: noindex on every response
-npm run preview:staging   # local Worker preview
-npm run deploy:staging    # deploys the Worker `surface-talent-staging` (wrangler.jsonc)
+npm run build:staging
+npm run deploy:staging
+# Only with an explicit production brief, after remote staging QA and promotion through main:
+npm run build:production
+npm run deploy:production
 ```
 
-Secrets (owner): `npx wrangler secret put APPS_SCRIPT_URL --name surface-talent-staging`, same for
-`SUBMISSION_SECRET`, optionally `AIRTABLE_TOKEN` / `AIRTABLE_BASE_ID`. Production is a separate,
-later task; this config never touches the live domain.
+Build with the matching `SITE_ENV`: staging must be `noindex`, while production must be indexable.
+Worker secrets remain provider-managed. Never commit their values or replace them during a visual
+release: `APPS_SCRIPT_URL`, `SUBMISSION_SECRET`, `AIRTABLE_TOKEN`, `AIRTABLE_BASE_ID`.
+The forms persist through the Google Apps Script integration. Jobs read Airtable when configured.
+Check `/api/jobs` directly because the public empty state also appears when the upstream is unavailable.
 
-## Deploying
+## History and rollback
 
-Static-friendly Next.js app. Deployment target is not configured in this repo yet — the legacy
-site's Cloudflare Pages project is documented in the old repository; do not deploy over it
-without an explicit decision.
-
-## Owner actions (staging acceptance)
-
-1. **Forms backend** — deploy `integrations/google-apps-script/Code.gs` as a Web app (steps in that
-   folder's README), then set the Worker secrets:
-   `npx wrangler secret put APPS_SCRIPT_URL --name surface-talent-staging` and
-   `npx wrangler secret put SUBMISSION_SECRET --name surface-talent-staging`. Until then `/api/submit`
-   answers 503 and the forms show a recoverable "not switched on yet" message.
-2. **Live jobs** — optional: `AIRTABLE_TOKEN` / `AIRTABLE_BASE_ID` secrets on the Worker (same Airtable
-   base as the legacy site) turn the Jobs empty state into the live list.
-3. **Fonts** — nothing to do: brand fonts are self-hosted (see Fonts above).
+The October integration commit has three parents: the prior GitHub main, the current website v2,
+and the supplied export. Merge this release normally; do not squash or rebase it.
+Rollback tags preserve the previous website and main tips:
+`archive/website-before-chris-20261008` and `archive/main-before-chris-20261008`.
+Record the previous production Worker version before deployment so runtime rollback does not depend
+on rebuilding an old source checkout.
