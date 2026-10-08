@@ -1,0 +1,38 @@
+@layer st-base {
+  /* ---------- Candidates hero (Figma 2027:20100 Hero 1440×660): copy left, form card right ---------- */
+  .st-cahero { position: relative; overflow: hidden; background: #ffffff; }
+  .st-cahero__orb { left: -270px; top: -410px; }
+  .st-cahero__inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 40px; align-items: start; padding: 115px var(--gutter) 60px; max-width: var(--page-max); margin: 0 auto; box-sizing: border-box; }
+  .st-cahero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 0; }
+  .st-cahero__copy .st-h1 { color: var(--ink); max-width: 560px; }
+  .st-cahero__copy .st-body { color: var(--ink); max-width: 420px; }
+  .st-cahero__copy .st-btn-row { margin-top: 8px; }
+  .st-cahero__card { position: relative; width: 520px; max-width: 100%; box-sizing: border-box; padding: 20px; border-radius: 12px; background: #ffffff; border: 1px solid var(--grey-100); box-shadow: 0 24px 44px rgba(20,23,28,0.08); will-change: transform; }
+
+  /* ---------- The difference (cream, two columns) ---------- */
+  .st-cadiff { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .st-cadiff__head { display: flex; flex-direction: column; gap: 10px; }
+  .st-cadiff__head .st-h2 { color: #000000; max-width: 520px; }
+  .st-cadiff__copy { display: flex; flex-direction: column; gap: 26px; color: var(--ink); opacity: 0.8; }
+
+  /* ---------- What you get (dark, four columns, 300×160 illustration each) ---------- */
+  .st-caproc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; width: 100%; max-width: var(--content-max); list-style: none; margin: 0; padding: 0; }
+  .st-caproc__item { display: flex; flex-direction: column; gap: 0; }
+  .st-caproc__art { width: 100%; max-width: 300px; aspect-ratio: 300 / 160; display: block; margin-bottom: 24px; }
+  .st-caproc__n { color: #ffffff; opacity: 0.7; }
+  .st-caproc .st-h4 { color: #ffffff; margin-top: 10px; }
+  .st-caproc .st-body { color: var(--text-inverse); opacity: 0.8; margin-top: 10px; max-width: 308px; }
+
+  /* ---------- Split with art ---------- */
+  .st-split__art--cands { right: -20px; top: 150px; width: 320px; height: 300px; }
+  .st-split__art--cands img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  @media (max-width: 1023px) {
+    .st-cahero__inner { grid-template-columns: 1fr; padding: 96px 24px 48px; gap: 32px; }
+    .st-cahero__copy .st-h1 { font-size: 44px; line-height: 52px; }
+    .st-cahero__card { width: 100%; }
+    .st-cadiff { grid-template-columns: 1fr; gap: 24px; }
+    .st-caproc { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) { .st-caproc { grid-template-columns: 1fr; } }
+}

@@ -1,0 +1,4 @@
+/* Footer styles moved to brand.css (October 2026 brand pass). Kept so existing imports resolve. */
+@layer st-base {
+  .st-footer { position: relative; }
+}

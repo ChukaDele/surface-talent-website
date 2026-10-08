@@ -1,0 +1,24 @@
+@layer st-base {
+  .st-stake { background: #fff; overflow: hidden; }
+  .st-stake__pin { position: relative; }
+  .st-stake__inner { display: flex; flex-direction: column; align-items: center; gap: 60px; }
+  @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .st-stake__pin { min-height: 100svh; display: flex; align-items: center; }
+    .st-stake__inner { padding-top: 0; padding-bottom: 0; width: 100%; }
+  }
+  .st-stake__stage { width: 463.5px; overflow: visible; }
+  .st-stake__card { position: absolute; left: 0; top: 25px; width: 463.5px; box-sizing: border-box; padding: 28px 24px; border-radius: 16px; display: flex; flex-direction: column; gap: 18px; transform-origin: 0 0; }
+  .st-stake__card--generalist { background: #fff; box-shadow: 0 0 0 2px #e9e9e9; height: 356px; top: 24.4px; left: -32.85px; transform: rotate(-6deg); }
+  .st-stake__card--st { background: var(--primary-500); box-shadow: 0 0 0 2px var(--primary-700); height: 306px; }
+  .st-stake__body { display: flex; flex-direction: column; gap: 18px; }
+  .st-stake__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .st-stake__list li { display: flex; align-items: flex-start; gap: 8px; }
+  .st-stake__list li .st-body { flex: 1; }
+  .st-stake__bar { width: 20px; height: 6px; flex: none; margin-top: 10px; display: inline-block; }
+  .st-stake__stamp-rejected { position: absolute; left: 317.45px; top: 34.6px; width: 130px; height: 130px; transform: rotate(6.62deg); transform-origin: 0 0; }
+  .st-stake__stamp-approved { position: absolute; left: 390.92px; top: -20.7px; width: 122.22px; height: 120px; transform: rotate(1.06deg); transform-origin: 0 0; }
+  @media (max-width: 1023px) {
+    .st-stake__inner { padding: 56px 24px; gap: 40px; }
+    .st-stake__stage { width: 100%; }
+  }
+}

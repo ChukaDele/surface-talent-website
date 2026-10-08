@@ -1,0 +1,19 @@
+@layer st-base {
+  .st-problem { background: #fff; }
+  .st-problem__pin { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: clip; }
+  .st-problem__inner { display: flex; align-items: center; justify-content: center; gap: 40px; padding: 40px var(--gutter); width: 100%; box-sizing: border-box; }
+  .st-problem__copy { width: 467px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+  .st-problem__title { max-width: 420px; }
+  .st-problem__lede { max-width: 320px; opacity: 0.8; }
+  /* 600 × 620 stage; on short viewports it shrinks so the whole card is always visible */
+  .st-problem__stack { position: relative; flex: none; width: min(600px, calc((100svh - 80px) * 600 / 620)); }
+  .st-problem__card { width: 100%; top: 0; left: 0; }
+  /* natural-flow fallback: mobile/tablet, short desktops (no pinned narrative), reduced motion */
+  @media (max-width: 1023px), (min-width: 1024px) and (max-height: 699px), (prefers-reduced-motion: reduce) {
+    .st-problem__pin { min-height: 0; overflow: visible; }
+    .st-problem__inner { flex-direction: column; padding: 56px 24px; gap: 32px; }
+    .st-problem__copy { width: 100%; }
+    .st-problem__stack { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 24px; }
+    .st-problem__card { position: relative !important; width: 100%; }
+  }
+}

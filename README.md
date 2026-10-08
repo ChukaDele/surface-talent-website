@@ -1,161 +1,99 @@
-# Surface Talent — Website
+# Surface Talent — website (v2)
 
-A multi-page static website built to launch `surfacetalent.co.uk`. Designed to run free on Cloudflare Pages or Netlify, with a live jobs list wired to Airtable.
+The Surface Talent marketing website supplied in Chris's October 7, 2026 export.
+The October release uses the Brand and Launch Pack palette and typography, a static premium
+hero, and restrained page transitions. `docs/brand-system.md` and the supplied export screenshots
+are the current visual reference. The earlier Figma implementation remains in Git history.
 
-## What's in this folder
+The release joins the legacy GitHub `main` history, the existing v2 history, and the export's
+18 original commits without rewriting any of them. It remains separate from the product application.
 
+## Stack
+
+- Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 (tokens live in `src/app/globals.css`)
+- GSAP 3 + ScrollTrigger (`@gsap/react` for lifecycle) — the only scroll engine on the page
+- Playwright for browser tests and visual QA
+
+## Commands and remote QA
+
+```bash
+npm ci
+npm run lint
+npm run typecheck
+npm run build:staging
+npm run deploy:staging
+RELEASE_BASE_URL=https://surface-talent-staging.<subdomain>.workers.dev npm run test:e2e:only -- --config=playwright.release.config.ts
+npm run qa:shots -- https://surface-talent-staging.<subdomain>.workers.dev design-dump/qa --full
 ```
-Website/
-├── index.html          Home
-├── clients.html        For clients
-├── candidates.html     For candidates
-├── disciplines.html    Six process lanes
-├── jobs.html           Live jobs list (pulls from Airtable)
-├── job.html            Individual role detail (pulls from Airtable)
-├── about.html          About + leadership appointments
-├── contact.html        Contact (call / form / direct)
-├── assets/
-│   ├── styles.css      Shared stylesheet
-│   └── jobs.js         Airtable integration
-├── README.md           You are here
-└── airtable-schema.md  Exact Airtable base setup
+
+Use GitHub and a Cloudflare preview before browser QA. Do not start a local application server.
+`playwright.release.config.ts` targets remote HTTPS deployments and does not launch a server.
+It tests desktop, short desktop, tablet, mobile and reduced motion. It excludes historical design
+experiments and the local Apps Script test double, which writes submissions. Release checks inspect
+forms without submitting enquiries. Set `RELEASE_ENV=production` for production checks.
+
+Acquire the appropriate Major build/browser leases and run `major web preflight` before browser QA.
+The general historical Playwright configuration and motion scripts are retained for reference;
+the remote release configuration and `qa:shots` are the current launch entry points.
+
+## Architecture
+
+`src/app/page.tsx` composes `HeroPremium`, `WhyGeneralists`, `WhoWeAre`, `WhoWePlace`, `Process`
+and `Testimonials`, with the shared header and footer. `PageMotion` owns the remaining page
+transitions. The public homepage does not mount the former pinned illustration narrative.
+Older scene components and design experiments are retained in this export. Internal design-lab
+routes return 404 in production. Public components use the tokens in `src/app/globals.css` and
+the brand rules in `docs/brand-system.md`.
+
+## Fonts
+
+Brand typography from the Brand and Launch Pack: **Inter Tight** (headlines), **Inter** (body) and
+**IBM Plex Mono** (labels, codes, figures). All three are SIL OFL and self-hosted from `src/fonts/`
+through `next/font/local`, so builds need no network and every visitor sees the same faces.
+Coolvetica is retired (it was never shipped as a webfont, so visitors were seeing fallbacks).
+See `docs/brand-system.md` for the full palette, type scale and component rules.
+
+## Visual reference
+
+`docs/design-reference.md` records the October export as the current reference and preserves the
+historical Figma map. The homepage is typographic and static. Portrait loops, mock interface
+illustrations and the former scroll narrative are absent from its public composition.
+
+## Routes
+
+`/` (homepage, protected baseline), `/clients`, `/candidates`, `/contact`, `/about`, `/disciplines`,
+`/jobs`. Non-home routes share `src/app/(site)/layout.tsx` (light header + footer). Forms post to
+`/api/submit` (see `integrations/google-apps-script/README.md` for the Google backend and secrets).
+Jobs read the Live Jobs sheet through the Apps Script web app. Existing Airtable secrets take
+precedence when configured. Without either source the approved empty state renders.
+
+## Cloudflare deployment
+
+OpenNext deploys a Next.js Worker, including `/api/submit` and `/api/jobs`.
+Top-level `wrangler.jsonc` targets `surface-talent-staging`. `env.production` targets
+`surface-talent-website` in Chris's account (`7d906c42ff7b64c0435b6d4c449fe77a`) and the existing
+`surfacetalent.co.uk` and `www.surfacetalent.co.uk` custom domains.
+
+```bash
+npm run build:staging
+npm run deploy:staging
+# Only with an explicit production brief, after remote staging QA and promotion through main:
+npm run build:production
+npm run deploy:production
 ```
 
-## Quick start — ship the site in under an hour
+Build with the matching `SITE_ENV`: staging must be `noindex`, while production must be indexable.
+Worker secrets remain provider-managed. Never commit their values or replace them during a visual
+release: `APPS_SCRIPT_URL`, `SUBMISSION_SECRET`, `AIRTABLE_TOKEN`, `AIRTABLE_BASE_ID`.
+The forms persist through the Google Apps Script integration. Jobs use the same web app to read
+the Live Jobs sheet, with Airtable as a compatible legacy source when its secrets are configured.
+Check `/api/jobs` directly because the public empty state also appears when the upstream is unavailable.
 
-### Step 1. Test the site locally
+## History and rollback
 
-Double-click `index.html` to open in your browser. Everything works except the live jobs list (which needs Airtable configured). Click through every page to check it looks right on your screen.
-
-**If you're testing CSS/JS changes in Chrome and edits don't seem to take effect:** Chrome will keep serving a stale cached copy of `assets/*.css`/`assets/*.js` across repeat loads of a plain static server, even after a hard reload — this cost real debugging time during a full-site QA pass (2026-08-09). Run `python3 .devserver.py` instead of `python3 -m http.server` for local testing; it sends `Cache-Control: no-store` and `Clear-Site-Data` on every response so edits always show up on the next reload.
-
-### Step 2. Buy the domain
-
-Check availability of `surfacetalent.co.uk` at a UK registrar. Recommended options:
-
-- **Cloudflare Registrar** — cheapest, at-cost pricing, no upsells. Requires Cloudflare account.
-- **Gandi** — clean UI, solid support, slightly more expensive.
-- **123-reg or Namecheap** — mainstream, fine.
-
-If `surfacetalent.co.uk` isn't available, alternatives in descending order of preference:
-- `surfacetalent.com`
-- `surfacetalentuk.co.uk`
-- `surface-talent.co.uk`
-- `surfacetalent.io`
-
-Budget about £8–12 per year for `.co.uk`.
-
-### Step 3. Host the site on Cloudflare Pages
-
-Free, fast, globally served. Takes 5 minutes.
-
-1. Create a free account at **dash.cloudflare.com**.
-2. Go to **Workers &amp; Pages → Create → Pages → Upload assets**.
-3. Name the project `surfacetalent`.
-4. Drag the entire `Website` folder contents (the files, not the folder itself) into the upload area.
-5. Click **Deploy**.
-
-You'll get a temporary URL like `surfacetalent.pages.dev`. Check it works.
-
-### Step 4. Connect your domain
-
-In the Cloudflare Pages project:
-1. **Custom domains → Set up a custom domain**.
-2. Enter `surfacetalent.co.uk` (and `www.surfacetalent.co.uk`).
-3. If you bought the domain at Cloudflare, it's automatic.
-4. If you bought elsewhere, Cloudflare will give you DNS records to add at your registrar.
-
-Allow up to 24 hours for DNS to propagate.
-
-### Step 5. Wire up the live jobs list
-
-See **Airtable setup** below.
-
-### Step 6. Wire up the contact form
-
-Two options:
-
-- **Formspree (fastest)**. Sign up free at formspree.io, create a form, copy your form ID. In `contact.html`, replace `REPLACE_WITH_YOUR_FORM_ID` with the real ID.
-- **Your own email backend**. If you later move to HubSpot, Pipedrive or a proper CRM, replace the form action URL.
-
-### Step 7. Replace the placeholder CTAs
-
-Search the files for these placeholders and replace with real values:
-
-- `https://cal.com/surfacetalent` → your Calendly or HubSpot meeting link
-- `hello@surfacetalent.co.uk` → confirm mailbox is live
-- `+44 (0) 000 000 0000` → your real phone number
-- Group footer links to EMC Surface Technologies / EMC Capital / LinkedIn
-
-## Airtable setup
-
-### Step 1. Create the base
-
-1. Log in to **airtable.com** and create a new base called **Surface Talent — Jobs**.
-2. Rename the first table to **Jobs**.
-3. Set up the fields exactly as described in `airtable-schema.md`.
-
-### Step 2. Create a read-only access token
-
-1. Go to **airtable.com/create/tokens**.
-2. Click **Create new token**.
-3. Name it `Surface Talent website (read-only)`.
-4. Scope: **data.records:read**.
-5. Access: add the **Surface Talent — Jobs** base.
-6. Create. Copy the token (starts with `pat...`).
-
-### Step 3. Find your base ID
-
-1. With the base open, look at the URL: `airtable.com/appXXXXXXXXXXXXXX/...`
-2. The `appXXXXXXXXXXXXXX` part is your base ID.
-
-### Step 4. Connect the site via a server-side proxy
-
-**Do not paste the token into `assets/jobs.js`.** Anything in that file is visible to every visitor in the page source, even a "read-only" token — it exposes all your role data, lets anyone hammer your Airtable quota, and tokens have a habit of getting wider scopes over time.
-
-Instead, keep the token server-side:
-
-1. In Cloudflare Pages, go to your project → **Settings → Environment variables** and add `AIRTABLE_TOKEN`.
-2. Add a Pages Function at `functions/api/jobs.js` that calls the Airtable API with that token and returns the JSON.
-3. Point `fetchJobs()` / `fetchJob()` in `assets/jobs.js` at `/api/jobs` instead of `api.airtable.com`.
-
-Until the proxy is in place the jobs pages show a friendly "get in touch for the current list" fallback, so the site still works.
-
-Redeploy to Cloudflare Pages by dragging the updated folder in again, or hook up Git for automatic deploys.
-
-### Step 5. Add roles
-
-In Airtable, add a row per role. Set **Status = Live** for roles you want to show. **Status = Draft** or **Closed** hides them.
-
-The seven launch roles are listed in `airtable-schema.md` so you can copy-paste them in.
-
-## Security notes
-
-A token was hardcoded in this site's source (`assets/jobs.js`) and shipped in the browser bundle of the live public site. It has been removed from the file (2026-08-09) — `assets/jobs.js` now calls `/api/jobs` instead of Airtable directly, matching Step 4 below. **You should still revoke that token in Airtable now** (airtable.com/create/tokens → delete it), because anyone who viewed the deployed site's source or the public git history may have copied it. Until a proxy exists at `/api/jobs`, the jobs pages show the "get in touch for the current list" fallback described below — this is expected, not a bug.
-
-Never ship any API token in browser-delivered files. Keep tokens in environment variables and call Airtable from a Cloudflare Pages Function (see Step 4 above).
-
-## What this gets you at launch
-
-- Professional, branded website at your domain
-- Live jobs list you update from a spreadsheet-style interface
-- Individual role pages with clean URLs (`job.html?id=recXXX`)
-- Three contact routes (book a call, form, direct email)
-- SEO-ready meta tags on every page
-- Mobile-responsive across all breakpoints
-- Free hosting, free forms, cheap domain
-
-## When to upgrade
-
-Migrate to a proper CMS (Webflow or similar) or a full ATS (Loxo, Bullhorn, JobAdder) when you hit one of these:
-
-- More than 20 live roles at a time
-- Need candidate portal / self-service applications
-- Need interview scheduling, pipelines, invoicing integrations
-- Non-technical team members need to edit every page (not just jobs)
-
-Until then, this stack is faster, cheaper and more under your control.
-
-## Questions or changes
-
-Most edits are straightforward: open the HTML in a text editor, change the text, save, re-upload the folder to Cloudflare Pages. Larger changes (new pages, design tweaks) come back to me.
+The October integration commit has three parents: the prior GitHub main, the current website v2,
+and the supplied export. Merge this release normally; do not squash or rebase it.
+Rollback tags preserve the previous website and main tips:
+`archive/website-before-chris-20261008` and `archive/main-before-chris-20261008`.
+Record the previous production Worker version before deployment so runtime rollback does not depend
+on rebuilding an old source checkout.

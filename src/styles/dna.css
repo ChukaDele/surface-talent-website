@@ -1,0 +1,54 @@
+@layer st-base {
+  .st-dna { background: var(--deep-bg); color: var(--text-inverse); position: relative; }
+  .st-dna::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,18,27,0) 0%, #06121b 100%); pointer-events: none; }
+  .st-dna > * { position: relative; }
+  .st-dna__top { display: flex; flex-direction: column; align-items: center; gap: 60px; padding-bottom: 80px; }
+  .st-dna__headwrap { position: relative; width: 868px; max-width: 100%; }
+  .st-dna__head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+  .st-dna__title { color: var(--text-inverse); max-width: 420px; }
+  .st-dna__lede { max-width: 460px; opacity: 0.8; text-align: center; margin-top: 0; }
+  /* Restored decorative hanging LinkedIn mark from the approved original composition. It is
+     intentionally not a link, focus target or pointer target. */
+  .st-dna__linkedin { position: absolute; left: 591.71px; top: 175.72px; width: 56px; height: 55px; display: block; transform: rotate(16.07deg); transform-origin: 50% -44px; pointer-events: none; }
+  .st-dna__linkedin img { width: 70px; height: 69px; display: block; margin: -7px 0 0 -7px; }
+  .st-dna__rope { position: absolute; left: 50%; top: -44px; width: 1px; height: 44px; background: rgba(255,255,255,0.22); transform-origin: 50% 0; }
+  .st-dna__years { position: relative; width: 568px; height: 461px; display: flex; align-items: center; justify-content: center; }
+  .st-dna__count { font-family: var(--font-heading); font-size: 384px; line-height: 461px; color: var(--text-inverse); mix-blend-mode: overlay; letter-spacing: 0; white-space: nowrap; -webkit-mask-image: url("/assets/svg/noise.svg"); mask-image: url("/assets/svg/noise.svg"); -webkit-mask-size: 180px 180px; mask-size: 180px 180px; }
+  .st-dna__hand { position: absolute; left: 165.2px; top: 333.55px; width: 257px; font-family: var(--font-hand); font-size: 32px; line-height: 38px; color: #fff; text-align: center; transform: rotate(10.85deg); transform-origin: 0 0; }
+  .st-dna__pillars { display: flex; gap: 60px; width: 1200px; max-width: 100%; }
+  .st-dna__pillar { width: 360px; padding-left: 32px; border-left: 2px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; gap: 10px; }
+  .st-dna__pillar .st-h4 { color: #fff; }
+  .st-dna__pillar .st-body-sm { opacity: 0.8; color: var(--text-inverse); }
+  .st-dna__partner { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .st-dna__partner-label { font-family: var(--font-mono); font-weight: 500; font-size: 12px; line-height: 20px; letter-spacing: 2px; color: #ff8f27; opacity: 0.8; text-transform: uppercase; }
+  .st-dna__partner img { width: 144px; height: 48px; display: block; }
+
+  /* Plant floor — pinned horizontal sequence */
+  .st-floor__pin { position: relative; }
+  .st-floor__inner { display: flex; flex-direction: column; gap: 40px; padding-top: 80px; padding-bottom: 80px; }
+  @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .st-floor__pin { min-height: 100svh; display: flex; align-items: center; }
+    .st-floor__inner { padding-top: 0; padding-bottom: 0; width: 100%; gap: 48px; }
+  }
+  .st-floor__viewport { width: 100%; overflow: hidden; }
+  .st-floor__row { display: flex; width: max-content; }
+  .st-floor__card { width: 540px; flex: none; padding: 32px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 32px; background: rgba(255,255,255,0.04); box-shadow: inset 0 0 0 1px #263038; }
+  .st-floor__illus { width: 460px; }
+  .st-floor__text { display: flex; flex-direction: column; gap: 12px; }
+  .st-floor__text .st-h3 { color: #fff; opacity: 0.8; }
+  .st-floor__text .st-body { color: #fff; opacity: 0.8; }
+
+  @media (max-width: 1023px) {
+    .st-dna__top { padding: 56px 24px; gap: 40px; }
+    .st-dna__linkedin { left: auto; right: 0; top: 60px; }
+    .st-dna__years { width: 100%; height: auto; flex-direction: column; gap: 8px; }
+    .st-dna__count { font-size: 160px; line-height: 190px; }
+    .st-dna__hand { position: static; transform: rotate(10.85deg); transform-origin: 50% 50%; width: 257px; margin-top: -32px; }
+    .st-dna__pillars { flex-direction: column; gap: 24px; width: 100%; }
+    .st-dna__pillar { width: 100%; }
+    .st-floor__inner { padding: 56px 24px; }
+    .st-floor__viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .st-floor__card { width: min(540px, 86vw); scroll-snap-align: start; }
+    .st-floor__illus { width: 100%; }
+  }
+}

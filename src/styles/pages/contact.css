@@ -1,0 +1,17 @@
+@layer st-base {
+  /* ---------- Contact (Figma 2032:21127) ---------- */
+  .st-cohero__orb { left: 50%; margin-left: -504px; top: -510px; opacity: 0.55; }
+  .st-cohero__cards { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; max-width: 1040px; margin: 60px auto 0; }
+  .st-cohero__cards .st-card { min-height: 300px; }
+  .st-cohero__cards .st-card__icon { width: 100%; justify-content: center; }
+  .st-cohero__cards .st-card__text .st-body { max-width: none; }
+  .st-cocontact { display: flex; flex-direction: column; gap: 0; }
+  .st-cocontact a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(31,31,31,0.4); transition: text-decoration-color var(--dur-hover) var(--ease-out); }
+  .st-cocontact a:hover { text-decoration-color: var(--primary-500); }
+  .st-cocontact a:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 2px; border-radius: 2px; }
+  /* form card on the dark band: 620 wide, r12, padding 20, shadow 44 */
+  .st-coform { width: 620px; max-width: 100%; box-sizing: border-box; padding: 20px; border-radius: 12px; box-shadow: 0 24px 44px rgba(0,0,0,0.35); background: rgba(255,255,255,0.02); }
+  @media (max-width: 1023px) {
+    .st-cohero__cards { grid-template-columns: 1fr; width: 100%; margin-top: 40px; }
+  }
+}

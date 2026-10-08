@@ -1,0 +1,19 @@
+@layer st-brand {
+  /* ---------- discipline detail pages (October 2026 brand pass) ---------- */
+  .st-ddetail__art { display: flex; align-items: center; justify-content: flex-end; height: 100%; min-height: 220px; color: var(--steel); --disc-fill: var(--chalk); }
+  .st-ddetail__art :is([data-anim="coat"], [data-anim="particles"], [data-anim="heat"]) { color: var(--copper); }
+  .st-ddetail__icon { width: 100%; height: auto; max-width: 420px; max-height: 240px; display: block; }
+  .st-standards { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .st-standards ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
+  .st-standards li { font-family: var(--font-mono); font-size: 12px; line-height: 18px; letter-spacing: 0.02em; color: var(--chalk); padding: 7px 12px; border: 1px solid var(--rule-dark-strong); border-radius: 2px; }
+  .st-related { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .st-related li { border-bottom: 1px solid var(--rule); }
+  .st-related a { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; font-family: var(--font-heading); font-weight: 500; font-size: 21px; line-height: 28px; letter-spacing: -0.016em; color: var(--text); text-decoration: none; transition: color var(--dur-hover) var(--ease-out); }
+  .st-related a::after { content: "→"; font-family: var(--font-body); font-size: 18px; color: var(--copper-text); transition: transform var(--dur-hover) var(--ease-out); }
+  .st-related a:hover { color: var(--copper-text); }
+  .st-related a:hover::after { transform: translateX(4px); }
+  @media (max-width: 1023px) {
+    .st-ddetail__art { justify-content: flex-start; min-height: 0; }
+    .st-ddetail__icon { max-height: 150px; max-width: 320px; }
+  }
+}

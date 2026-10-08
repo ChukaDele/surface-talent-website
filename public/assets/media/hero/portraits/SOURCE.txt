@@ -1,0 +1,41 @@
+Surface Talent Hero H portrait assets
+Generated: 2026-09-03
+Tool: OpenAI ImageGen
+Source dimensions: 1086 x 1448 pixels
+
+These four original portrait assets were generated for this website from project-specific art
+direction. No FilmSupply preview, watermark, actor likeness, or third-party stock frame was used.
+The AVIF and WebP files are optimized derivatives of the generated originals.
+
+Silent micro-video derivatives were generated locally on 2026-09-03 with FFmpeg 8.1.2. They use
+only a seamless sinusoidal camera crop over the approved stills; no face, body, expression, clothing,
+person or environment was synthesized or changed. Each portrait has an 810 x 1080, 24 fps, 8.2 second
+VP9 WebM and H.264 MP4 fallback with no audio stream. The browser keeps the AVIF/WebP originals as
+posters and reduced-motion media.
+
+Derivative SHA-256:
+commercial-leader.webm b70b7a110c5289847502e1b5a1b9d3e3802f85f868c2c6b25a1f42153716a90e
+commercial-leader.mp4  30f5b15b4a2c0e9640756323e2f482248eb95fe02941860fd8bd679f3cc5353d
+operations-manager.webm 6a744329ead02fa573727f6ff4186112faa24da8ff78a4135c047bee67f7e8ae
+operations-manager.mp4  87156bda01852ec8c78117abf0c8b6cac000bddca5d1e4332cf935f7edf81d8f
+plant-leader.webm e0229bc1deb2d2c761e56bdf5e92312d3a5823624eb45e255b058de28cff6b15
+plant-leader.mp4  c8765b94500fa29112a061807f8d1bfc66a18dc2c976bf609426a7dd81bf910f
+process-engineer.webm 18a2c398be12fd15a22f82d5d768f7383cc1b70a91cb7ba8c2045eae7a108aa4
+process-engineer.mp4  12852dc3ce9be3b912435df16b4a9f7ceaf131bc236ecb6e8521dc2d1b97b4c3
+
+Teaser thumbnail derivatives (256 x 344 AVIF/WebP, generated locally 2026-09-03):
+commercial-leader-thumb.avif 120686d446424d8c5595c64a4f027b0b70fd26f820e9d57a1de7753828c4e0d5
+commercial-leader-thumb.webp cb4252a7e1388d423fc0a86817f7455f381211fef73d66cfee549c373701923a
+operations-manager-thumb.avif ff3926c615a785a112c6d2edfd28e026f0b535735b9188975395979129287467
+operations-manager-thumb.webp e0433064c5f4e1d1502c197bdce76bf2b7c3510c351bfe66ac8b435ecae9d317
+plant-leader-thumb.avif 2d5153a6115eadaa0374390b6e3f0eb7867fe4c0cb57689a219ad12c862761a7
+plant-leader-thumb.webp e9adc2114be11e9079d495994001ed9ff32ab2b1be2dd0306b3e36e34bbd0b77
+process-engineer-thumb.avif eebd051862741995c2f0cec6d51d73b58bc809e4843886b3a4c7bcbf25647697
+process-engineer-thumb.webp 15846198075c8a8a7a05282ec5e65619a2eb1fdfbd975ac5be546799a0459434
+plant-leader-mobile.avif 8dbcf07859f7ba3f1d2c6ec531117fc8813479d54a2881cd17a509f72225ce7
+plant-leader-mobile.webp 9698ce5f2f841c8989f8afea035db1828fe6c3e98b5b0b0434b2a59b2bb205bb
+
+plant-leader: Black British woman in a metal-finishing factory leadership setting.
+process-engineer: East Asian British man in a technical inspection setting.
+commercial-leader: South Asian British woman in a client-meeting and materials-showroom setting.
+operations-manager: White British man in an advanced manufacturing operations setting.

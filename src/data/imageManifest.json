@@ -1,0 +1,229 @@
+{
+ "footer-logo-karas": {
+  "w": 88,
+  "h": 20.969999313354492,
+  "file": "public/assets/img/footer-logo-karas.png"
+ },
+ "footer-logo-karas-b": {
+  "w": 88,
+  "h": 20.969999313354492,
+  "file": "public/assets/img/footer-logo-karas-b.png"
+ },
+ "footer-logo-rdm": {
+  "w": 30.170000076293945,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/footer-logo-rdm.png"
+ },
+ "footer-logo-rdm-b": {
+  "w": 30.170000076293945,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/footer-logo-rdm-b.png"
+ },
+ "footer-logo-ua": {
+  "w": 72.97000122070312,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/footer-logo-ua.png"
+ },
+ "footer-logo-ua-b": {
+  "w": 72.97000122070312,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/footer-logo-ua-b.png"
+ },
+ "logo-karas": {
+  "w": 88,
+  "h": 20.969999313354492,
+  "file": "public/assets/img/logo-karas.png"
+ },
+ "logo-rdm": {
+  "w": 30.170000076293945,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/logo-rdm.png"
+ },
+ "logo-united-anodisers": {
+  "w": 72.97000122070312,
+  "h": 26.3799991607666,
+  "file": "public/assets/img/logo-united-anodisers.png"
+ },
+ "partner-logo": {
+  "w": 144,
+  "h": 48,
+  "file": "public/assets/img/partner-logo.png"
+ },
+ "standard-img6": {
+  "w": 139,
+  "h": 140,
+  "file": "public/assets/img/standard-img6.png"
+ },
+ "standard-img7": {
+  "w": 139,
+  "h": 140,
+  "file": "public/assets/img/standard-img7.png"
+ },
+ "standard-img8": {
+  "w": 139,
+  "h": 140,
+  "file": "public/assets/img/standard-img8.png"
+ },
+ "avatar-111_81478": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81478.png"
+ },
+ "avatar-111_81491": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81491.png"
+ },
+ "avatar-111_81504": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81504.png"
+ },
+ "avatar-111_81517": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81517.png"
+ },
+ "avatar-111_81530": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81530.png"
+ },
+ "avatar-111_81551": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81551.png"
+ },
+ "avatar-111_81564": {
+  "w": 26,
+  "h": 26,
+  "file": "public/assets/img/avatar-111_81564.png"
+ },
+ "avatar-112_94732": {
+  "w": 44,
+  "h": 44,
+  "file": "public/assets/img/avatar-112_94732.png"
+ },
+ "avatar-113_99177": {
+  "w": 44,
+  "h": 44,
+  "file": "public/assets/img/avatar-113_99177.png"
+ },
+ "avatar-48_1034": {
+  "w": 33,
+  "h": 33,
+  "file": "public/assets/img/avatar-48_1034.png"
+ },
+ "avatar-48_1044": {
+  "w": 33,
+  "h": 33,
+  "file": "public/assets/img/avatar-48_1044.png"
+ },
+ "avatar-48_1054": {
+  "w": 33,
+  "h": 33,
+  "file": "public/assets/img/avatar-48_1054.png"
+ },
+ "avatar-48_1065": {
+  "w": 61,
+  "h": 61,
+  "file": "public/assets/img/avatar-48_1065.png"
+ },
+ "avatar-53_1474": {
+  "w": 33,
+  "h": 33,
+  "file": "public/assets/img/avatar-53_1474.png"
+ },
+ "avatar-53_1485": {
+  "w": 20,
+  "h": 20,
+  "file": "public/assets/img/avatar-53_1485.png"
+ },
+ "avatar-53_1495": {
+  "w": 20,
+  "h": 20,
+  "file": "public/assets/img/avatar-53_1495.png"
+ },
+ "avatar-53_1505": {
+  "w": 33,
+  "h": 33,
+  "file": "public/assets/img/avatar-53_1505.png"
+ },
+ "avatar-53_1516": {
+  "w": 20,
+  "h": 20,
+  "file": "public/assets/img/avatar-53_1516.png"
+ },
+ "avatar-53_1526": {
+  "w": 20,
+  "h": 20,
+  "file": "public/assets/img/avatar-53_1526.png"
+ },
+ "avatar-56_12972": {
+  "w": 66,
+  "h": 66,
+  "file": "public/assets/img/avatar-56_12972.png"
+ },
+ "avatar-56_8634": {
+  "w": 66,
+  "h": 66,
+  "file": "public/assets/img/avatar-56_8634.png"
+ },
+ "avatar-57_26072": {
+  "w": 41,
+  "h": 41,
+  "file": "public/assets/img/avatar-57_26072.png"
+ },
+ "avatar-57_26085": {
+  "w": 41,
+  "h": 41,
+  "file": "public/assets/img/avatar-57_26085.png"
+ },
+ "avatar-57_26097": {
+  "w": 41,
+  "h": 41,
+  "file": "public/assets/img/avatar-57_26097.png"
+ },
+ "card-header-a": {
+  "w": 290,
+  "h": 55,
+  "scale": 2,
+  "file": "public/assets/img/card-header-a.png"
+ },
+ "card-header-b": {
+  "w": 290,
+  "h": 55,
+  "scale": 2,
+  "file": "public/assets/img/card-header-b.png"
+ },
+ "stamp-approved": {
+  "w": 122.22415924072266,
+  "h": 120,
+  "scale": 2,
+  "file": "public/assets/img/stamp-approved.png"
+ },
+ "stamp-hired": {
+  "w": 150,
+  "h": 90,
+  "scale": 2,
+  "file": "public/assets/img/stamp-hired.png"
+ },
+ "stamp-mapped-grunge": {
+  "w": 59.190189361572266,
+  "h": 51.1081657409668,
+  "scale": 3,
+  "file": "public/assets/img/stamp-mapped-grunge.png"
+ },
+ "stamp-rejected": {
+  "w": 135.31097412109375,
+  "h": 135.31097412109375,
+  "scale": 2,
+  "file": "public/assets/img/stamp-rejected.png"
+ },
+ "stamp-s06-group": {
+  "w": 190.65943908691406,
+  "h": 187.18994140625,
+  "scale": 2,
+  "file": "public/assets/img/stamp-s06-group.png"
+ }
+}
