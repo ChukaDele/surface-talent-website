@@ -48,5 +48,5 @@ export function breadcrumbLd(trail: { name: string; path: string }[]) {
 
 /** Inline <script type="application/ld+json"> — Next keeps this out of the React tree. */
 export function JsonLd({ data }: { data: object | object[] }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
 }

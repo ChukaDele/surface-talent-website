@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -7,12 +8,12 @@ import { BookCallButton } from "@/components/ui/BookCallButton";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_WHATSAPP_URL, SITE_ORIGIN } from "@/lib/site/nav";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = completePageMetadata({
   title: "Contact Surface Talent",
   description: "Book a call, send a role brief, or email and phone us directly. Hiring or exploring a move, every conversation stays confidential.",
   alternates: { canonical: `${SITE_ORIGIN}/contact` },
   openGraph: { title: "Contact Surface Talent", description: "Book a call, send a role brief, or email and phone us directly. Hiring or exploring a move, every conversation stays confidential.", url: `${SITE_ORIGIN}/contact` },
-};
+});
 
 /** Contact (October 2026 brand pass): three routes on one hairline row, then the brief form. */
 export default function ContactPage() {

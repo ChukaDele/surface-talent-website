@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import { SITE_ORIGIN } from "@/lib/site/nav";
 import { Button } from "@/components/ui/Button";
@@ -6,12 +7,12 @@ import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHead, RuleGrid, Steps, Pair } from "@/components/site/Blocks";
 import { DIFFERENCE, RECRUIT, STEPS } from "@/components/pages/clients/clientsData";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = completePageMetadata({
   title: "Metal Finishing Recruitment Agency — Surface Talent",
   description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses, run by people who own finishing plants. Brief us today.",
   alternates: { canonical: `${SITE_ORIGIN}/clients` },
   openGraph: { title: "Metal Finishing Recruitment Agency — Surface Talent", description: "Senior and critical hires for plating, anodising, coating and heat treatment businesses, run by people who own finishing plants. Brief us today.", url: `${SITE_ORIGIN}/clients` },
-};
+});
 
 /** Clients (October 2026 brand pass): typographic, hairline grammar; mock UI and line-art retired. */
 export default function ClientsPage() {

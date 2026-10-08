@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
-import { gsap } from "./gsap";
 import { hasFinePointer, prefersReducedMotion } from "./motionModes";
 
 /**
@@ -12,40 +11,48 @@ import { hasFinePointer, prefersReducedMotion } from "./motionModes";
  *  - a short, non-bouncy return on release, reading from the live value so an
  *    interrupted press never jumps;
  *  - the arrow icon travels up-right on hover on fine pointers only.
- * GSAP owns the transient state; React owns nothing here.
+ * Native Web Animations owns the transient state; React owns nothing here.
+ * Microinteractions do not load the unrelated scroll-scene runtime.
  */
 export function usePressable<T extends HTMLElement>() {
   const elRef = useRef<T | null>(null);
 
-  useEffect(() => () => { if (elRef.current) gsap.killTweensOf(elRef.current); }, []);
+  const animations = useRef(new Map<HTMLElement, Animation>());
+  useEffect(() => { const running = animations.current; return () => { running.forEach((a) => a.cancel()); running.clear(); }; }, []);
+
+  const animate = useCallback((el: HTMLElement, transform: string, duration: number) => {
+    const from = getComputedStyle(el).transform;
+    animations.current.get(el)?.cancel();
+    animations.current.set(el, el.animate([{ transform: from }, { transform }], { duration, easing: "cubic-bezier(0.215, 0.61, 0.355, 1)", fill: "forwards" }));
+  }, []);
 
   const attach = useCallback((el: T | null) => { elRef.current = el; }, []);
 
   const press = useCallback(() => {
     const el = elRef.current;
     if (!el || prefersReducedMotion()) return;
-    gsap.to(el, { scale: 0.985, y: 0, duration: 0.12, ease: "power2.out", overwrite: "auto" });
+    animate(el, "translateY(0px) scale(0.985)", 120);
     const icon = el.querySelector<HTMLElement>(".st-btn__icon");
-    if (icon) gsap.to(icon, { x: 1, y: 0, duration: 0.12, ease: "power2.out", overwrite: "auto" });
-  }, []);
+    if (icon) animate(icon, "translate(1px, 0px)", 120);
+  }, [animate]);
 
   const release = useCallback(() => {
     const el = elRef.current;
     if (!el || prefersReducedMotion()) return;
     const hovering = el.matches(":hover") && hasFinePointer();
-    gsap.to(el, { scale: 1, y: hovering ? -1.5 : 0, duration: 0.2, ease: "power2.out", overwrite: "auto" });
+    animate(el, `translateY(${hovering ? -1.5 : 0}px) scale(1)`, 200);
     const icon = el.querySelector<HTMLElement>(".st-btn__icon");
-    if (icon) gsap.to(icon, { x: hovering ? 3 : 0, y: hovering ? -2 : 0, duration: 0.2, ease: "power2.out", overwrite: "auto" });
-  }, []);
+    if (icon) animate(icon, `translate(${hovering ? 3 : 0}px, ${hovering ? -2 : 0}px)`, 200);
+  }, [animate]);
 
   /** Hover: the whole control lifts 1.5px and the arrow travels forward/up so the pointer state is unmistakable. */
   const hover = useCallback((on: boolean) => {
     const el = elRef.current;
     if (!el || !hasFinePointer() || prefersReducedMotion()) return;
-    gsap.to(el, { y: on ? -1.5 : 0, duration: 0.2, ease: "power2.out", overwrite: "auto" });
+    animate(el, `translateY(${on ? -1.5 : 0}px) scale(1)`, 200);
     const icon = el.querySelector<HTMLElement>(".st-btn__icon");
-    if (icon) gsap.to(icon, { x: on ? 3 : 0, y: on ? -1.5 : 0, duration: 0.22, ease: "power2.out", overwrite: "auto" });
-  }, []);
+    if (icon) animate(icon, `translate(${on ? 3 : 0}px, ${on ? -1.5 : 0}px)`, 220);
+  }, [animate]);
 
   const onKeyDown = useCallback((e: ReactKeyboardEvent) => { if (e.key === "Enter" || e.key === " ") press(); }, [press]);
   const onKeyUp = useCallback((e: ReactKeyboardEvent) => { if (e.key === "Enter" || e.key === " ") release(); }, [release]);

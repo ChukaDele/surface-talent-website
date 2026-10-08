@@ -9,6 +9,7 @@ const isStaging = process.env.SITE_ENV !== "production";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: { inlineCss: true },
   async redirects() {
     // the interim /legal/* paths published on staging now live at clean canonical roots
     return [

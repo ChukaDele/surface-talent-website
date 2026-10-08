@@ -6,7 +6,6 @@ import { WhoWePlace } from "@/components/home/WhoWePlace";
 import { Process } from "@/components/home/Process";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Footer } from "@/components/home/Footer";
-import { PageMotion } from "@/components/home/PageMotion";
 import "@/styles/home.css";
 import "@/styles/dna.css";
 import "@/styles/premium.css";
@@ -29,7 +28,6 @@ export default function HomePage() {
         <Testimonials />
       </main>
       <Footer />
-      <PageMotion />
     </>
   );
 }

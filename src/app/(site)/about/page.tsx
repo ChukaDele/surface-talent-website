@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import { SITE_ORIGIN } from "@/lib/site/nav";
 import { Button } from "@/components/ui/Button";
@@ -5,12 +6,12 @@ import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHead, RuleGrid, Steps } from "@/components/site/Blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = completePageMetadata({
   title: "Surface Engineering Executive Search — Surface Talent",
   description: "Founded inside the sector, not adjacent to it, by people who own and run UK finishing plants. Director-level and technical search across UK finishing.",
   alternates: { canonical: `${SITE_ORIGIN}/about` },
   openGraph: { title: "Surface Engineering Executive Search — Surface Talent", description: "Founded inside the sector, not adjacent to it, by people who own and run UK finishing plants. Director-level and technical search across UK finishing.", url: `${SITE_ORIGIN}/about` },
-};
+});
 
 const ORIGIN = [
   "The people behind Surface Talent own and run UK surface finishing plants across anodising, electroplating and related processes.",

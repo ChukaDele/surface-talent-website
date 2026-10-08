@@ -17,6 +17,7 @@ const plexMono = localFont({
     { path: "../fonts/ibm-plex-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
   ],
   variable: "--font-plex-mono",
+  preload: false,
   display: "swap",
 });
 
