@@ -150,7 +150,20 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
               kind: /\/macros\/s\/[^/]+\/exec$/.test(next.pathname) ? "exec" : next.pathname === "/macros/echo" ? "echo" : "other",
               secret: next.searchParams.has("secret"), resource: next.searchParams.has("resource"), requestId: next.searchParams.has("request_id"), redirects,
             });
-            if (next.searchParams.has("secret")) next.searchParams.delete("secret");
+            const sameExec = next.hostname === "script.google.com" && next.hostname === target.hostname && next.pathname === target.pathname;
+            if (phase === "lookup" && next.hostname === "script.google.com" && /\/macros\/s\/[^/]+\/exec$/.test(next.pathname) && !sameExec) {
+              return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+            }
+            if (sameExec && phase === "original" && requestId) {
+              return { ok: false, status: res.status, body: { ok: false, error: "upstream_invalid" }, invalid: true };
+            }
+            if (sameExec && phase === "lookup" && requestId) {
+              // Google can redirect its response back to this exact script. Keep
+              // this GET scoped to the authenticated, read-only receipt lookup.
+              next.searchParams.set("secret", secret);
+              next.searchParams.set("resource", "receipt");
+              next.searchParams.set("request_id", requestId);
+            } else if (next.searchParams.has("secret")) next.searchParams.delete("secret");
             current = next;
             res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
             continue;

@@ -164,6 +164,27 @@ test.describe("Google response adapter", () => {
     expect(chained.calls).toHaveLength(6);
     expect(chained.calls.filter(c => c.method === "POST")).toHaveLength(1);
     expect(new URL(chained.calls[4].url).searchParams.get("resource")).toBe("receipt");
+    const execRedirect = () => new Response(null, { status: 302, headers: { location: `${endpoint}?secret=${secret}&resource=receipt&request_id=ST-20261008-ffffffff` } });
+    const reentry = await scenario([redirect(), new Response("Page not found", { status: 404 }), execRedirect(), redirect(), new Response("Page not found", { status: 404 }), execRedirect(), redirect(), Response.json({ ok: true, submission_id: id })], { submission_id: id });
+    expect(reentry.result.body.ok).toBe(true);
+    expect(reentry.calls).toHaveLength(8);
+    expect(reentry.calls.filter(c => c.method === "POST")).toHaveLength(1);
+    for (const index of [3, 6]) {
+      const authenticated = new URL(reentry.calls[index].url);
+      expect(authenticated.origin + authenticated.pathname).toBe(endpoint);
+      expect(authenticated.searchParams.get("secret")).toBe(secret);
+      expect(authenticated.searchParams.get("resource")).toBe("receipt");
+      expect(authenticated.searchParams.get("request_id")).toBe(id);
+      expect(reentry.calls[index].method).toBe("GET");
+    }
+    for (const call of reentry.calls.slice(1).filter(c => new URL(c.url).hostname === "script.googleusercontent.com")) {
+      expect(new URL(call.url).searchParams.has("secret")).toBe(false);
+      expect(call.headers.has("X-ST-Secret")).toBe(false);
+    }
+    const foreignExec = await scenario([redirect(), execRedirect(), redirect(), new Response(null, { status: 302, headers: { location: `https://script.google.com/macros/s/OTHER/exec?secret=${secret}` } })], { submission_id: id });
+    expect(foreignExec.result.body.error).toBe("upstream_redirect");
+    expect(foreignExec.calls).toHaveLength(4);
+    expect(foreignExec.calls.some(c => new URL(c.url).pathname.includes("/OTHER/"))).toBe(false);
     const appFailure = await scenario([Response.json({ ok: false, error: "upstream_invalid" })], { submission_id: id });
     expect(appFailure.calls).toHaveLength(1);
     const mismatch = await scenario([...lost(), redirect(), Response.json({ ok: true, submission_id: "ST-20261008-ffffffff" })], { submission_id: id });
