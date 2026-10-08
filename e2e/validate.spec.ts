@@ -158,6 +158,12 @@ test.describe("Google response adapter", () => {
       expect(calls[5].headers.has("X-ST-Secret")).toBe(false);
       expect(new URL(calls[5].url).searchParams.has("secret")).toBe(false);
     }
+    // Original response redirects cannot consume the independent receipt lookup budget.
+    const chained = await scenario([redirect(), redirect(), redirect(), Response.json({ ok: true, service: "health" }), redirect(), Response.json({ ok: true, submission_id: id })], { submission_id: id });
+    expect(chained.result.body.ok).toBe(true);
+    expect(chained.calls).toHaveLength(6);
+    expect(chained.calls.filter(c => c.method === "POST")).toHaveLength(1);
+    expect(new URL(chained.calls[4].url).searchParams.get("resource")).toBe("receipt");
     const appFailure = await scenario([Response.json({ ok: false, error: "upstream_invalid" })], { submission_id: id });
     expect(appFailure.calls).toHaveLength(1);
     const mismatch = await scenario([...lost(), redirect(), Response.json({ ok: true, submission_id: "ST-20261008-ffffffff" })], { submission_id: id });
