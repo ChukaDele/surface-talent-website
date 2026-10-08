@@ -136,9 +136,15 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
         for (;;) {
           if (res.status >= 300 && res.status < 400) {
             const location = res.headers.get("location");
-            if (redirects++ >= 3 || ![302, 303].includes(res.status) || !location) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+            if (redirects++ >= 3 || ![302, 303].includes(res.status) || !location) {
+              console.error("[submit] response redirect denied", { status: res.status, origin: current.origin, redirects, reason: !location ? "missing_location" : ![302, 303].includes(res.status) ? "method_preserving" : "limit" });
+              return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+            }
             const next = new URL(location, current);
-            if (!approved(next)) return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+            if (!approved(next)) {
+              console.error("[submit] response redirect denied", { status: res.status, origin: next.origin, redirects, reason: "destination" });
+              return { ok: false, status: res.status, body: { ok: false, error: "upstream_redirect" } };
+            }
             if (next.searchParams.has("secret")) next.searchParams.delete("secret");
             current = next;
             res = await fetch(current, { method: "GET", redirect: "manual", cache: "no-store", signal });
