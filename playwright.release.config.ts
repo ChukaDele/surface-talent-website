@@ -20,7 +20,7 @@ export default defineConfig({
   retries: 0,
   timeout: 60_000,
   reporter: [["list"], ["json", { outputFile: "test-results/release-results.json" }]],
-  use: { baseURL, trace: "retain-on-failure", screenshot: "only-on-failure" },
+  use: { baseURL, channel: process.env.RELEASE_BROWSER_CHANNEL === "chrome" ? "chrome" : undefined, trace: "retain-on-failure", screenshot: "only-on-failure" },
   projects: [
     { name: "desktop-1440", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
     { name: "short-desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 720 } } },

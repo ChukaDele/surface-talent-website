@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readFile } from "node:fs/promises";
@@ -23,7 +24,7 @@ export function generateStaticParams() { return ENTRIES.map((e) => ({ legal: e.s
 export async function generateMetadata({ params }: { params: Promise<{ legal: string }> }): Promise<Metadata> {
   const { legal } = await params; const e = ENTRIES.find((x) => x.slug === legal);
   if (!e) return {};
-  return { title: `${e.title} — Surface Talent`, description: e.description, alternates: { canonical: `${SITE_ORIGIN}/${e.slug}` } };
+  return completePageMetadata({ title: `${e.title} — Surface Talent`, description: e.description, alternates: { canonical: `${SITE_ORIGIN}/${e.slug}` } });
 }
 
 /** Section headings for the on-this-page navigation, read out of the migrated markup. */

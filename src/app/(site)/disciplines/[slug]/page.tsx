@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,12 +20,12 @@ export function generateStaticParams() { return DISCIPLINE_PAGES.map((d) => ({ s
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params; const d = DISCIPLINE_PAGES.find((x) => x.slug === slug);
   if (!d) return {};
-  return {
+  return completePageMetadata({
     title: d.metaTitle,
     description: d.metaDescription,
     alternates: { canonical: `${SITE_ORIGIN}/disciplines/${d.slug}` },
     openGraph: { title: d.metaTitle, description: d.metaDescription, url: `${SITE_ORIGIN}/disciplines/${d.slug}` },
-  };
+  });
 }
 
 /** Explicit slug → illustration map (declared at module scope, never built during render). */

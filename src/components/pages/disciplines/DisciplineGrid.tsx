@@ -16,7 +16,7 @@ export function DisciplineGrid() {
         const Icon = d.icon ? ICON[d.icon] : null;
         const slug = d.page;
         return (
-          <article key={d.n} className="st-dcard" role="listitem" aria-labelledby={`disc-${d.n}`}>
+          <div key={d.n} className="st-dcard" role="listitem" aria-labelledby={`disc-${d.n}`}>
             <div className="st-dcard__art" aria-hidden="true">{Icon ? <Icon className="st-dcard__icon" /> : null}</div>
             <div className="st-dcard__text">
               <Eyebrow>{d.n} · {d.kicker}</Eyebrow>
@@ -24,7 +24,7 @@ export function DisciplineGrid() {
               {d.body.map((b) => <p key={b.slice(0, 24)} className="st-body">{b}</p>)}
               {slug ? <Link className="st-tlink st-dcard__more" href={`/disciplines/${slug}`} prefetch={false}>Recruitment in {d.title.toLowerCase()} <span aria-hidden="true">→</span></Link> : null}
             </div>
-          </article>
+          </div>
         );
       })}
     </div>

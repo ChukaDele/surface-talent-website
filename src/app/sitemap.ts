@@ -5,9 +5,8 @@ import { SITE_ORIGIN } from "@/lib/site/nav";
 
 /** Canonical production sitemap. Internal tools (/hero-loop, /design-lab) and API routes are excluded. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
   const page = (path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]) =>
-    ({ url: `${SITE_ORIGIN}${path}`, lastModified: now, changeFrequency, priority });
+    ({ url: `${SITE_ORIGIN}${path}`, changeFrequency, priority });
   return [
     page("/", 1, "weekly"),
     page("/clients", 0.9, "monthly"),

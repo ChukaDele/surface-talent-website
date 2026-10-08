@@ -1,12 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { BotGuards, Checkbox, FileField, SelectField, TextArea, TextField } from "./fields";
 import { SubmitButton } from "./SubmitButton";
 import { useSubmission } from "./useSubmission";
 import { DISCIPLINES, ENQUIRY_TYPES, HIRES, HIRE_EMPLOYMENT, TIMELINES } from "@/lib/forms/options";
 import type { FormType } from "@/lib/forms/validate";
+
+const subscribeQuery = (notify: () => void) => { window.addEventListener("popstate", notify); return () => window.removeEventListener("popstate", notify); };
+const browserQuery = () => window.location.search;
+const serverQuery = () => "";
 
 const TYPE_MAP: Record<string, FormType> = { hiring: "contact_hiring", career_move: "contact_career_move", general: "contact_general" };
 
@@ -16,7 +20,10 @@ const TYPE_MAP: Record<string, FormType> = { hiring: "contact_hiring", career_mo
  * career move → current role + optional CV; general → message.
  */
 export function ContactForm() {
-  const [kind, setKind] = useState<string>("hiring");
+  const query = new URLSearchParams(useSyncExternalStore(subscribeQuery, browserQuery, serverQuery));
+  const [chosenKind, setKind] = useState<string | null>(null);
+  const kind = chosenKind || (query.get("enquiry") === "career_move" ? "career_move" : "hiring");
+  const appliedRole = (query.get("role") || "").slice(0, 200);
   const formType = TYPE_MAP[kind];
   const { state, errors, message, submissionId, onSubmit, clearError, busy } = useSubmission(formType);
   const [cvName, setCvName] = useState("");
@@ -39,6 +46,7 @@ export function ContactForm() {
   return (
     <form className="st-form" id="brief-form" aria-label="Send a brief" onSubmit={onSubmit} noValidate aria-describedby="brief-status" onChange={(e) => { const t = e.target as unknown as { name?: string }; if (t.name) clearError(t.name); }}>
       <input type="hidden" name="form_type" value={formType} />
+      {kind === "career_move" && appliedRole ? <input type="hidden" name="target_role" value={appliedRole} /> : null}
       <BotGuards />
       <div className="st-form__row">
         <TextField label="Full name" name="name" autoComplete="name" required error={errors.name} />

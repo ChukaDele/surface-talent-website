@@ -9,9 +9,11 @@ const isStaging = process.env.SITE_ENV !== "production";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: { inlineCss: true },
   async redirects() {
     // the interim /legal/* paths published on staging now live at clean canonical roots
     return [
+      { source: "/:path*", has: [{ type: "host", value: "www.surfacetalent.co.uk" }], destination: "https://surfacetalent.co.uk/:path*", permanent: true },
       { source: "/legal/:slug", destination: "/:slug", permanent: true },
       { source: "/legal", destination: "/privacy", permanent: false },
       // the site this replaces served the same pages at clean URLs and 308'd the .html forms.

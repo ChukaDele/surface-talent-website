@@ -182,3 +182,8 @@ rendered blank.
     production hero: one dominant full-bleed portrait loop, the clean navy scrim and the compact
     footer-style trusted-by row. The homepage has no teaser queue, and its phone layout has no hero
     photography or trust row.
+
+
+## 8 October 2026 technical release follow-up
+
+Approved copy and static brand composition are unchanged. Client artwork now has lossless WebP transport variants and intrinsic dimensions. Button press/hover feedback retains its geometry and timing through native Web Animations. The inert legacy homepage hero coordinator is no longer mounted. The revised static homepage, rather than retired creative Figma frames, remains the supplied release baseline. See `docs/seo/release-20261008.md` and retained remote screenshot comparisons for evidence.

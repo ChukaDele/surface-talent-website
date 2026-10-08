@@ -8,10 +8,10 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
  * `data-hero-static` keeps the legacy hero scroll handoff (useHeroMotion) inert.
  */
 const CLIENTS = [
-  { name: "Karas Plating", src: "/assets/img/clients/karas.png", h: 30 },
-  { name: "RDM Engineering", src: "/assets/img/clients/rdm.png", h: 40 },
-  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.png", h: 34 },
-  { name: "SurfacePrep", src: "/assets/img/clients/surfaceprep.png", h: 28 },
+  { name: "Karas Plating", src: "/assets/img/clients/karas.webp", width: 381, height: 104, h: 30 },
+  { name: "RDM Engineering", src: "/assets/img/clients/rdm.webp", width: 177, height: 132, h: 40 },
+  { name: "United Anodisers", src: "/assets/img/clients/united-anodisers.webp", width: 283, height: 104, h: 34 },
+  { name: "SurfacePrep", src: "/assets/img/clients/surfaceprep.webp", width: 414, height: 104, h: 28 },
 ];
 
 export function HeroPremium() {
@@ -34,7 +34,7 @@ export function HeroPremium() {
           <ul className="st-phero__logos">
             {CLIENTS.map((c) => (
               <li key={c.name} className="st-phero__logo">
-                <img src={c.src} alt={c.name} style={{ height: c.h }} loading="eager" decoding="async" />
+                <img src={c.src} alt={c.name} width={c.width} height={c.height} style={{ height: c.h }} loading="eager" decoding="async" />
               </li>
             ))}
           </ul>

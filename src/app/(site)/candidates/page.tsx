@@ -1,3 +1,4 @@
+import { completePageMetadata } from "@/lib/site/metadata";
 import type { Metadata } from "next";
 import { SITE_ORIGIN } from "@/lib/site/nav";
 import { Button } from "@/components/ui/Button";
@@ -5,12 +6,12 @@ import { CandidateForm } from "@/components/forms/CandidateForm";
 import { PageHero } from "@/components/site/PageHero";
 import { Section, SectionHead, RuleGrid, Steps, Pair } from "@/components/site/Blocks";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = completePageMetadata({
   title: "Surface Engineering Jobs and Careers — Surface Talent",
   description: "Roles across electroplating, anodising, powder coating, heat treatment and thermal spray. Confidential, and your CV goes nowhere without your say-so.",
   alternates: { canonical: `${SITE_ORIGIN}/candidates` },
   openGraph: { title: "Surface Engineering Jobs and Careers — Surface Talent", description: "Roles across electroplating, anodising, powder coating, heat treatment and thermal spray. Confidential, and your CV goes nowhere without your say-so.", url: `${SITE_ORIGIN}/candidates` },
-};
+});
 
 const PROCESS = [
   { title: "Real conversation", body: "About your experience, what you actually want next, and what you’re worth." },

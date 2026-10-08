@@ -1,4 +1,6 @@
 /**
+ * UNDEPLOYED V2 REFERENCE. The active Version 7 integration uses the existing
+ * legacy submissions workbook. See docs/seo/release-20261008.md before deployment.
  * Surface Talent — Website forms webhook (v2)
  * ============================================================================
  * Receives JSON POSTs from the Cloudflare Worker (surface-talent-staging /

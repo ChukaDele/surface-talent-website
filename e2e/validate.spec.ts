@@ -37,4 +37,23 @@ test.describe("validation library", () => {
     expect(forwarded[0].environment).toBe("staging");
     expect(forwarded[0].phone).toBeUndefined();
   });
+  test("submission requires explicit upstream success and preserves unknown outcomes", async () => {
+    const fd = new FormData();
+    for (const [k, v] of Object.entries({ form_type: "contact_general", name: "Synthetic Test", email: "test@example.com", message: "Synthetic fixture", privacy_consent: "on" })) fd.set(k, v);
+    const ctx = { ip: "test", userAgent: "test", environment: "staging" };
+    const missing = await processSubmission(fd, { ...ctx, persistence: { forward: async () => ({ ok: true, status: 200, body: {} }) } });
+    expect(missing.ok).toBe(false);
+    const unknown = await processSubmission(fd, { ...ctx, persistence: { forward: async () => ({ ok: true, status: 200, body: { ok: true } }) } });
+    expect(unknown.ok && unknown.cv_ok).toBeUndefined();
+    expect(unknown.ok && unknown.email_ok).toBeUndefined();
+    expect(unknown.ok && unknown.audit_ok).toBeUndefined();
+    const partial = await processSubmission(fd, { ...ctx, persistence: { forward: async () => ({ ok: true, status: 200, body: { ok: true, audit_ok: false, email_ok: true, cv_ok: true } }) } });
+    expect(partial.ok).toBe(true);
+    expect(partial.ok && partial.audit_ok).toBe(false);
+    fd.set("message", "x".repeat(4001));
+    let forwarded = false;
+    const oversized = await processSubmission(fd, { ...ctx, persistence: { forward: async () => { forwarded = true; return { ok: true, status: 200, body: { ok: true } }; } } });
+    expect(oversized.ok).toBe(false);
+    expect(forwarded).toBe(false);
+  });
 });
