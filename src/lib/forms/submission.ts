@@ -145,6 +145,7 @@ export function appsScriptPersistence(url: string, secret: string): Persistence 
         const parsed: unknown = JSON.parse(text.replace(/^\uFEFF/, ""));
         if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("Invalid response shape");
         body = parsed as Record<string, unknown>;
+        if (body.ok === true && (typeof body.submission_id !== "string" || !body.submission_id.trim())) throw new Error("Missing submission receipt");
       } catch {
         console.error("[submit] non-JSON Google response", { status: res.status, origin: current.origin, length: text.length, firstCodePoint: text.codePointAt(0), html: /^\s*<!?\w/i.test(text), googleFileError: /Sorry, unable to open the file|Google Drive.*error|file you have requested does not exist/i.test(text) });
         body = { ok: false, error: "upstream_invalid" };

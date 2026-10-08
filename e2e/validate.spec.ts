@@ -104,11 +104,12 @@ test.describe("Google response adapter", () => {
     expect(calls.filter(r => r.method === "POST")).toHaveLength(1);
   });
   test("rejects malformed and non-object responses without exposing provider content", async () => {
-    for (const text of ["<html>Sorry, unable to open the file</html>", "null", "[]", "true", "not json"]) {
+    for (const text of ["<html>Sorry, unable to open the file</html>", "null", "[]", "true", "not json", '{"ok":true,"service":"Surface Talent submissions"}']) {
       const { result, calls } = await scenario([new Response(text)]);
       expect(result.body).toEqual({ ok: false, error: "upstream_invalid" }); expect(calls).toHaveLength(1);
     }
-    const { result } = await scenario([new Response('\uFEFF{"ok":true}')]);
+    const { result, calls } = await scenario([new Response('\uFEFF{"ok":true,"submission_id":"SYNTHETIC-ID"}')]);
     expect(result.body.ok).toBe(true);
+    expect(calls).toHaveLength(1);
   });
 });
