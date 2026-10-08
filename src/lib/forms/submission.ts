@@ -50,7 +50,7 @@ export async function processSubmission(form: FormData, ctx: { ip: string; userA
 
   // 2. field validation (same rules as the client)
   const fields: Record<string, string> = {};
-  for (const k of TEXT_FIELDS) fields[k] = str(form.get(k), k === "message" ? 4000 : 500);
+  for (const k of TEXT_FIELDS) fields[k] = str(form.get(k), k === "message" ? 4001 : 500);
   fields.privacy_consent = str(form.get("privacy_consent"));
   const errors = validateFields(formType, fields);
   const cvFile = form.get("cv");
@@ -107,11 +107,11 @@ export async function processSubmission(form: FormData, ctx: { ip: string; userA
   let up: { ok: boolean; status: number; body: Record<string, unknown> };
   try { up = await ctx.persistence.forward(payload); }
   catch (err) { console.error("[submit] upstream unreachable", id, String(err)); return { ok: false, error: "upstream_unreachable", status: 502, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." }; }
-  if (!up.ok || up.body.ok === false) {
+  if (!up.ok || up.body.ok !== true) {
     console.error("[submit] upstream failed", id, up.status, JSON.stringify(up.body).slice(0, 300));
     return { ok: false, error: String(up.body.error || "upstream_failed"), status: 502, message: "We couldn't save that just now. Your details are still in the form — try again in a moment." };
   }
-  const result: SubmitResult = { ok: true, id: String(up.body.submission_id || id), sheet: up.body.sheet as string | undefined, cv_ok: up.body.cv_ok !== false, email_ok: up.body.email_ok !== false };
+  const result: SubmitResult = { ok: true, id: String(up.body.submission_id || id), sheet: up.body.sheet as string | undefined, cv_ok: typeof up.body.cv_ok === "boolean" ? up.body.cv_ok : undefined, email_ok: typeof up.body.email_ok === "boolean" ? up.body.email_ok : undefined, duplicate: up.body.duplicate === true || undefined };
   if (dedupeKey) rememberResult(dedupeKey, result);
   if (result.email_ok === false) console.warn("[submit] saved but notification failed", result.id);
   return result;

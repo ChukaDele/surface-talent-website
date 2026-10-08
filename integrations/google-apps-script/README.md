@@ -1,3 +1,5 @@
+> Production uses the existing legacy Version 7 deployment and existing submissions workbook. This export’s v2 script is an undeployed reference with a different tab model. Do not create a replacement workbook or deploy this reference over the working integration. See [verified live integration](../../docs/seo/release-20261008.md).
+
 # Surface Talent — Google Apps Script forms backend (v2)
 
 Cloudflare Worker (`surface-talent-staging` / production) → **this Apps Script web app** → Google Sheet + Drive CV folder + email notification.
